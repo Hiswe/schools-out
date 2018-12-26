@@ -1,0 +1,81 @@
+'use strict'
+
+const { debuglog } = require('util')
+const chalk = require('chalk')
+
+const config = require('../config')
+const { sequelize } = require('../services')
+
+const log = debuglog(`api:db`)
+
+// MODELS
+
+const School = require('./schools')
+const User = require('./users')
+// const Customer        = require( './model-customer'         )
+// const Quotation       = require( './model-quotation'        )
+// const Invoice         = require( './model-invoice'          )
+// const QuotationConfig = require( './model-quotation-config' )
+// const InvoiceConfig   = require( './model-invoice-config'   )
+// const ProductConfig   = require( './model-product-config'   )
+
+//////
+// RELATIONS
+//////
+
+School.hasMany(User)
+
+User.belongsTo(School)
+
+// Quotation.belongsTo( User )
+// Quotation.belongsTo( Customer )
+// Quotation.belongsTo( ProductConfig )
+// Quotation.belongsTo( QuotationConfig )
+// Quotation.belongsTo( Invoice )
+
+// Invoice.belongsTo( User )
+// Invoice.belongsTo( Customer )
+// Invoice.belongsTo( InvoiceConfig )
+// Invoice.hasOne( Quotation )
+
+// Customer.belongsTo( User )
+// Customer.hasMany( Quotation )
+// Customer.hasMany( Invoice )
+
+// QuotationConfig.belongsTo( User )
+// InvoiceConfig.belongsTo( User )
+// ProductConfig.belongsTo( User )
+
+// User.hasMany( Customer )
+// User.hasMany( Quotation )
+// User.hasMany( Invoice )
+// User.hasOne( QuotationConfig )
+// User.hasOne( InvoiceConfig )
+// User.hasOne( ProductConfig )
+
+//////
+// SYNC DATABASE
+//////
+
+sequelize
+  .authenticate()
+  .then(async () => {
+    log(chalk.green(`connection ok`))
+    try {
+      await sequelize.sync({ force: config.db.forceSync })
+      log(chalk.green(`sync is done`))
+    } catch (err) {
+      console.log(chalk.red(`sync FAIL`))
+      console.log(err)
+    }
+  })
+  .catch(err => {
+    console.log(chalk.red(`connection FAIL`))
+    console.log(err)
+    if (err.code !== `ECONNREFUSED`) return console.log(err)
+    console.log(chalk.yellow(`db is not accessible\nlaunch it for god sake`))
+  })
+
+module.exports = {
+  sequelize,
+}

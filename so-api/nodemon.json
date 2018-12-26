@@ -1,0 +1,16 @@
+{
+  "script": "server.js",
+  "ext": "js",
+  "watch": [
+    "config.js",
+    "server.js",
+    "server/*.js",
+    "models/*.js",
+    "services/*.js"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "NODE_DEBUG": "api,api:db,api:db:query,api:mailing",
+    "so-api__debug": false
+  }
+}

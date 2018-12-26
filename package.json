@@ -1,0 +1,19 @@
+{
+  "name": "schools-out",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "repository": "https://github.com/Hiswe/schools-out.git",
+  "author": "Hiswe <hiswehalya@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.14.2",
+    "yarn": ">=1.12.3"
+  },
+  "workspaces": [
+    "so-*"
+  ],
+  "scripts": {
+    "dev:api": "yarn workspace @schools-out/api dev"
+  }
+}
