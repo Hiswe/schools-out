@@ -37,7 +37,7 @@ const config = rc(`schoolsOutApi`, {
 
 config.VERSION = pkg.version
 
-config.PORT = config.PORT || process.env.PORT || 4045
+config.PORT = config.PORT || process.env.PORT || 4060
 
 config.NODE_ENV = config.NODE_ENV || process.env.NODE_ENV || `development`
 config.isDev = config.NODE_ENV === `development`

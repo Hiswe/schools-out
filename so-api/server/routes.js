@@ -20,9 +20,8 @@ apiRouter
   })
   .post(`/schools`, async ctx => {
     const { body } = ctx.request
-    // const school = await
-    const schools = await School.findAll({})
-    ctx.body = schools
+    const school = await School.create(body)
+    ctx.body = school
   })
 
 module.exports = apiRouter

@@ -28,8 +28,8 @@ export default {
   //   JWT_FORMAT: `Bearer`,
   // },
   axios: {
-    baseURL: `http://localhost:4045/v1`,
-    browserBaseURL: `http://localhost:4045/v1`,
+    baseURL: `http://localhost:4060/v1`,
+    browserBaseURL: `http://localhost:4060/v1`,
     credentials: true,
   },
   head: {

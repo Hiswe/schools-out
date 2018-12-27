@@ -12,7 +12,6 @@ export default {
 <template lang="pug">
 v-app
   so-main-navigation
-  //- v-navigation-drawer(app)
   v-toolbar(app)
   v-content
     v-container(fluid)
