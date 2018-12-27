@@ -14,6 +14,13 @@
     "so-*"
   ],
   "scripts": {
-    "dev:api": "yarn workspace @schools-out/api dev"
+    "dev": "run-p dev:*",
+    "dev:api": "yarn workspace @schools-out/api dev",
+    "dev:nuxt": "yarn workspace @schools-out/nuxt dev",
+    "build:nuxt": "yarn workspace @schools-out/nuxt build"
+  },
+  "dependencies": {
+    "npm-run-all": "^4.1.5",
+    "wsrun": "^3.6.1"
   }
 }

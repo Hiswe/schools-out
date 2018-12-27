@@ -1,0 +1,21 @@
+<script>
+export default {
+  name: `so-main-navigation`,
+}
+</script>
+
+<template lang="pug">
+
+v-navigation-drawer(permanent app)
+  v-toolbar(flat)
+    v-list
+      v-list-tile(nuxt to="/")
+        v-list-tile-title.title School's out
+  v-divider
+  v-list.pt-0(dense)
+    v-list-tile(nuxt to="/schools")
+      v-list-tile-action
+        v-icon home
+      v-list-tile-content
+        v-list-tile-title schools
+</template>
