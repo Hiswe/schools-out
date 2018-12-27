@@ -78,4 +78,6 @@ sequelize
 
 module.exports = {
   sequelize,
+  School,
+  User,
 }
