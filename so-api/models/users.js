@@ -8,6 +8,7 @@ const Sequelize = require('sequelize')
 // const urlJoin = require('url-join')
 
 const { sequelize } = require('../services')
+const USER_TYPES = require('./users-types')
 // const config = require('../config')
 // const mailing = require('../mailing')
 // const dbGetterSetter = require('../utils/db-getter-setter')
@@ -16,8 +17,6 @@ const { sequelize } = require('../services')
 //   if (typeof password === `undefined`) return null
 //   return bcrypt.hashSync(password, 10)
 // }
-
-const TYPES = [`user`, `teacher`, `admin`]
 
 //////
 // MODEL DEFINITION
@@ -39,10 +38,10 @@ const User = sequelize.define(
       // set: dbGetterSetter.setNormalizedString(`email`),
     },
     type: {
-      type: Sequelize.ENUM(...TYPES),
+      type: Sequelize.ENUM(...USER_TYPES),
       allowNull: false,
       validate: {
-        isIn: [TYPES],
+        isIn: [USER_TYPES],
       },
     },
     name: {

@@ -23,8 +23,7 @@ export default {
   },
   async asyncData({ $axios, params }) {
     const schools = await $axios.$get(`/schools`)
-    console.log(schools)
-    return {}
+    return { schools }
   },
   methods: {
     async submit() {
@@ -43,23 +42,29 @@ export default {
 
 <template lang="pug">
 div
-  h1 Schools
-  v-form(
+  h1.display-2 Schools
+  v-form.mt-3(
     ref="form"
     v-model="valid"
   )
-    v-text-field(
-      v-model="school.name"
-      label="Name"
-      :rules="nameRules"
-      required
-    )
-    v-btn(
-      :disabled="!valid"
-      @click="submit"
-    ) Create School
-    v-btn(@click="clear") clear
-  v-data-table(
+    v-card
+      v-card-title(primary-title)
+        .headline new school
+      v-card-text
+        v-text-field(
+          v-model="school.name"
+          label="Name"
+          :rules="nameRules"
+          required
+        )
+      v-card-actions
+        v-btn(
+          :disabled="!valid"
+          @click="submit"
+          color="primary"
+        ) Create School
+        v-btn(@click="clear") clear
+  v-data-table.elevation-1.mt-5(
     :headers="headers"
     :items="schools"
   )

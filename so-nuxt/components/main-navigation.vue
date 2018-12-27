@@ -15,7 +15,12 @@ v-navigation-drawer(permanent app)
   v-list.pt-0(dense)
     v-list-tile(nuxt to="/schools")
       v-list-tile-action
-        v-icon home
+        v-icon account_balance
       v-list-tile-content
         v-list-tile-title schools
+    v-list-tile(nuxt to="/users")
+      v-list-tile-action
+        v-icon group
+      v-list-tile-content
+        v-list-tile-title users
 </template>
