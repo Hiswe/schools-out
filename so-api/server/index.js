@@ -7,6 +7,8 @@ const helmet = require('koa-helmet')
 const bodyParser = require('koa-body')
 const compress = require('koa-compress')
 const json = require('koa-json')
+const logger = require('koa-logger')
+const cors = require('@koa/cors')
 
 const config = require('../config')
 const services = require('../services')
@@ -56,6 +58,14 @@ async function start() {
   })
 
   //----- MOUNT ROUTER TO APPLICATION
+
+  app.use(logger())
+
+  app.use(
+    cors({
+      credentials: true,
+    }),
+  )
 
   app.use(apiRouter.routes())
   app.use(apiRouter.allowedMethods())
