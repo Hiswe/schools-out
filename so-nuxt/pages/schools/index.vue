@@ -29,7 +29,6 @@ export default {
     async submit() {
       if (!this.$refs.form.validate()) return console.log(`invalid form`)
       const school = await this.$axios.$post(`/schools`, this.school)
-      console.log(school)
       this.schools.push(school)
       this.$refs.form.reset()
     },

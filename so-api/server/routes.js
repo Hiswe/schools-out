@@ -2,7 +2,7 @@
 
 const Router = require('koa-router')
 
-const { School, User } = require('../models')
+const { School, User, Room, Teacher } = require('../models')
 const USER_TYPES = require('../models/users-types')
 
 const apiRouter = new Router({
@@ -29,8 +29,65 @@ apiRouter
   })
   .get(`/schools/:schoolId`, async ctx => {
     const { schoolId } = ctx.params
-    const school = await School.findByPk(schoolId)
+    const school = await School.findByPk(schoolId, {
+      include: [
+        {
+          model: Room,
+          attributes: [`id`, `name`, `capacity`],
+        },
+        {
+          model: Teacher,
+          attributes: [`id`, `name`, `email`],
+        },
+      ],
+    })
     ctx.body = school
+  })
+  .post(`/schools/:schoolId/rooms`, async ctx => {
+    const { schoolId } = ctx.params
+    const { body } = ctx.request
+    body.schoolId = schoolId
+    const room = await Room.create(body)
+    ctx.body = room
+  })
+  //////
+  // TEACHERS
+  //////
+  .get(`/teachers`, async ctx => {
+    const teachers = await Teacher.findAll({
+      include: [
+        {
+          model: School,
+          attributes: [`id`, `name`],
+        },
+      ],
+    })
+    ctx.body = teachers
+  })
+  .post(`/teachers`, async ctx => {
+    const { body } = ctx.request
+    const newTeacher = await Teacher.create(body)
+    const teacher = await Teacher.findByPk(newTeacher.id, {
+      include: [
+        {
+          model: School,
+          attributes: [`id`, `name`],
+        },
+      ],
+    })
+    ctx.body = teacher
+  })
+  .get(`/teachers/:teacherId`, async ctx => {
+    const { teacherId } = ctx.params
+    const teacher = await Teacher.findByPk(teacherId, {
+      include: [
+        {
+          model: School,
+          attributes: [`id`, `name`],
+        },
+      ],
+    })
+    ctx.body = teacher
   })
   //////
   // USERS

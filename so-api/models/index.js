@@ -12,20 +12,28 @@ const log = debuglog(`api:db`)
 
 const School = require('./schools')
 const User = require('./users')
-// const Customer        = require( './model-customer'         )
-// const Quotation       = require( './model-quotation'        )
-// const Invoice         = require( './model-invoice'          )
-// const QuotationConfig = require( './model-quotation-config' )
-// const InvoiceConfig   = require( './model-invoice-config'   )
-// const ProductConfig   = require( './model-product-config'   )
+const Teacher = require('./teachers')
+const Room = require('./rooms')
+const Lesson = require('./lessons')
 
 //////
 // RELATIONS
 //////
 
 School.hasMany(User)
+School.hasMany(Teacher)
+School.hasMany(Room)
+School.hasMany(Lesson)
 
 User.belongsTo(School)
+
+Room.belongsTo(School)
+
+Teacher.belongsTo(School)
+Teacher.hasMany(Lesson)
+
+Lesson.belongsTo(School)
+Lesson.belongsTo(Teacher)
 
 // Quotation.belongsTo( User )
 // Quotation.belongsTo( Customer )
@@ -80,4 +88,7 @@ module.exports = {
   sequelize,
   School,
   User,
+  Teacher,
+  Room,
+  Lesson,
 }

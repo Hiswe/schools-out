@@ -8,7 +8,6 @@ const Sequelize = require('sequelize')
 // const urlJoin = require('url-join')
 
 const { sequelize } = require('../services')
-const USER_TYPES = require('./users-types')
 // const config = require('../config')
 // const mailing = require('../mailing')
 // const dbGetterSetter = require('../utils/db-getter-setter')
@@ -22,8 +21,8 @@ const USER_TYPES = require('./users-types')
 // MODEL DEFINITION
 //////
 
-const User = sequelize.define(
-  `user`,
+const Teacher = sequelize.define(
+  `teacher`,
   {
     id: {
       type: Sequelize.UUID,
@@ -33,17 +32,8 @@ const User = sequelize.define(
     email: {
       type: Sequelize.STRING,
       allowNull: false,
-      // TODO: email should be unique by school
-      // unique: true,
       validate: { isEmail: true },
       // set: dbGetterSetter.setNormalizedString(`email`),
-    },
-    type: {
-      type: Sequelize.ENUM(...USER_TYPES),
-      allowNull: false,
-      validate: {
-        isIn: [USER_TYPES],
-      },
     },
     name: {
       type: Sequelize.STRING,
@@ -87,14 +77,14 @@ const User = sequelize.define(
 // INSTANCE METHODS
 //////
 
-// User.prototype.comparePassword = async function(password) {
+// Teacher.prototype.comparePassword = async function(password) {
 //   const userPassword = this.getDataValue(`password`)
 //   if (!userPassword) return Promise.resolve(false)
 //   const result = await bcrypt.compare(password, userPassword)
 //   return result
 // }
 
-// User.prototype.resetPassword = async function(redirectUrl) {
+// Teacher.prototype.resetPassword = async function(redirectUrl) {
 //   if (!redirectUrl) {
 //     throw new Error(`[USER] account – redirectUrl param is required`)
 //   }
@@ -117,7 +107,7 @@ const User = sequelize.define(
 //   return user
 // }
 
-// User.prototype.resetPasswordTokenOnly = async function() {
+// Teacher.prototype.resetPasswordTokenOnly = async function() {
 //   const token = randtoken.generate(30)
 //   this.setDataValue(`token`, token)
 //   this.setDataValue(`tokenExpire`, moment().add(1, 'day'))
@@ -136,10 +126,10 @@ const User = sequelize.define(
 //   return user
 // }
 
-// User.prototype.setPassword = async function(password) {
+// Teacher.prototype.setPassword = async function(password) {
 //   this.set(`password`, password)
 //   const user = await this.save()
 //   return user
 // }
 
-module.exports = User
+module.exports = Teacher

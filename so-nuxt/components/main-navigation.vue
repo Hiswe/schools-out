@@ -23,4 +23,9 @@ v-navigation-drawer(permanent app dark)
         v-icon group
       v-list-tile-content
         v-list-tile-title users
+    v-list-tile(nuxt to="/teachers")
+      v-list-tile-action
+        v-icon school
+      v-list-tile-content
+        v-list-tile-title teachers
 </template>
