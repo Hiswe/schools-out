@@ -69,5 +69,7 @@ div
     :items="schools"
   )
     template( slot="items" slot-scope="props")
-      td {{ props.item.name }}
+      td
+        nuxt-link(:to="`/schools/${props.item.id}`")
+          | {{ props.item.name }}
 </template>

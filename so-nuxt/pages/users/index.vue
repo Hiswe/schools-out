@@ -13,6 +13,11 @@ export default {
           value: `name`,
         },
         {
+          text: `email`,
+          align: `left`,
+          value: `email`,
+        },
+        {
           text: `school`,
           align: `left`,
           value: `school.name`,
@@ -107,7 +112,9 @@ div
     :items="users"
   )
     template( slot="items" slot-scope="props")
-      td {{ props.item.name }}
+      td
+        nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
+      td {{ props.item.email }}
       td {{ props.item.school.name }}
 </template>
 

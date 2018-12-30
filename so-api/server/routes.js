@@ -27,6 +27,11 @@ apiRouter
     const school = await School.create(body)
     ctx.body = school
   })
+  .get(`/schools/:schoolId`, async ctx => {
+    const { schoolId } = ctx.params
+    const school = await School.findByPk(schoolId)
+    ctx.body = school
+  })
   //////
   // USERS
   //////
@@ -48,6 +53,18 @@ apiRouter
     const { body } = ctx.request
     const newUser = await User.create(body)
     const user = await User.findByPk(newUser.id, {
+      include: [
+        {
+          model: School,
+          attributes: [`id`, `name`],
+        },
+      ],
+    })
+    ctx.body = user
+  })
+  .get(`/users/:userId`, async ctx => {
+    const { userId } = ctx.params
+    const user = await User.findByPk(userId, {
       include: [
         {
           model: School,
