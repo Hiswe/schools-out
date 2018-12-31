@@ -15,6 +15,7 @@ const User = require('./users')
 const Teacher = require('./teachers')
 const Room = require('./rooms')
 const Lesson = require('./lessons')
+const Inscription = require('./inscriptions')
 
 //////
 // RELATIONS
@@ -25,9 +26,12 @@ School.hasMany(Teacher)
 School.hasMany(Room)
 School.hasMany(Lesson)
 
+// TODO: a user can belong to many schools
 User.belongsTo(School)
+User.hasMany(Inscription)
 
 Room.hasMany(Lesson)
+// TODO: a room can belong to many schools
 Room.belongsTo(School)
 
 Teacher.belongsTo(School)
@@ -36,32 +40,12 @@ Teacher.hasMany(Lesson)
 Lesson.belongsTo(School)
 Lesson.belongsTo(Teacher)
 Lesson.belongsTo(Room)
+Lesson.belongsToMany(Inscription, { through: `lessonInscription` })
 
-// Quotation.belongsTo( User )
-// Quotation.belongsTo( Customer )
-// Quotation.belongsTo( ProductConfig )
-// Quotation.belongsTo( QuotationConfig )
-// Quotation.belongsTo( Invoice )
-
-// Invoice.belongsTo( User )
-// Invoice.belongsTo( Customer )
-// Invoice.belongsTo( InvoiceConfig )
-// Invoice.hasOne( Quotation )
-
-// Customer.belongsTo( User )
-// Customer.hasMany( Quotation )
-// Customer.hasMany( Invoice )
-
-// QuotationConfig.belongsTo( User )
-// InvoiceConfig.belongsTo( User )
-// ProductConfig.belongsTo( User )
-
-// User.hasMany( Customer )
-// User.hasMany( Quotation )
-// User.hasMany( Invoice )
-// User.hasOne( QuotationConfig )
-// User.hasOne( InvoiceConfig )
-// User.hasOne( ProductConfig )
+Inscription.belongsTo(User)
+Inscription.belongsTo(Lesson)
+// TODO: prices
+// Inscription.hasOne(Price)
 
 //////
 // SYNC DATABASE

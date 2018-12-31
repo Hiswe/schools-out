@@ -56,6 +56,29 @@ apiRouter
     ctx.body = room
   })
   //--- LESSONS
+  .get(`/lessons/:lessonId`, async ctx => {
+    const { schoolId } = ctx.params
+    const lesson = await Lesson.findByPk({
+      where: {
+        schoolId,
+      },
+      include: [
+        {
+          model: Teacher,
+          attributes: [`id`, `name`],
+        },
+        {
+          model: Room,
+          attributes: [`id`, `name`],
+        },
+        {
+          model: User,
+          attributes: [`id`, `name`, `email`],
+        },
+      ],
+    })
+    ctx.body = lesson
+  })
   .get(`/schools/:schoolId/lessons`, async ctx => {
     const { schoolId } = ctx.params
     const lessons = await Lesson.findAll({

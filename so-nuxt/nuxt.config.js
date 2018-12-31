@@ -10,23 +10,23 @@ export default {
   plugins: [
     `@/plugins/vue-libraries.js`,
     // `@/plugins/global-acount-components.ts`,
-    // { src: `@/plugins/nuxt-client-init`, ssr: false },
+    { src: `@/plugins/nuxt-client-init`, ssr: false },
     // { src: `@/plugins/dom-libraries`, ssr: false },
   ],
   modules: [
     // `nuxt-ts-module`,
     `@nuxtjs/axios`,
-    // `cookie-universal-nuxt`,
+    `cookie-universal-nuxt`,
     // [`nuxt-sass-resources-loader`, [`@/assets/media-queries.scss`]],
   ],
   router: {
     // middleware: [`authenticated`, `handle-server-post`],
     linkExactActiveClass: `is-active`,
   },
-  // env: {
-  //   COOKIE_NAME: `acount_nuxt`,
-  //   JWT_FORMAT: `Bearer`,
-  // },
+  env: {
+    COOKIE_NAME: `schools-out_nuxt`,
+    JWT_FORMAT: `Bearer`,
+  },
   axios: {
     baseURL: `http://localhost:4060/v1`,
     browserBaseURL: `http://localhost:4060/v1`,

@@ -19,14 +19,21 @@ const Lesson = sequelize.define(`lesson`, {
   duration: {
     type: Sequelize.FLOAT,
   },
+  // day of the week
+  day: {
+    type: Sequelize.INTEGER,
+  },
+  // début/fin des cours
   startAt: {
     type: Sequelize.DATEONLY,
   },
   endAt: {
     type: Sequelize.DATEONLY,
   },
-  days: {
+  // can put “required skill” here (beginner…)
+  info: {
     type: Sequelize.JSON,
+    defaultValue: {},
   },
 })
 

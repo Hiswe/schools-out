@@ -18,6 +18,16 @@ const USER_TYPES = require('./users-types')
 //   return bcrypt.hashSync(password, 10)
 // }
 
+// TODO:
+// sur le EXCEL le tarif est porté par l'utilisateur
+//  • simple
+//  • couple
+//  • enfant
+//  • séance
+//  • équipe
+
+// paiement à l'heure
+
 //////
 // MODEL DEFINITION
 //////
@@ -49,11 +59,6 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
       // set: dbGetterSetter.setTrimmedString(`name`),
-    },
-    address: {
-      type: Sequelize.TEXT,
-      allowNull: true,
-      // set: dbGetterSetter.setTrimmedString(`address`),
     },
     lang: {
       type: Sequelize.CHAR(2),
