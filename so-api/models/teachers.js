@@ -52,6 +52,10 @@ const Teacher = sequelize.define(
         isIn: [[`en`, `fr`]],
       },
     },
+    info: {
+      type: Sequelize.JSON,
+      defaultValue: {},
+    },
     // SESSION
     password: {
       type: Sequelize.STRING,

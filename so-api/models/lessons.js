@@ -13,11 +13,20 @@ const Lesson = sequelize.define(`lesson`, {
   name: {
     type: Sequelize.STRING,
   },
-  startAt: {
+  startHour: {
     type: Sequelize.FLOAT,
   },
   duration: {
     type: Sequelize.FLOAT,
+  },
+  startAt: {
+    type: Sequelize.DATEONLY,
+  },
+  endAt: {
+    type: Sequelize.DATEONLY,
+  },
+  days: {
+    type: Sequelize.JSON,
   },
 })
 

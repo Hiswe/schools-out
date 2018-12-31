@@ -39,10 +39,10 @@ const User = sequelize.define(
       // set: dbGetterSetter.setNormalizedString(`email`),
     },
     type: {
-      type: Sequelize.ENUM(...USER_TYPES),
+      type: Sequelize.ENUM(...USER_TYPES.list),
       allowNull: false,
       validate: {
-        isIn: [USER_TYPES],
+        isIn: [USER_TYPES.list],
       },
     },
     name: {
@@ -61,6 +61,10 @@ const User = sequelize.define(
       validate: {
         isIn: [[`en`, `fr`]],
       },
+    },
+    info: {
+      type: Sequelize.JSON,
+      defaultValue: {},
     },
     // SESSION
     password: {

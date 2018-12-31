@@ -16,6 +16,10 @@ const Room = sequelize.define(`room`, {
   capacity: {
     type: Sequelize.INTEGER,
   },
+  info: {
+    type: Sequelize.JSON,
+    defaultValue: {},
+  },
 })
 
 module.exports = Room

@@ -27,6 +27,7 @@ School.hasMany(Lesson)
 
 User.belongsTo(School)
 
+Room.hasMany(Lesson)
 Room.belongsTo(School)
 
 Teacher.belongsTo(School)
@@ -34,6 +35,7 @@ Teacher.hasMany(Lesson)
 
 Lesson.belongsTo(School)
 Lesson.belongsTo(Teacher)
+Lesson.belongsTo(Room)
 
 // Quotation.belongsTo( User )
 // Quotation.belongsTo( Customer )
