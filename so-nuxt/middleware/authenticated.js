@@ -24,7 +24,6 @@ export default async function authMiddleware(nuxtContext) {
 
   // ENSURE USER DATA
   let hasUser = store.getters[`user/${IS_CONNECTED}`]
-  console.log({ hasUser })
   if (cookieJWT && !hasUser) {
     // populate user if there is a connection cookie
     await store.dispatch(`user/${ME}`)

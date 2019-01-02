@@ -31,23 +31,6 @@ export default {
           value: `email`,
         },
       ],
-      lessonHeaders: [
-        {
-          text: `name`,
-          align: `left`,
-          value: `name`,
-        },
-        {
-          text: `room`,
-          align: `left`,
-          value: `room.name`,
-        },
-        {
-          text: `teacher`,
-          align: `left`,
-          value: `teacher.name`,
-        },
-      ],
     }
   },
   async asyncData({ $axios, params }) {
@@ -104,11 +87,6 @@ div
     v-tab(href="#prices")
       | Prices
       v-icon attach_money
-
-    v-tab(href="#lessons")
-      | Lessons
-      v-icon assignment
-
     //- ROOMS
     v-tab-item(value="rooms")
       .so-2-cols.mt-4
@@ -182,57 +160,6 @@ div
     v-tab-item(value="prices")
       h2.display-3 prices
 
-    v-tab-item(value="lessons")
-      .so-lessons.mt-4
-        v-data-table.elevation-1(
-          :headers="lessonHeaders"
-          :items="lessons"
-        )
-          template( slot="items" slot-scope="props")
-            td {{ props.item.name }}
-            td {{ props.item.teacher.name }}
-            td {{ props.item.room.name }}
-        v-form(
-          ref="lessonForm"
-          v-model="lessonValid"
-        )
-          v-card
-            v-card-title(primary-title)
-              .headline new lesson
-            v-card-text
-              v-text-field(
-                v-model="newLesson.name"
-                label="Name"
-                :rules="nameRules"
-                required
-              )
-              v-select(
-                :items="school.teachers"
-                item-text="name"
-                item-value="id"
-                label="Teacher"
-                v-model="newLesson.teacherId"
-                :rules="teacherRules"
-                required
-              )
-              v-select(
-                :items="school.rooms"
-                item-text="name"
-                item-value="id"
-                label="Rooms"
-                v-model="newLesson.roomId"
-                :rules="roomRules"
-                required
-              )
-            v-card-actions
-              v-btn(
-                :disabled="!lessonValid"
-                @click="submitLesson"
-                color="primary"
-              ) add lesson
-              v-btn(@click="clearLesson") clear
-
-
 </template>
 
 <style lang="scss" scoped>
@@ -241,10 +168,4 @@ div
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
 }
-.so-lessons {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-gap: 2rem;
-}
 </style>
-

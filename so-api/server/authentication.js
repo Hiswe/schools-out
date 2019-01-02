@@ -4,17 +4,19 @@ const jwt = require('koa-jwt')
 const jsonwebtoken = require('jsonwebtoken')
 
 const config = require('../config')
+const { School, User } = require('../models')
 const { secret, expiresIn } = config.jwt
 
 function createAccessToken(user) {
-  console.log(user.id)
   const isAdmin = user.id === config.superAdmin.id
+
   const current = {
     isAdmin,
     userId: user.id,
-    schoolId: isAdmin ? user.schoolId : false,
+    // for now we don't pass a user but a school
+    // TODO: change to user.schoolId
+    schoolId: isAdmin ? false : user.id,
   }
-  console.log({ current })
   return {
     current,
     access_token: jsonwebtoken.sign(current, secret, { expiresIn }),
@@ -39,7 +41,7 @@ async function login(ctx, next) {
   // TODO: replace school by a user
   const user = await School.findOne({
     where: {
-      name: body.name,
+      id: body.id,
       // isDeactivated: { $not: true },
     },
   })

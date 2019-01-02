@@ -29,6 +29,8 @@ export const mutations = {
 
 export const IS_CONNECTED = `IS_CONNECTED`
 export const IS_ADMIN = `IS_ADMIN`
+export const IS_USER = `IS_USER`
+export const SCHOOL_ID = `SCHOOL_ID`
 export const LOCALE = `LOCALE`
 
 export const getters = {
@@ -37,6 +39,12 @@ export const getters = {
   },
   [IS_ADMIN](state) {
     return !isNil(state.current) && state.current.isAdmin
+  },
+  [IS_USER](state) {
+    return !isNil(state.current) && !state.current.isAdmin
+  },
+  [SCHOOL_ID](state) {
+    return !isNil(state.current) && state.current.schoolId
   },
   [LOCALE](state) {
     if (isNil(state.current)) return `en`
@@ -56,7 +64,6 @@ export const actions = {
     const { commit } = vuexContext
     try {
       const response = await this.$axios.$get(`/account/me`)
-      console.log({ response })
       commit(SET_USER, response)
     } catch (error) {
       commit(REMOVE_USER)

@@ -78,6 +78,13 @@ apiRouter
     ctx.body = school
   })
   //--- ROOMS
+  .get(`/rooms`, async ctx => {
+    const params = {}
+    const { schoolId } = ctx.state.jwtData
+    if (schoolId) params.where = { schoolId }
+    const rooms = await Room.findAll(params)
+    ctx.body = rooms
+  })
   .post(`/schools/:schoolId/rooms`, async ctx => {
     const { schoolId } = ctx.params
     const { body } = ctx.request
@@ -108,6 +115,28 @@ apiRouter
       ],
     })
     ctx.body = lesson
+  })
+  .get(`/lessons`, async ctx => {
+    const params = {
+      include: [
+        {
+          model: Teacher,
+          attributes: [`id`, `name`],
+        },
+        {
+          model: Room,
+          attributes: [`id`, `name`],
+        },
+        {
+          model: School,
+          attributes: [`id`, `name`],
+        },
+      ],
+    }
+    const { schoolId } = ctx.state.jwtData
+    if (schoolId) params.where = { schoolId }
+    const lessons = await Lesson.findAll(params)
+    ctx.body = lessons
   })
   .get(`/schools/:schoolId/lessons`, async ctx => {
     const { schoolId } = ctx.params
@@ -151,14 +180,17 @@ apiRouter
   // TEACHERS
   //////
   .get(`/teachers`, async ctx => {
-    const teachers = await Teacher.findAll({
+    const params = {
       include: [
         {
           model: School,
           attributes: [`id`, `name`],
         },
       ],
-    })
+    }
+    const { schoolId } = ctx.state.jwtData
+    if (schoolId) params.where = { schoolId }
+    const teachers = await Teacher.findAll(params)
     ctx.body = teachers
   })
   .post(`/teachers`, async ctx => {

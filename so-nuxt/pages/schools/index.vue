@@ -43,9 +43,15 @@ export default {
 </script>
 
 <template lang="pug">
-div
-  h1.display-2 Schools
-  v-form.mt-3(
+.so-page-schools.mt-3
+  v-data-table.elevation-1(
+    :headers="headers"
+    :items="schools"
+  )
+    template( slot="items" slot-scope="props")
+      td {{ props.item.name }}
+
+  v-form(
     ref="form"
     v-model="valid"
   )
@@ -66,12 +72,12 @@ div
           color="primary"
         ) Create School
         v-btn(@click="clear") clear
-  v-data-table.elevation-1.mt-5(
-    :headers="headers"
-    :items="schools"
-  )
-    template( slot="items" slot-scope="props")
-      td
-        nuxt-link(:to="`/schools/${props.item.id}`")
-          | {{ props.item.name }}
 </template>
+
+<style lang="scss" scoped>
+.so-page-schools {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 2rem;
+}
+</style>
