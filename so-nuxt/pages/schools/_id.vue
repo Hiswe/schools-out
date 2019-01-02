@@ -17,7 +17,6 @@ export default {
         v => !!v || `Capacity is required`,
         v => v > 0 || `capacity can't be null`,
       ],
-      roomRules: [v => !!v || `Room is required`],
       teacherRules: [v => !!v || `Teacher is required`],
       teacherHeaders: [
         {
@@ -75,9 +74,6 @@ div
 
   v-tabs(centered icons-and-text dark)
     v-tabs-slider
-    v-tab(href="#rooms")
-      | Rooms
-      v-icon meeting_room
     v-tab(href="#users")
       | Users
       v-icon group
@@ -87,55 +83,6 @@ div
     v-tab(href="#prices")
       | Prices
       v-icon attach_money
-    //- ROOMS
-    v-tab-item(value="rooms")
-      .so-2-cols.mt-4
-        v-card
-          v-card-title(primary-title)
-            .headline existing rooms
-          v-card-text
-            v-list(
-              two-line
-              v-if="Array.isArray(school.rooms) && school.rooms.length"
-            )
-              v-list-tile(
-                v-for="room in school.rooms"
-                :key="room.id"
-              ): v-list-tile-content
-                v-list-tile-title {{room.name}}
-                v-list-tile-sub-title
-                  span.primary--text {{room.capacity}}
-                  |
-                  | people
-
-        v-form(
-          ref="roomForm"
-          v-model="roomValid"
-        )
-          v-card
-            v-card-title(primary-title)
-              .headline new room
-            v-card-text
-              v-text-field(
-                v-model="newRoom.name"
-                label="Name"
-                :rules="nameRules"
-                required
-              )
-              v-text-field(
-                v-model.number="newRoom.capacity"
-                label="People capacity"
-                type="number"
-                :rules="capacityRules"
-                required
-              )
-            v-card-actions
-              v-btn(
-                :disabled="!roomValid"
-                @click="submitRoom"
-                color="primary"
-              ) add Room
-              v-btn(@click="clearRoom") clear
 
     v-tab-item(value="users")
       v-data-table.elevation-1.mt-5(

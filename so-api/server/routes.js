@@ -85,6 +85,13 @@ apiRouter
     const rooms = await Room.findAll(params)
     ctx.body = rooms
   })
+  .post(`/rooms`, async ctx => {
+    const { body } = ctx.request
+    const { schoolId } = ctx.state.jwtData
+    body.schoolId = body.schoolId || schoolId
+    const room = await Room.create(body)
+    ctx.body = room
+  })
   .post(`/schools/:schoolId/rooms`, async ctx => {
     const { schoolId } = ctx.params
     const { body } = ctx.request
