@@ -9,6 +9,7 @@ export default {
   ],
   plugins: [
     `@/plugins/vue-libraries.js`,
+    `@/plugins/nuxt-axios.js`,
     // `@/plugins/global-acount-components.ts`,
     { src: `@/plugins/nuxt-client-init`, ssr: false },
     // { src: `@/plugins/dom-libraries`, ssr: false },
@@ -20,7 +21,7 @@ export default {
     // [`nuxt-sass-resources-loader`, [`@/assets/media-queries.scss`]],
   ],
   router: {
-    // middleware: [`authenticated`, `handle-server-post`],
+    middleware: [`authenticated`],
     linkExactActiveClass: `is-active`,
   },
   env: {

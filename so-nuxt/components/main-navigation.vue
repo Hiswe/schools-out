@@ -6,7 +6,12 @@ export default {
 
 <template lang="pug">
 
-v-navigation-drawer(permanent app dark)
+v-navigation-drawer(
+  permanent
+  app
+  dark
+
+)
   v-toolbar(flat)
     v-list
       v-list-tile(nuxt to="/")

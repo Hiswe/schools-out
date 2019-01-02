@@ -1,6 +1,9 @@
 <script>
 export default {
   name: `so-page-user`,
+  meta: {
+    authRequired: true,
+  },
   data() {
     return {
       user: {},

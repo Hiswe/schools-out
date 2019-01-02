@@ -53,7 +53,7 @@ async function start() {
         // TODO: shouldn't send stacktrace on production environment
         stacktrace: err.stacktrace || err.stack || false,
       }
-      ctx.app.emit('error', err, ctx)
+      ctx.app.emit(`error`, err, ctx)
     }
   })
 

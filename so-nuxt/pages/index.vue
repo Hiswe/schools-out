@@ -1,6 +1,9 @@
 <script>
 export default {
   name: `so-page-home`,
+  meta: {
+    authRequired: true,
+  },
 }
 </script>
 

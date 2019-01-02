@@ -1,6 +1,9 @@
 <script>
 export default {
   name: `so-page-schools-list`,
+  meta: {
+    authRequired: true,
+  },
   data() {
     return {
       schools: [],

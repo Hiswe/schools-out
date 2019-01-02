@@ -1,7 +1,9 @@
 <script>
-import { Promise } from 'q'
 export default {
   name: `so-page-school`,
+  meta: {
+    authRequired: true,
+  },
   data() {
     return {
       school: {},

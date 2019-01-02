@@ -1,6 +1,9 @@
 <script>
 export default {
   name: `so-page-teacher`,
+  meta: {
+    authRequired: true,
+  },
   data() {
     return {
       teacher: {},

@@ -1,6 +1,9 @@
 <script>
 export default {
   name: `so-page-teachers-list`,
+  meta: {
+    authRequired: true,
+  },
   data() {
     return {
       teachers: [],

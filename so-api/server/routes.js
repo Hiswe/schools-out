@@ -4,10 +4,16 @@ const Router = require('koa-router')
 
 const { School, User, Room, Teacher, Lesson } = require('../models')
 const USER_TYPES = require('../models/users-types')
+const { jwtMiddleware, login } = require('./authentication')
+const config = require('../config')
 
 const apiRouter = new Router({
   prefix: `/v1`,
 })
+
+//////
+// PUBLIC
+//////
 
 apiRouter
   .get(`/`, async ctx => {
@@ -15,14 +21,38 @@ apiRouter
       version: `v1`,
     }
   })
+  .get(`/login`, async ctx => {
+    const schools = await School.findAll({})
+    schools.unshift({
+      id: config.superAdmin.id,
+      name: `admin`,
+    })
+    ctx.body = schools
+  })
+  .post(`/account/login`, login)
+
+//////
+// PRIVATE
+//////
+
+apiRouter
+  .use(jwtMiddleware)
+  .get(`/account/me`, async ctx => {
+    const { jwtData } = ctx.state
+    ctx.body = { current: jwtData }
+  })
   //////
   // SCHOOLS
   //////
   .get(`/schools`, async ctx => {
+    const { jwtData } = ctx.state
+    ctx.assert(jwtData.isAdmin, 401)
     const schools = await School.findAll({})
     ctx.body = schools
   })
   .post(`/schools`, async ctx => {
+    const { jwtData } = ctx.state
+    ctx.assert(jwtData.isAdmin, 401)
     const { body } = ctx.request
     const school = await School.create(body)
     ctx.body = school

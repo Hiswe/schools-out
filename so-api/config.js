@@ -23,13 +23,19 @@ const config = rc(`schoolsOutApi`, {
     },
   },
   delay: false,
+
+  superAdmin: {
+    id: `admin`,
+    password: `admin`,
+  },
+
   // delay: {
   //   base     : 1000,
   //   variation: 500,
   // },
   jwt: {
     // node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
-    secret: `8a6ecd70aff734fdb322724212857e6a4d0999ec8d3b8fbdcaf45bff2561fac1`,
+    secret: `27618ee0bbfbf13ab04b310b88091c79810da099841675ccba82a84e9722872f`,
     expiresIn: `1 days`,
   },
   enforceHttps: false,

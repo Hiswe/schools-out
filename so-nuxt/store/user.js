@@ -1,18 +1,23 @@
 import isNil from 'lodash.isnil'
 
+// can't destructuring process.env
+const COOKIE_NAME = process.env.COOKIE_NAME
+const JWT_FORMAT = process.env.JWT_FORMAT
+const IS_ROOT = Object.freeze({ root: true })
+
 const SET_USER = `SET_USER`
 const REMOVE_USER = `REMOVE_USER`
 const UPDATE_SETTINGS = `UPDATE_SETTINGS`
 
 export const state = () => {
   return {
-    current: {},
+    current: null,
   }
 }
 
 export const mutations = {
   [SET_USER](state, payload) {
-    state.current = payload
+    state.current = payload.current
   },
   [REMOVE_USER](state) {
     state.current = null
@@ -51,7 +56,8 @@ export const actions = {
     const { commit } = vuexContext
     try {
       const response = await this.$axios.$get(`/account/me`)
-      commit(SET_USER, response.current)
+      console.log({ response })
+      commit(SET_USER, response)
     } catch (error) {
       commit(REMOVE_USER)
     }
@@ -62,11 +68,12 @@ export const actions = {
 
     try {
       const response = await $axios.$post(`/account/login`, payload)
-      commit(SET_USER, response.current)
+      commit(SET_USER, response)
       $cookies.set(COOKIE_NAME, response.access_token)
       $axios.setToken(response.access_token, JWT_FORMAT)
       $router.push(`/`)
     } catch (error) {
+      console.log({ error })
       const { data } = error.response
       // wrong email address => not-found
       if (data.status === 404) {
@@ -111,15 +118,15 @@ export const actions = {
   async [LOGOUT](vuexContext) {
     const { commit } = vuexContext
     const { $axios, $cookies, $router } = this
-    try {
-      await $axios.$get(`/account/logout`)
-    } catch (error) {
-      console.log(`something went wrong while disconnecting from API`)
-    }
+    // try {
+    //   await $axios.$get(`/account/logout`)
+    // } catch (error) {
+    //   console.log(`something went wrong while disconnecting from API`)
+    // }
     $cookies.remove(COOKIE_NAME)
     $axios.setToken(false)
     commit(REMOVE_USER)
-    this.$router.push(`/account/login`)
+    this.$router.push(`/login`)
   },
   async [UPDATE_USER](vuexContext, payload) {
     const { commit } = vuexContext
