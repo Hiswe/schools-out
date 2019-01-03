@@ -4,6 +4,16 @@ const Sequelize = require('sequelize')
 
 const { sequelize } = require('../services')
 
+const days = Object.freeze([
+  `sunday`,
+  `monday`,
+  `tuesday`,
+  `wednesday`,
+  `thursday`,
+  `friday`,
+  `saturday`,
+])
+
 const Lesson = sequelize.define(
   `lesson`,
   {
@@ -24,6 +34,13 @@ const Lesson = sequelize.define(
     // day of the week
     day: {
       type: Sequelize.INTEGER,
+    },
+    dayName: {
+      type: Sequelize.VIRTUAL(Sequelize.STRING),
+      get() {
+        const day = this.getDataValue(`day`)
+        return days[day] || `–`
+      },
     },
     // début/fin des cours
     startAt: {
