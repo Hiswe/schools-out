@@ -4,7 +4,6 @@ export default {
   data() {
     return {
       users: [],
-      schools: [],
       userTypes: [],
       headers: [
         {
@@ -17,11 +16,6 @@ export default {
           align: `left`,
           value: `email`,
         },
-        {
-          text: `school`,
-          align: `left`,
-          value: `school.name`,
-        },
       ],
       valid: true,
       user: {},
@@ -33,17 +27,15 @@ export default {
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid',
       ],
-      schoolRules: [v => !!v || `School is required`],
       typeRules: [v => !!v || `Type is required`],
     }
   },
   async asyncData({ $axios, params }) {
-    const [users, userTypes, schools] = await Promise.all([
+    const [users, userTypes] = await Promise.all([
       $axios.$get(`/users`),
       $axios.$get(`/users/types`),
-      $axios.$get(`/schools`),
     ])
-    return { users, schools, userTypes }
+    return { users, userTypes }
   },
   methods: {
     async submit() {
@@ -85,15 +77,6 @@ div
             required
           )
           v-select(
-            :items="schools"
-            item-text="name"
-            item-value="id"
-            label="School"
-            v-model="user.schoolId"
-            :rules="schoolRules"
-            required
-          )
-          v-select(
             :items="userTypes"
             label="Type"
             v-model="user.type"
@@ -115,7 +98,7 @@ div
       td
         nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
       td {{ props.item.email }}
-      td {{ props.item.school.name }}
+      //- td {{ props.item.school.name }}
 </template>
 
 <style lang="scss" scoped>

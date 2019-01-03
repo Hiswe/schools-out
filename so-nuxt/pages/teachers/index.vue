@@ -7,7 +7,6 @@ export default {
   data() {
     return {
       teachers: [],
-      schools: [],
       headers: [
         {
           text: `name`,
@@ -35,15 +34,11 @@ export default {
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid',
       ],
-      schoolRules: [v => !!v || `School is required`],
     }
   },
   async asyncData({ $axios, params }) {
-    const [teachers, schools] = await Promise.all([
-      $axios.$get(`/teachers`),
-      $axios.$get(`/schools`),
-    ])
-    return { teachers, schools }
+    const [teachers] = await Promise.all([$axios.$get(`/teachers`)])
+    return { teachers }
   },
   methods: {
     async submit() {
@@ -81,15 +76,6 @@ div
             v-model="teacher.email"
             label="Email"
             :rules="emailRules"
-            required
-          )
-          v-select(
-            :items="schools"
-            item-text="name"
-            item-value="id"
-            label="School"
-            v-model="teacher.schoolId"
-            :rules="schoolRules"
             required
           )
       v-card-actions

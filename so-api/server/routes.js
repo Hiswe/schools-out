@@ -202,6 +202,8 @@ apiRouter
   })
   .post(`/teachers`, async ctx => {
     const { body } = ctx.request
+    const { schoolId } = ctx.state.jwtData
+    body.schoolId = body.schoolId || schoolId
     const newTeacher = await Teacher.create(body)
     const teacher = await Teacher.findByPk(newTeacher.id, {
       include: [
@@ -232,18 +234,23 @@ apiRouter
     ctx.body = USER_TYPES.list
   })
   .get(`/users`, async ctx => {
-    const users = await User.findAll({
+    const params = {
       include: [
         {
           model: School,
           attributes: [`id`, `name`],
         },
       ],
-    })
+    }
+    const { schoolId } = ctx.state.jwtData
+    if (schoolId) params.where = { schoolId }
+    const users = await User.findAll(params)
     ctx.body = users
   })
   .post(`/users`, async ctx => {
     const { body } = ctx.request
+    const { schoolId } = ctx.state.jwtData
+    body.schoolId = body.schoolId || schoolId
     const newUser = await User.create(body)
     const user = await User.findByPk(newUser.id, {
       include: [
