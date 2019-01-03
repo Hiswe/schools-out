@@ -1,8 +1,7 @@
 <script>
-const hours = Array.from({ length: 28 }).map((v, i) => {
-  const hour = `${9 + Math.floor(i / 2)}`.padStart(2, `0`)
-  const minutes = `${(i % 2) * 30}`.padStart(2, `0`)
-  return `${hour}:${minutes}`
+const hours = Array.from({ length: 14 }).map((v, i) => {
+  const hour = `${9 + i}`.padStart(2, `0`)
+  return `${hour}`
 })
 
 export default {
@@ -36,7 +35,10 @@ dl.so-rooms-calendar
       span.so-day-calendar__day Friday
       span.so-day-calendar__day Saturday
       span.so-day-calendar__day Sunday
-      span.so-day-calendar__hour(v-for="h in hours") {{ h }}
+      span.so-day-calendar__hour(
+        v-for="(h, i) in hours"
+        :class="`so-day-calendar__hour--${i}`"
+      ) {{ h }}
       .so-day-calendar__lesson.primary(
         v-for="lesson in room.lessons"
         :key="lesson.id"
@@ -49,14 +51,36 @@ dl.so-rooms-calendar
 .so-day-calendar {
   display: grid;
   grid-template-columns: 4rem repeat(7, 1fr);
-  grid-template-rows: 1.5rem repeat(28, 2rem);
+  grid-template-rows: 1.5rem repeat(28, 20px);
   grid-gap: 1px;
 
   // need this to place automatically days & hours
-  &::before {
+  &::after {
     content: '';
     grid-column: 1;
     grid-row: 1;
+  }
+  &::before {
+    content: '';
+    grid-column: 2 / -1;
+    grid-row: 2 / -1;
+    background: repeating-linear-gradient(
+      to left,
+      transparent,
+      transparent percentage(1/7),
+      rgba(0, 0, 0, 0.05) percentage(1/7),
+      rgba(0, 0, 0, 0.05) percentage(2/7)
+    );
+    // background: repeating-linear-gradient(
+    //   to left,
+    //   #e66465,
+    //   #e66465 20px,
+    //   #9198e5 20px,
+    //   #9198e5
+    // );
+    // background: repeating-linear-gradient(to left, blue, red 20px);
+    // opacity: 0.5;
+    z-index: 0;
   }
 }
 .so-day-calendar__day {
@@ -64,17 +88,26 @@ dl.so-rooms-calendar
   justify-self: center;
 }
 .so-day-calendar__hour {
-  grid-column: 1;
-  justify-self: right;
-  align-self: center;
+  grid-column: 1 / -1;
   padding-right: 0.25rem;
+  border: dotted #eee;
+  border-width: 2px 0 0 0;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+
+  @for $i from 0 through 14 {
+    &--#{$i} {
+      grid-row: #{$i * 2 + 2} / #{$i * 2 + 4};
+    }
+  }
 }
 .so-day-calendar__lesson {
-  // background: var(--v-primary-base);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 
   &--day-0 {
     grid-column: 8;
@@ -89,7 +122,7 @@ dl.so-rooms-calendar
   @for $i from 1 through length($durations) {
     $duration: nth($durations, $i);
     &--duration-#{$duration} {
-      height: calc(#{$i * 2rem} + #{$i * 1px} - 1px);
+      height: calc(#{$i * 20px} + #{$i * 1px} - 1px);
     }
   }
   $hours: '09-00' '09-30' '10-00' '10-30' '11-00' '11-30' '12-00' '12-30'
