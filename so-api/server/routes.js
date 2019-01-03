@@ -1,8 +1,17 @@
 'use strict'
 
+const { inspect } = require('util')
 const Router = require('koa-router')
 
-const { School, User, Room, Teacher, Lesson, Rate } = require('../models')
+const {
+  School,
+  User,
+  Room,
+  Teacher,
+  Lesson,
+  Rate,
+  Inscription,
+} = require('../models')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -151,10 +160,10 @@ apiRouter
     const lessons = await Lesson.findAll(params)
     ctx.body = lessons
   })
-  .post(`/schools/:schoolId/lessons`, async ctx => {
-    const { schoolId } = ctx.params
+  .post(`/lessons`, async ctx => {
     const { body } = ctx.request
-    body.schoolId = schoolId
+    const { schoolId } = ctx.state.jwtData
+    body.schoolId = body.schoolId || schoolId
     const newLesson = await Lesson.create(body)
     const lesson = await Lesson.findByPk(newLesson.id, {
       include: [
@@ -253,9 +262,56 @@ apiRouter
           model: School,
           attributes: [`id`, `name`],
         },
+        {
+          model: Inscription,
+          include: [
+            {
+              model: Lesson,
+              include: [
+                {
+                  model: Teacher,
+                },
+              ],
+            },
+            {
+              model: Rate,
+            },
+          ],
+        },
       ],
     })
+    console.log(
+      inspect(JSON.parse(JSON.stringify(user)), { colors: true, depth: 4 }),
+    )
     ctx.body = user
+  })
+  .post(`/users/:userId/inscriptions`, async ctx => {
+    const { userId } = ctx.params
+    const user = await User.findByPk(userId)
+    ctx.assert(user, 404, `user not found`)
+
+    const { body } = ctx.request
+    const { schoolId } = ctx.state.jwtData
+    body.userId = userId
+    body.schoolId = body.schoolId || schoolId
+    const newInscription = await Inscription.create(body)
+    const inscription = await Inscription.findByPk(newInscription.id, {
+      include: [
+        {
+          model: Lesson,
+          include: [
+            {
+              model: Teacher,
+            },
+          ],
+        },
+        {
+          model: Rate,
+        },
+      ],
+    })
+
+    ctx.body = inscription
   })
 
 module.exports = apiRouter

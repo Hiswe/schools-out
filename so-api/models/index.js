@@ -45,11 +45,11 @@ Lesson.belongsTo(Room)
 Lesson.belongsToMany(Inscription, { through: `lessonInscription` })
 
 Rate.belongsTo(School)
-Rate.belongsToMany(Inscription, { through: `rateInscription` })
+// Rate.belongsToMany(Inscription, { through: `rateInscription` })
 
 Inscription.belongsTo(User)
 Inscription.belongsTo(Lesson)
-// Inscription.hasOne(Rate)
+Inscription.belongsTo(Rate)
 
 //////
 // SYNC DATABASE
@@ -82,4 +82,5 @@ module.exports = {
   Room,
   Lesson,
   Rate,
+  Inscription,
 }

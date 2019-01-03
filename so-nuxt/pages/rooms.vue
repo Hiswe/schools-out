@@ -37,7 +37,7 @@ export default {
 </script>
 
 <template lang="pug">
-.so-2-cols.mt-4
+.so-table-form.mt-4
   v-card
     v-card-title(primary-title)
       .headline existing rooms
@@ -87,10 +87,3 @@ export default {
 
 </template>
 
-<style lang="scss" scoped>
-.so-2-cols {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
-}
-</style>

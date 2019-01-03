@@ -53,9 +53,17 @@ export default {
 </script>
 
 <template lang="pug">
-div
-  h1.display-2 Users
-  v-form.mt-3(
+.so-table-form.mt-2
+  v-data-table.elevation-1(
+    :headers="headers"
+    :items="users"
+  )
+    template( slot="items" slot-scope="props")
+      td
+        nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
+      td {{ props.item.email }}
+      //- td {{ props.item.school.name }}
+  v-form(
     ref="form"
     v-model="valid"
   )
@@ -90,21 +98,6 @@ div
           color="primary"
         ) Create user
         v-btn(@click="clear") clear
-  v-data-table.elevation-1.mt-5(
-    :headers="headers"
-    :items="users"
-  )
-    template( slot="items" slot-scope="props")
-      td
-        nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
-      td {{ props.item.email }}
-      //- td {{ props.item.school.name }}
 </template>
 
-<style lang="scss" scoped>
-.so-user-form {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
-}
-</style>
+

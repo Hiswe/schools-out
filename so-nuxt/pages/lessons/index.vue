@@ -54,9 +54,8 @@ export default {
   },
   methods: {
     async submitLesson() {
-      if (!this.$refs.lessonForm.validate()) return console.log(`invalid form`)
-      const lessonUri = `/schools/${this.schoolId}/lessons`
-      const lesson = await this.$axios.$post(lessonUri, this.newLesson)
+      if (!this.$refs.lessonForm.validate()) return
+      const lesson = await this.$axios.$post(`/lessons`, this.newLesson)
       this.lessons.push(lesson)
       this.$refs.lessonForm.reset()
     },
@@ -68,7 +67,7 @@ export default {
 </script>
 
 <template lang="pug">
-.so-lessons.mt-4
+.so-table-form.mt-2
   v-data-table.elevation-1(
     :headers="lessonHeaders"
     :items="lessons"
@@ -117,11 +116,3 @@ export default {
         ) add lesson
         v-btn(@click="clearLesson") clear
 </template>
-
-<style lang="scss" scoped>
-.so-lessons {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-gap: 2rem;
-}
-</style>
