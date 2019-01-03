@@ -20,6 +20,12 @@ const apiRouter = new Router({
   prefix: `/v1`,
 })
 
+const printInstance = instance => {
+  console.log(
+    inspect(JSON.parse(JSON.stringify(instance)), { colors: true, depth: 4 }),
+  )
+}
+
 //////
 // PUBLIC
 //////
@@ -116,11 +122,8 @@ apiRouter
   })
   //----- LESSONS
   .get(`/lessons/:lessonId`, async ctx => {
-    const { schoolId } = ctx.params
-    const lesson = await Lesson.findByPk({
-      where: {
-        schoolId,
-      },
+    const { lessonId } = ctx.params
+    const lesson = await Lesson.findByPk(lessonId, {
       include: [
         {
           model: Teacher,
@@ -131,11 +134,21 @@ apiRouter
           attributes: [`id`, `name`],
         },
         {
-          model: User,
-          attributes: [`id`, `name`, `email`],
+          model: Inscription,
+          include: [
+            {
+              model: User,
+              attributes: [`id`, `name`, `email`],
+            },
+            {
+              model: Rate,
+            },
+          ],
+          // attributes: [`id`, `name`],
         },
       ],
     })
+    printInstance(lesson)
     ctx.body = lesson
   })
   .get(`/lessons`, async ctx => {
@@ -153,6 +166,10 @@ apiRouter
           model: School,
           attributes: [`id`, `name`],
         },
+        // {
+        //   model: Inscription,
+        //   // attributes: [`id`, `name`],
+        // },
       ],
     }
     const { schoolId } = ctx.state.jwtData
@@ -280,9 +297,7 @@ apiRouter
         },
       ],
     })
-    console.log(
-      inspect(JSON.parse(JSON.stringify(user)), { colors: true, depth: 4 }),
-    )
+    printInstance(user)
     ctx.body = user
   })
   .post(`/users/:userId/inscriptions`, async ctx => {

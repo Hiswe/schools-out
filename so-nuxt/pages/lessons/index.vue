@@ -73,9 +73,10 @@ export default {
     :items="lessons"
   )
     template( slot="items" slot-scope="props")
-      td {{ props.item.name }}
-      td {{ props.item.teacher.name }}
+      td
+        nuxt-link(:to="`/lessons/${props.item.id}`")  {{ props.item.name }}
       td {{ props.item.room.name }}
+      td {{ props.item.teacher.name }}
   v-form(
     ref="lessonForm"
     v-model="lessonValid"
