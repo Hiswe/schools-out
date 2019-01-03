@@ -11,6 +11,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       lessons: [],
       rooms: [],
       teachers: [],
@@ -67,14 +68,15 @@ export default {
       const lesson = await this.$axios.$post(`/lessons`, newLesson)
       this.lessons.push(lesson)
       this.$refs.form.reset()
+      this.dialog = false
     },
   },
 }
 </script>
 
 <template lang="pug">
-.so-table-form.mt-2
-  v-data-table.elevation-1(
+div
+  v-data-table.elevation-1.mt-2(
     :rows-per-page-items="lessonsRows"
     :headers="lessonHeaders"
     :items="lessons"
@@ -86,9 +88,20 @@ export default {
       td {{ props.item.teacher.name }}
       td {{ props.item.dayName }}
       td {{ props.item.startHour }}
-  so-lesson-form(
-    v-model="newLesson"
-    ref="form"
-    @submit="onSubmit"
+  v-dialog(v-model="dialog" max-width="600px")
+    so-lesson-form(
+      v-model="newLesson"
+      ref="form"
+      @submit="onSubmit"
+    )
+  v-btn(
+    fixed
+    dark
+    fab
+    bottom
+    right
+    color="pink"
+    @click="dialog = !dialog"
   )
+    v-icon add
 </template>
