@@ -1,34 +1,13 @@
 <script>
-const hours = [
-  { text: `9h00`, value: `09:00` },
-  { text: `9h30`, value: `09:30` },
-  { text: `10h00`, value: `10:00` },
-  { text: `10h30`, value: `10:30` },
-  { text: `11h00`, value: `11:00` },
-  { text: `11h30`, value: `11:30` },
-  { text: `12h00`, value: `12:00` },
-  { text: `12h30`, value: `12:30` },
-  { text: `13h00`, value: `13:00` },
-  { text: `13h30`, value: `13:30` },
-  { text: `14h00`, value: `14:00` },
-  { text: `14h30`, value: `14:30` },
-  { text: `15h00`, value: `15:00` },
-  { text: `15h30`, value: `15:30` },
-  { text: `16h00`, value: `16:00` },
-  { text: `16h30`, value: `16:30` },
-  { text: `17h00`, value: `17:00` },
-  { text: `17h30`, value: `17:30` },
-  { text: `18h00`, value: `18:00` },
-  { text: `18h30`, value: `18:30` },
-  { text: `19h00`, value: `19:00` },
-  { text: `19h30`, value: `19:30` },
-  { text: `20h00`, value: `20:00` },
-  { text: `20h30`, value: `20:30` },
-  { text: `21h00`, value: `21:00` },
-  { text: `21h30`, value: `21:30` },
-  { text: `22h00`, value: `22:00` },
-  { text: `22h30`, value: `22:30` },
-]
+const hours = Array.from({ length: 28 }).map((v, i) => {
+  const hour = 9 + Math.floor(i / 2)
+  const padHour = `${hour}`.padStart(2, `0`)
+  const minutes = `${(i % 2) * 30}`.padStart(2, `0`)
+  return {
+    text: `${hour}h${minutes}`,
+    value: `${padHour}:${minutes}`,
+  }
+})
 const durations = [
   {
     text: `30min`,

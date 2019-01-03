@@ -8,7 +8,7 @@ Vue.use(Vuetify, {
   //   accent: '#2297cc',
   //   error: '#b71c1c',
   // },
-  // options: {
-  //   customProperties: true,
-  // },
+  options: {
+    customProperties: true,
+  },
 })
