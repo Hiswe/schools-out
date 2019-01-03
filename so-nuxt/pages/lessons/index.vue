@@ -42,6 +42,11 @@ export default {
           align: `left`,
           // value: `teacher.name`,
         },
+        {
+          text: `begin`,
+          align: `left`,
+          value: `startHour`,
+        },
       ],
       nameRules: [v => !!v || `Name is required`],
       roomRules: [v => !!v || `Room is required`],
@@ -80,6 +85,7 @@ export default {
       td {{ props.item.room.name }}
       td {{ props.item.teacher.name }}
       td {{ props.item.dayName }}
+      td {{ props.item.startHour }}
   so-lesson-form(
     v-model="newLesson"
     ref="form"

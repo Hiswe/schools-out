@@ -27,7 +27,7 @@ const Lesson = sequelize.define(
       allowNull: false,
     },
     startHour: {
-      type: Sequelize.FLOAT,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     duration: {
