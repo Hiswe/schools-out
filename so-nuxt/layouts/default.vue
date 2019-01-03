@@ -37,3 +37,10 @@ v-app
   //- v-footer(app)
 </template>
 
+<style lang="scss">
+.so-table-form {
+  display: grid;
+  grid-template-columns: 1fr 450px;
+  grid-gap: 2rem;
+}
+</style>

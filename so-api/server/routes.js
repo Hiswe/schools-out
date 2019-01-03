@@ -2,7 +2,7 @@
 
 const Router = require('koa-router')
 
-const { School, User, Room, Teacher, Lesson } = require('../models')
+const { School, User, Room, Teacher, Lesson, Rate } = require('../models')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -41,9 +41,7 @@ apiRouter
     const { jwtData } = ctx.state
     ctx.body = { current: jwtData }
   })
-  //////
-  // SCHOOLS
-  //////
+  //----- SCHOOLS
   .get(`/schools`, async ctx => {
     const { jwtData } = ctx.state
     ctx.assert(jwtData.isAdmin, 401)
@@ -92,14 +90,22 @@ apiRouter
     const room = await Room.create(body)
     ctx.body = room
   })
-  .post(`/schools/:schoolId/rooms`, async ctx => {
-    const { schoolId } = ctx.params
-    const { body } = ctx.request
-    body.schoolId = schoolId
-    const room = await Room.create(body)
-    ctx.body = room
+  //----- RATES
+  .get(`/rates`, async ctx => {
+    const params = {}
+    const { schoolId } = ctx.state.jwtData
+    if (schoolId) params.where = { schoolId }
+    const rates = await Rate.findAll(params)
+    ctx.body = rates
   })
-  //--- LESSONS
+  .post(`/rates`, async ctx => {
+    const { body } = ctx.request
+    const { schoolId } = ctx.state.jwtData
+    body.schoolId = body.schoolId || schoolId
+    const rate = await Rate.create(body)
+    ctx.body = rate
+  })
+  //----- LESSONS
   .get(`/lessons/:lessonId`, async ctx => {
     const { schoolId } = ctx.params
     const lesson = await Lesson.findByPk({
@@ -145,25 +151,6 @@ apiRouter
     const lessons = await Lesson.findAll(params)
     ctx.body = lessons
   })
-  .get(`/schools/:schoolId/lessons`, async ctx => {
-    const { schoolId } = ctx.params
-    const lessons = await Lesson.findAll({
-      where: {
-        schoolId,
-      },
-      include: [
-        {
-          model: Teacher,
-          attributes: [`id`, `name`],
-        },
-        {
-          model: Room,
-          attributes: [`id`, `name`],
-        },
-      ],
-    })
-    ctx.body = lessons
-  })
   .post(`/schools/:schoolId/lessons`, async ctx => {
     const { schoolId } = ctx.params
     const { body } = ctx.request
@@ -183,9 +170,7 @@ apiRouter
     })
     ctx.body = lesson
   })
-  //////
-  // TEACHERS
-  //////
+  //----- TEACHERS
   .get(`/teachers`, async ctx => {
     const params = {
       include: [
@@ -227,9 +212,7 @@ apiRouter
     })
     ctx.body = teacher
   })
-  //////
-  // USERS
-  //////
+  //----- USERS
   .get(`/users/types`, async ctx => {
     ctx.body = USER_TYPES.list
   })

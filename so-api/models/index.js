@@ -16,6 +16,7 @@ const Teacher = require('./teachers')
 const Room = require('./rooms')
 const Lesson = require('./lessons')
 const Inscription = require('./inscriptions')
+const Rate = require('./rates')
 
 //////
 // RELATIONS
@@ -25,6 +26,7 @@ School.hasMany(User)
 School.hasMany(Teacher)
 School.hasMany(Room)
 School.hasMany(Lesson)
+School.hasMany(Rate)
 
 // TODO: a user can belong to many schools
 User.belongsTo(School)
@@ -42,10 +44,12 @@ Lesson.belongsTo(Teacher)
 Lesson.belongsTo(Room)
 Lesson.belongsToMany(Inscription, { through: `lessonInscription` })
 
+Rate.belongsTo(School)
+Rate.belongsToMany(Inscription, { through: `rateInscription` })
+
 Inscription.belongsTo(User)
 Inscription.belongsTo(Lesson)
-// TODO: prices
-// Inscription.hasOne(Price)
+// Inscription.hasOne(Rate)
 
 //////
 // SYNC DATABASE
@@ -77,4 +81,5 @@ module.exports = {
   Teacher,
   Room,
   Lesson,
+  Rate,
 }

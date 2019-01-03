@@ -4,8 +4,8 @@ const Sequelize = require('sequelize')
 
 const { sequelize } = require('../services')
 
-const Lesson = sequelize.define(
-  `lesson`,
+const Rate = sequelize.define(
+  `rate`,
   {
     id: {
       type: Sequelize.UUID,
@@ -15,24 +15,15 @@ const Lesson = sequelize.define(
     name: {
       type: Sequelize.STRING,
     },
-    startHour: {
+    price: {
       type: Sequelize.FLOAT,
     },
-    duration: {
-      type: Sequelize.FLOAT,
-    },
-    // day of the week
-    day: {
+    // duration: {
+    //   type: Sequelize.FLOAT,
+    // },
+    weeklyLessons: {
       type: Sequelize.INTEGER,
     },
-    // début/fin des cours
-    startAt: {
-      type: Sequelize.DATEONLY,
-    },
-    endAt: {
-      type: Sequelize.DATEONLY,
-    },
-    // can put “required skill” here (beginner…)
     info: {
       type: Sequelize.JSON,
       defaultValue: {},
@@ -43,4 +34,4 @@ const Lesson = sequelize.define(
   },
 )
 
-module.exports = Lesson
+module.exports = Rate

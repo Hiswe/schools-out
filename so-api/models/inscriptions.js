@@ -21,10 +21,10 @@ const Inscription = sequelize.define(`inscription`, {
   duration: {
     type: Sequelize.FLOAT,
   },
-  price: {
-    type: Sequelize.FLOAT,
-    default: 0,
-  },
+  // price: {
+  //   type: Sequelize.FLOAT,
+  //   default: 0,
+  // },
   paid: {
     type: Sequelize.FLOAT,
     default: 0,
