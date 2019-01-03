@@ -89,6 +89,10 @@ export default {
       type: String,
       default: `new lesson`,
     },
+    submitText: {
+      type: String,
+      default: `add lesson`,
+    },
   },
   data() {
     return {
@@ -135,7 +139,10 @@ v-form(
   v-model="lessonValid"
 )
   v-card
-    v-card-title(primary-title)
+    v-card-title(
+      primary-title
+      v-if="title"
+    )
       .headline {{ this.title }}
     v-card-text.so-form-lesson
       v-text-field.so-form-lesson__name(
@@ -188,7 +195,7 @@ v-form(
         :disabled="!lessonValid"
         @click="submitLesson"
         color="primary"
-      ) add lesson
+      ) {{ submitText }}
       v-btn(@click="clearLesson") clear
 </template>
 

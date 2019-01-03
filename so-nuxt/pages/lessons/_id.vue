@@ -11,6 +11,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       lesson: {},
       inscriptionHeaders: [
         {
@@ -72,11 +73,23 @@ div
           nuxt-link(:to="`/users/${props.item.user.id}`") {{ props.item.user.name }}
         td {{ props.item.rate.nameWeekly }}
         td.text-xs-right {{ props.item.rate.price }}
-  div.mt-4
+  v-btn(
+    fixed
+    dark
+    fab
+    bottom
+    right
+    color="pink"
+    @click="dialog = !dialog"
+  )
+    v-icon edit
+  v-dialog(v-model="dialog" max-width="600px")
     so-lesson-form(
       v-model="lesson"
       ref="form"
       @submit="onSubmit"
+      title=""
+      submit-text="update lesson"
     )
 </template>
 
