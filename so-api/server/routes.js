@@ -13,6 +13,7 @@ const {
   Inscription,
 } = require('../models')
 const lessons = require('./lessons')
+const rooms = require('./rooms')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -92,20 +93,8 @@ apiRouter
     ctx.body = school
   })
   //--- ROOMS
-  .get(`/rooms`, async ctx => {
-    const params = {}
-    const { schoolId } = ctx.state.jwtData
-    if (schoolId) params.where = { schoolId }
-    const rooms = await Room.findAll(params)
-    ctx.body = rooms
-  })
-  .post(`/rooms`, async ctx => {
-    const { body } = ctx.request
-    const { schoolId } = ctx.state.jwtData
-    body.schoolId = body.schoolId || schoolId
-    const room = await Room.create(body)
-    ctx.body = room
-  })
+  .get(`/rooms`, rooms.list)
+  .post(`/rooms`, rooms.create)
   //----- RATES
   .get(`/rates`, async ctx => {
     const params = {}

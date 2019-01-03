@@ -24,16 +24,20 @@ const Lesson = sequelize.define(
     },
     name: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
     startHour: {
       type: Sequelize.FLOAT,
+      allowNull: false,
     },
     duration: {
       type: Sequelize.FLOAT,
+      allowNull: false,
     },
     // day of the week
     day: {
       type: Sequelize.INTEGER,
+      allowNull: false,
     },
     dayName: {
       type: Sequelize.VIRTUAL(Sequelize.STRING),
