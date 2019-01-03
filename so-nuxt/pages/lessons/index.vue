@@ -15,6 +15,12 @@ export default {
       rooms: [],
       teachers: [],
       newLesson: {},
+      lessonsRows: [
+        10,
+        25,
+        50,
+        // rows-per-page-items
+      ],
       lessonHeaders: [
         {
           text: `lesson name`,
@@ -55,6 +61,7 @@ export default {
     async onSubmit(newLesson) {
       const lesson = await this.$axios.$post(`/lessons`, newLesson)
       this.lessons.push(lesson)
+      this.$refs.form.reset()
     },
   },
 }
@@ -63,6 +70,7 @@ export default {
 <template lang="pug">
 .so-table-form.mt-2
   v-data-table.elevation-1(
+    :rows-per-page-items="lessonsRows"
     :headers="lessonHeaders"
     :items="lessons"
   )
@@ -74,6 +82,7 @@ export default {
       td {{ props.item.dayName }}
   so-lesson-form(
     v-model="newLesson"
+    ref="form"
     @submit="onSubmit"
   )
 </template>

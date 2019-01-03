@@ -12,6 +12,7 @@ const {
   Rate,
   Inscription,
 } = require('../models')
+const lessons = require('./lessons')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -121,81 +122,10 @@ apiRouter
     ctx.body = rate
   })
   //----- LESSONS
-  .get(`/lessons/:lessonId`, async ctx => {
-    const { lessonId } = ctx.params
-    const lesson = await Lesson.findByPk(lessonId, {
-      include: [
-        {
-          model: Teacher,
-          attributes: [`id`, `name`],
-        },
-        {
-          model: Room,
-          attributes: [`id`, `name`],
-        },
-        {
-          model: Inscription,
-          include: [
-            {
-              model: User,
-              attributes: [`id`, `name`, `email`],
-            },
-            {
-              model: Rate,
-            },
-          ],
-          // attributes: [`id`, `name`],
-        },
-      ],
-    })
-    printInstance(lesson)
-    ctx.body = lesson
-  })
-  .get(`/lessons`, async ctx => {
-    const params = {
-      include: [
-        {
-          model: Teacher,
-          attributes: [`id`, `name`],
-        },
-        {
-          model: Room,
-          attributes: [`id`, `name`],
-        },
-        {
-          model: School,
-          attributes: [`id`, `name`],
-        },
-        // {
-        //   model: Inscription,
-        //   // attributes: [`id`, `name`],
-        // },
-      ],
-    }
-    const { schoolId } = ctx.state.jwtData
-    if (schoolId) params.where = { schoolId }
-    const lessons = await Lesson.findAll(params)
-    ctx.body = lessons
-  })
-  .post(`/lessons`, async ctx => {
-    const { body } = ctx.request
-    const { schoolId } = ctx.state.jwtData
-    body.schoolId = body.schoolId || schoolId
-    const newLesson = await Lesson.create(body)
-    const lesson = await Lesson.findByPk(newLesson.id, {
-      include: [
-        {
-          model: Teacher,
-          attributes: [`id`, `name`],
-        },
-        {
-          model: Room,
-          attributes: [`id`, `name`],
-        },
-      ],
-    })
-    ctx.body = lesson
-  })
+  .get(`/lessons/:lessonId`, lessons.read)
+  .post(`/lessons/:lessonId`, lessons.update)
+  .get(`/lessons`, lessons.list)
+  .post(`/lessons`, lessons.create)
   //----- TEACHERS
   .get(`/teachers`, async ctx => {
     const params = {

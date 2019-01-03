@@ -1,8 +1,13 @@
 <script>
+import SoLessonForm from '~/components/lesson-form.vue'
+
 export default {
   name: `so-page-lesson`,
   meta: {
     authRequired: true,
+  },
+  components: {
+    SoLessonForm,
   },
   data() {
     return {
@@ -31,34 +36,48 @@ export default {
     const lesson = await $axios.$get(`/lessons/${id}`)
     return { lesson }
   },
+  methods: {
+    async onSubmit(updatedLesson) {
+      const uri = `/lessons/${updatedLesson.id}`
+      const lesson = await this.$axios.$post(uri, updatedLesson)
+      this.lesson = lesson
+    },
+  },
 }
 </script>
 
 <template lang="pug">
-.so-page-lesson
-  v-card
-    v-card-title: h4 lesson: {{lesson.name}}
-    v-divider
-    v-list(dense)
-      v-list-tile
-        v-list-tile-content Teacher
-        v-list-tile-content.align-end
-          nuxt-link(:to="`/teachers/${lesson.teacher.id}`")
-            | {{lesson.teacher.name}}
-      v-list-tile
-        v-list-tile-content Room
-        v-list-tile-content.align-end
-          nuxt-link(:to="`/rooms/${lesson.room.id}`")
-            | {{lesson.room.name}}
-  v-data-table.elevation-1(
-    :headers="inscriptionHeaders"
-    :items="lesson.inscriptions"
-  )
-    template( slot="items" slot-scope="props")
-      td
-        nuxt-link(:to="`/users/${props.item.user.id}`") {{ props.item.user.name }}
-      td {{ props.item.rate.nameWeekly }}
-      td.text-xs-right {{ props.item.rate.price }}
+div
+  .so-page-lesson
+    v-card
+      v-card-title: h4 lesson: {{lesson.name}}
+      v-divider
+      v-list(dense)
+        v-list-tile
+          v-list-tile-content Teacher
+          v-list-tile-content.align-end
+            nuxt-link(:to="`/teachers/${lesson.teacher.id}`")
+              | {{lesson.teacher.name}}
+        v-list-tile
+          v-list-tile-content Room
+          v-list-tile-content.align-end
+            nuxt-link(:to="`/rooms/${lesson.room.id}`")
+              | {{lesson.room.name}}
+    v-data-table.elevation-1(
+      :headers="inscriptionHeaders"
+      :items="lesson.inscriptions"
+    )
+      template( slot="items" slot-scope="props")
+        td
+          nuxt-link(:to="`/users/${props.item.user.id}`") {{ props.item.user.name }}
+        td {{ props.item.rate.nameWeekly }}
+        td.text-xs-right {{ props.item.rate.price }}
+  div.mt-4
+    so-lesson-form(
+      v-model="lesson"
+      ref="form"
+      @submit="onSubmit"
+    )
 </template>
 
 <style lang="scss" scoped>

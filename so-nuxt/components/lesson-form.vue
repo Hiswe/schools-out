@@ -1,6 +1,4 @@
 <script>
-import merge from 'lodash.merge'
-
 export default {
   name: `so-lesson-form`,
   props: {
@@ -82,10 +80,12 @@ export default {
     this.teachers = teachers
   },
   methods: {
+    reset() {
+      this.$refs.lessonForm.reset()
+    },
     submitLesson() {
       if (!this.$refs.lessonForm.validate()) return
-      this.$emit(`submit`, merge({}, this.value))
-      this.$refs.lessonForm.reset()
+      this.$emit(`submit`, this.value)
     },
     clearLesson() {
       this.$refs.lessonForm.reset()
