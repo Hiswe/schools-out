@@ -68,18 +68,9 @@ dl.so-rooms-calendar
       to left,
       transparent,
       transparent percentage(1/7),
-      rgba(0, 0, 0, 0.05) percentage(1/7),
-      rgba(0, 0, 0, 0.05) percentage(2/7)
+      rgba(0, 0, 0, 0.025) percentage(1/7),
+      rgba(0, 0, 0, 0.025) percentage(2/7)
     );
-    // background: repeating-linear-gradient(
-    //   to left,
-    //   #e66465,
-    //   #e66465 20px,
-    //   #9198e5 20px,
-    //   #9198e5
-    // );
-    // background: repeating-linear-gradient(to left, blue, red 20px);
-    // opacity: 0.5;
     z-index: 0;
   }
 }
