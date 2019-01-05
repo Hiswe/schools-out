@@ -34,11 +34,11 @@ export default {
   },
   async asyncData({ $axios, params }) {
     const { id } = params
-    const [school, lessons] = await Promise.all([
+    const [school] = await Promise.all([
       $axios.$get(`/schools/${id}`),
-      $axios.$get(`/schools/${id}/lessons`),
+      // $axios.$get(`/schools/${id}/lessons`),
     ])
-    return { school, lessons }
+    return { school }
   },
   methods: {
     async submitRoom() {

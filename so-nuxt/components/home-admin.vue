@@ -1,9 +1,11 @@
 <script>
+const hours = Array.from({ length: 14 }).map((v, i) => {
+  const hour = `${9 + i}`.padStart(2, `0`)
+  return `${hour}`
+})
+
 export default {
-  name: `so-page-schools-list`,
-  meta: {
-    authRequired: true,
-  },
+  name: `so-home-admin`,
   data() {
     return {
       schools: [],
@@ -15,18 +17,14 @@ export default {
         },
       ],
       valid: true,
-      school: {
-        name: ``,
-      },
-      nameRules: [
-        v => !!v || `Name is required`,
-        // v => (v && v.length <= 10) || 'Name must be less than 10 characters'
-      ],
+      school: {},
+      nameRules: [v => !!v || `Name is required`],
     }
   },
-  async asyncData({ $axios, params }) {
-    const schools = await $axios.$get(`/schools`)
-    return { schools }
+  async created() {
+    const { $axios } = this
+    const [schools] = await Promise.all([$axios.$get(`/schools`)])
+    this.schools = schools
   },
   methods: {
     async submit() {
@@ -43,13 +41,14 @@ export default {
 </script>
 
 <template lang="pug">
+
 .so-page-schools.mt-3
   v-data-table.elevation-1(
     :headers="headers"
     :items="schools"
   )
     template( slot="items" slot-scope="props")
-      td {{ props.item.name }}
+      td: nuxt-link(:to="`/schools/${props.item.id}`") {{ props.item.name }}
 
   v-form(
     ref="form"
