@@ -13,7 +13,7 @@ services:
   #   ports:
   #     - '6379:6379'
   web:
-    image: schools-out-api/web
+    image: schools-out/web
     build:
       context: .
     command: 'yarn dev'
@@ -26,7 +26,7 @@ services:
       # - redis
 
   dev:
-    image: schools-out-api/dev
+    image: schools-out/dev
     environment:
       POSTGRES_DB: schools-out
     env_file: env-dist.env

@@ -6,6 +6,9 @@ ENV APP_PATH $HOME/app
 ENV API_PORT 4060
 ENV APP_PORT 3000
 ENV DEBUGGER_PORT 9229
+# for nuxt to be exposed correctly
+# https://stackoverflow.com/a/43746783
+ENV HOST 0.0.0.0
 
 # dockerize
 # https://github.com/jwilder/dockerize#for-alpine-images
