@@ -56,24 +56,16 @@ Inscription.belongsTo(Rate)
 // SYNC DATABASE
 //////
 
-sequelize
-  .authenticate()
-  .then(async () => {
-    log(chalk.green(`connection ok`))
-    try {
-      await sequelize.sync({ force: config.db.forceSync })
-      log(chalk.green(`sync is done`))
-    } catch (err) {
-      console.log(chalk.red(`sync FAIL`))
-      console.log(err)
-    }
-  })
-  .catch(err => {
-    console.log(chalk.red(`connection FAIL`))
+sequelize.authenticate().then(async () => {
+  log(chalk.green(`connection ok`))
+  try {
+    await sequelize.sync({ force: config.db.forceSync })
+    log(chalk.green(`sync is done`))
+  } catch (err) {
+    console.log(chalk.red(`sync FAIL`))
     console.log(err)
-    if (err.code !== `ECONNREFUSED`) return console.log(err)
-    console.log(chalk.yellow(`db is not accessible\nlaunch it for god sake`))
-  })
+  }
+})
 
 module.exports = {
   sequelize,

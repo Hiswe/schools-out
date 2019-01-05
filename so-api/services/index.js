@@ -14,10 +14,10 @@ const DB_READY = new Promise((resolve, reject) => {
     .catch(err => {
       console.log(chalk.red(`[DATABASE]`, `connection FAIL`))
       reject(`[DATABASE] connection failed`)
-      console.log(err)
       if (err.code === `ECONNREFUSED`) {
         console.log(chalk.yellow(`[DATABASE] db is not accessible`))
       }
+      console.log(err)
     })
 })
 
