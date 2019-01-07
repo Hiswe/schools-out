@@ -52,10 +52,23 @@ export default {
 </script>
 
 <template lang="pug">
-div
-  h1.display-2 Teachers
+.so-wrapper
+
+  .so-top-bar
+    h1.display-1 Teachers
+
+  .so-content
+    v-data-table.elevation-1(
+      :headers="headers"
+      :items="teachers"
+    )
+      template( slot="items" slot-scope="props")
+        td
+          nuxt-link(:to="`/teachers/${props.item.id}`") {{ props.item.name }}
+        td {{ props.item.email }}
+
   v-dialog(v-model="dialog" max-width="600px")
-    v-form.mt-3(
+    v-form(
       ref="form"
       v-model="valid"
     )
@@ -83,14 +96,7 @@ div
             color="primary"
           ) Create teacher
           v-btn(@click="clear") clear
-  v-data-table.elevation-1.mt-5(
-    :headers="headers"
-    :items="teachers"
-  )
-    template( slot="items" slot-scope="props")
-      td
-        nuxt-link(:to="`/teachers/${props.item.id}`") {{ props.item.name }}
-      td {{ props.item.email }}
+
   v-btn(
     fixed
     dark

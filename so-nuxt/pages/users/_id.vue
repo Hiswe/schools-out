@@ -72,12 +72,14 @@ export default {
 </script>
 
 <template lang="pug">
-div
-  h1.display-2
-    span.grey--text.text--darken-1 User:
-    |
-    | {{user.name}}
-  .so-table-form.mt-4
+.so-wrapper
+  .so-top-bar
+    h1.display-1
+      span.grey--text.text--darken-1 User:
+      |
+      | {{user.name}}
+
+  .so-content: .so-table-form.mt-4
     div
       h2.display-5.mb-2 inscriptions
       v-data-table.elevation-1(

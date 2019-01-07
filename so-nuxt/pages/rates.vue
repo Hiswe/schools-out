@@ -55,50 +55,54 @@ export default {
 </script>
 
 <template lang="pug">
-.so-table-form.mt-3
-  v-data-table.elevation-1(
-    :headers="headers"
-    :items="rates"
-  )
-    template( slot="items" slot-scope="props")
-      td {{ props.item.name }}
-      td {{ props.item.price }}
-      td {{ props.item.weeklyLessons }}
-  v-form(
-    ref="rateForm"
-    v-model="rateValid"
-  )
-    v-card
-      v-card-title(primary-title)
-        .headline new rate
-      v-card-text.so-form-rate
-        v-text-field.so-form-rate__name(
-          v-model="newRate.name"
-          label="Name"
-          :rules="nameRules"
-          required
-        )
-        v-text-field(
-          v-model.number="newRate.price"
-          label="price"
-          type="number"
-          :rules="priceRules"
-          required
-        )
-        v-text-field(
-          v-model.number="newRate.weeklyLessons"
-          label="lessons/week"
-          type="number"
-          :rules="sessionsRules"
-          required
-        )
-      v-card-actions
-        v-btn(
-          :disabled="!rateValid"
-          @click="submitRate"
-          color="primary"
-        ) add rate
-        v-btn(@click="clearRate") clear
+.so-wrapper
+  .so-top-bar
+    h1.display-1 rates
+
+  .so-content: .so-table-form
+    v-data-table.elevation-1(
+      :headers="headers"
+      :items="rates"
+    )
+      template( slot="items" slot-scope="props")
+        td {{ props.item.name }}
+        td {{ props.item.price }}
+        td {{ props.item.weeklyLessons }}
+    v-form(
+      ref="rateForm"
+      v-model="rateValid"
+    )
+      v-card
+        v-card-title(primary-title)
+          .headline new rate
+        v-card-text.so-form-rate
+          v-text-field.so-form-rate__name(
+            v-model="newRate.name"
+            label="Name"
+            :rules="nameRules"
+            required
+          )
+          v-text-field(
+            v-model.number="newRate.price"
+            label="price"
+            type="number"
+            :rules="priceRules"
+            required
+          )
+          v-text-field(
+            v-model.number="newRate.weeklyLessons"
+            label="lessons/week"
+            type="number"
+            :rules="sessionsRules"
+            required
+          )
+        v-card-actions
+          v-btn(
+            :disabled="!rateValid"
+            @click="submitRate"
+            color="primary"
+          ) add rate
+          v-btn(@click="clearRate") clear
 </template>
 
 <style lang="scss" scoped>

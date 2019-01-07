@@ -15,7 +15,7 @@ export default {
       lesson: {},
       inscriptionHeaders: [
         {
-          text: `name`,
+          text: `student name`,
           align: `left`,
           value: `user.name`,
         },
@@ -48,10 +48,14 @@ export default {
 </script>
 
 <template lang="pug">
-div
-  .so-page-lesson
+.so-wrapper
+
+  .so-top-bar
+    h1.display-1 lesson: {{lesson.name}}
+
+  .so-content: .so-page-lesson
     v-card
-      v-card-title: h4 lesson: {{lesson.name}}
+      v-card-title: h4 {{lesson.name}}
       v-divider
       v-list(dense)
         v-list-tile

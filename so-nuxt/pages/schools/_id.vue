@@ -66,7 +66,7 @@ export default {
 </script>
 
 <template lang="pug">
-div
+.so-wrapper
   h1.display-2
     span.grey--text.text--darken-1 School:
     |

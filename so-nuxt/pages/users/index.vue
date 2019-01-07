@@ -59,53 +59,57 @@ export default {
 </script>
 
 <template lang="pug">
-.mt-2
-  v-data-table.elevation-1(
-    :headers="headers"
-    :items="users"
-  )
-    template( slot="items" slot-scope="props")
-      td
-        nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
-      td {{ props.item.email }}
-      //- td {{ props.item.school.name }}
+.so-wrapper
+  .so-top-bar
+    h1.display-1 users
 
-  v-dialog(v-model="dialog" max-width="600px")
-    v-form(
-      ref="form"
-      v-model="valid"
+  .so-content
+    v-data-table.elevation-1(
+      :headers="headers"
+      :items="users"
     )
-      v-card
-        v-card-title(primary-title)
-          .headline new user
-        v-card-text
-          .so-user-form
-            v-text-field(
-              v-model="user.name"
-              label="Name"
-              :rules="nameRules"
-              required
-            )
-            v-text-field(
-              v-model="user.email"
-              label="Email"
-              :rules="emailRules"
-              required
-            )
-            //- v-select(
-            //-   :items="userTypes"
-            //-   label="Type"
-            //-   v-model="user.type"
-            //-   :rules="typeRules"
-            //-   required
-            //- )
-        v-card-actions
-          v-btn(
-            :disabled="!valid"
-            @click="submit"
-            color="primary"
-          ) Create user
-          v-btn(@click="clear") clear
+      template( slot="items" slot-scope="props")
+        td
+          nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
+        td {{ props.item.email }}
+        //- td {{ props.item.school.name }}
+
+    v-dialog(v-model="dialog" max-width="600px")
+      v-form(
+        ref="form"
+        v-model="valid"
+      )
+        v-card
+          v-card-title(primary-title)
+            .headline new user
+          v-card-text
+            .so-user-form
+              v-text-field(
+                v-model="user.name"
+                label="Name"
+                :rules="nameRules"
+                required
+              )
+              v-text-field(
+                v-model="user.email"
+                label="Email"
+                :rules="emailRules"
+                required
+              )
+              //- v-select(
+              //-   :items="userTypes"
+              //-   label="Type"
+              //-   v-model="user.type"
+              //-   :rules="typeRules"
+              //-   required
+              //- )
+          v-card-actions
+            v-btn(
+              :disabled="!valid"
+              @click="submit"
+              color="primary"
+            ) Create user
+            v-btn(@click="clear") clear
   v-btn(
     fixed
     dark

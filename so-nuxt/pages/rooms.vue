@@ -37,53 +37,56 @@ export default {
 </script>
 
 <template lang="pug">
-.so-table-form.mt-4
-  v-card
-    v-card-title(primary-title)
-      .headline existing rooms
-    v-card-text
-      v-list(
-        two-line
-        v-if="rooms.length"
-      )
-        v-list-tile(
-          v-for="room in rooms"
-          :key="room.id"
-        ): v-list-tile-content
-          v-list-tile-title {{room.name}}
-          v-list-tile-sub-title
-            span.primary--text {{room.capacity}}
-            |
-            | people
-
-  v-form(
-    ref="roomForm"
-    v-model="roomValid"
-  )
+.so-wrapper
+  .so-top-bar
+    h1.display-1 rooms
+  .so-content: .so-table-form
     v-card
       v-card-title(primary-title)
-        .headline new room
+        .headline existing rooms
       v-card-text
-        v-text-field(
-          v-model="newRoom.name"
-          label="Name"
-          :rules="nameRules"
-          required
+        v-list(
+          two-line
+          v-if="rooms.length"
         )
-        v-text-field(
-          v-model.number="newRoom.capacity"
-          label="People capacity"
-          type="number"
-          :rules="capacityRules"
-          required
-        )
-      v-card-actions
-        v-btn(
-          :disabled="!roomValid"
-          @click="submitRoom"
-          color="primary"
-        ) add Room
-        v-btn(@click="clearRoom") clear
+          v-list-tile(
+            v-for="room in rooms"
+            :key="room.id"
+          ): v-list-tile-content
+            v-list-tile-title {{room.name}}
+            v-list-tile-sub-title
+              span.primary--text {{room.capacity}}
+              |
+              | people
+
+    v-form(
+      ref="roomForm"
+      v-model="roomValid"
+    )
+      v-card
+        v-card-title(primary-title)
+          .headline new room
+        v-card-text
+          v-text-field(
+            v-model="newRoom.name"
+            label="Name"
+            :rules="nameRules"
+            required
+          )
+          v-text-field(
+            v-model.number="newRoom.capacity"
+            label="People capacity"
+            type="number"
+            :rules="capacityRules"
+            required
+          )
+        v-card-actions
+          v-btn(
+            :disabled="!roomValid"
+            @click="submitRoom"
+            color="primary"
+          ) add Room
+          v-btn(@click="clearRoom") clear
 
 </template>
 

@@ -14,6 +14,12 @@ const School = sequelize.define(`school`, {
     type: Sequelize.STRING,
     // set: dbGetterSetter.setTrimmedString(`name`),
   },
+  openAt: {
+    type: Sequelize.DATEONLY,
+  },
+  closeAt: {
+    type: Sequelize.DATEONLY,
+  },
 })
 
 module.exports = School

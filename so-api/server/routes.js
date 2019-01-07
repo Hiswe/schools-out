@@ -15,6 +15,7 @@ const {
 const lessons = require('./lessons')
 const rooms = require('./rooms')
 const teachers = require('./teachers')
+const inscriptions = require('./inscriptions')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -116,6 +117,11 @@ apiRouter
   .post(`/lessons/:lessonId`, lessons.update)
   .get(`/lessons`, lessons.list)
   .post(`/lessons`, lessons.create)
+  //----- LESSONS
+  // .get(`/inscriptions/:inscriptionId`, inscriptions.read)
+  // .post(`/inscriptions/:inscriptionId`, inscriptions.update)
+  .get(`/inscriptions`, inscriptions.list)
+  // .post(`/inscriptions`, inscriptions.create)
   //----- TEACHERS
   .get(`/teachers/:teacherId`, teachers.read)
   .get(`/teachers`, teachers.list)

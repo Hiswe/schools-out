@@ -18,10 +18,12 @@ export default {
 </script>
 
 <template lang="pug">
-div
-  h1.display-2
-    span.grey--text.text--darken-1 Teacher:
-    |
-    | {{teacher.name}}
+.so-wrapper
+
+  .so-top-bar
+    h1.display-1
+      span.grey--text.text--darken-1 Teacher:
+      |
+      | {{teacher.name}}
 </template>
 

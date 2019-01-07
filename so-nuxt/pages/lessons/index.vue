@@ -75,25 +75,31 @@ export default {
 </script>
 
 <template lang="pug">
-div
-  v-data-table.elevation-1.mt-2(
-    :rows-per-page-items="lessonsRows"
-    :headers="lessonHeaders"
-    :items="lessons"
-  )
-    template( slot="items" slot-scope="props")
-      td
-        nuxt-link(:to="`/lessons/${props.item.id}`")  {{ props.item.name }}
-      td {{ props.item.room.name }}
-      td {{ props.item.teacher.name }}
-      td {{ props.item.dayName }}
-      td {{ props.item.startHour }}
+.so-wrapper
+  .so-top-bar
+    h1.display-1 Lessons
+
+  .so-content
+    v-data-table.elevation-1.mt-2(
+      :rows-per-page-items="lessonsRows"
+      :headers="lessonHeaders"
+      :items="lessons"
+    )
+      template( slot="items" slot-scope="props")
+        td
+          nuxt-link(:to="`/lessons/${props.item.id}`")  {{ props.item.name }}
+        td {{ props.item.room.name }}
+        td {{ props.item.teacher.name }}
+        td {{ props.item.dayName }}
+        td {{ props.item.startHour }}
+
   v-dialog(v-model="dialog" max-width="600px")
     so-lesson-form(
       v-model="newLesson"
       ref="form"
       @submit="onSubmit"
     )
+
   v-btn(
     fixed
     dark
