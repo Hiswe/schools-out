@@ -57,7 +57,7 @@ export default {
 <template lang="pug">
 .so-wrapper
   .so-top-bar
-    h1.display-1 rates
+    h1.display-1 {{$t(`rates.plural`)}}
 
   .so-content: .so-table-form
     v-data-table.elevation-1(
@@ -74,7 +74,7 @@ export default {
     )
       v-card
         v-card-title(primary-title)
-          .headline new rate
+          .headline {{$t(`rates.new`)}}
         v-card-text.so-form-rate
           v-text-field.so-form-rate__name(
             v-model="newRate.name"
@@ -101,8 +101,8 @@ export default {
             :disabled="!rateValid"
             @click="submitRate"
             color="primary"
-          ) add rate
-          v-btn(@click="clearRate") clear
+          ) {{$t(`rates.create`)}}
+          v-btn(@click="clearRate") {{$t(`clear`)}}
 </template>
 
 <style lang="scss" scoped>

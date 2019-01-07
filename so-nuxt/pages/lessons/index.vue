@@ -24,7 +24,7 @@ export default {
       ],
       lessonHeaders: [
         {
-          text: `lesson name`,
+          text: `lessons.tableName`,
           align: `left`,
           value: `name`,
         },
@@ -34,7 +34,7 @@ export default {
           value: `room.name`,
         },
         {
-          text: `teacher`,
+          text: `teachers.singular`,
           align: `left`,
           value: `teacher.name`,
         },
@@ -77,7 +77,7 @@ export default {
 <template lang="pug">
 .so-wrapper
   .so-top-bar
-    h1.display-1 Lessons
+    h1.display-1 {{ $t(`lessons.plural`) }}
 
   .so-content
     v-data-table.elevation-1.mt-2(
@@ -85,6 +85,8 @@ export default {
       :headers="lessonHeaders"
       :items="lessons"
     )
+      template(slot="headerCell" slot-scope="props")
+        | {{ $t(props.header.text) }}
       template( slot="items" slot-scope="props")
         td
           nuxt-link(:to="`/lessons/${props.item.id}`")  {{ props.item.name }}

@@ -55,13 +55,15 @@ export default {
 .so-wrapper
 
   .so-top-bar
-    h1.display-1 Teachers
+    h1.display-1 {{$t(`teachers.plural`)}}
 
   .so-content
     v-data-table.elevation-1(
       :headers="headers"
       :items="teachers"
     )
+      template(slot="headerCell" slot-scope="props")
+        | {{ $t(props.header.text) }}
       template( slot="items" slot-scope="props")
         td
           nuxt-link(:to="`/teachers/${props.item.id}`") {{ props.item.name }}
@@ -74,7 +76,7 @@ export default {
     )
       v-card
         v-card-title(primary-title)
-          .headline new teacher
+          .headline {{$t(`teacher.new`)}}
         v-card-text
           .so-teacher-form
             v-text-field(
@@ -94,8 +96,8 @@ export default {
             :disabled="!valid"
             @click="submit"
             color="primary"
-          ) Create teacher
-          v-btn(@click="clear") clear
+          ) {{$t(`teacher.create`)}}
+          v-btn(@click="clear") {{$t(`clear`)}}
 
   v-btn(
     fixed

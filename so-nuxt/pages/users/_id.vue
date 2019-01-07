@@ -74,10 +74,7 @@ export default {
 <template lang="pug">
 .so-wrapper
   .so-top-bar
-    h1.display-1
-      span.grey--text.text--darken-1 User:
-      |
-      | {{user.name}}
+    h1.display-1 {{ $t(`students.withName`, {name: user.name}) }}
 
   .so-content: .so-table-form.mt-4
     div
@@ -129,7 +126,7 @@ export default {
             @click="submitInscription"
             color="primary"
           ) Create inscription
-          v-btn(@click="clearInscription") clear
+          v-btn(@click="clearInscription") {{$t(`clear`)}}
 
 </template>
 

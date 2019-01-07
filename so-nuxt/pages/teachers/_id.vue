@@ -21,9 +21,6 @@ export default {
 .so-wrapper
 
   .so-top-bar
-    h1.display-1
-      span.grey--text.text--darken-1 Teacher:
-      |
-      | {{teacher.name}}
+    h1.display-1 {{$t(`teachers.withName`, {name: teacher.name})}}
 </template>
 

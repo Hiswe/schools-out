@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template lang="pug">
-.so-wrapper
+.so-wrapper: .so-content
   so-home-school(v-if="!isAdmin")
   so-home-admin(v-if="isAdmin")
 </template>

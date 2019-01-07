@@ -61,13 +61,15 @@ export default {
 <template lang="pug">
 .so-wrapper
   .so-top-bar
-    h1.display-1 users
+    h1.display-1 {{ $t(`students.plural`) }}
 
   .so-content
     v-data-table.elevation-1(
       :headers="headers"
       :items="users"
     )
+      template(slot="headerCell" slot-scope="props")
+        | {{ $t(props.header.text) }}
       template( slot="items" slot-scope="props")
         td
           nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
@@ -81,7 +83,7 @@ export default {
       )
         v-card
           v-card-title(primary-title)
-            .headline new user
+            .headline {{ $t(`students.new`) }}
           v-card-text
             .so-user-form
               v-text-field(
@@ -108,8 +110,8 @@ export default {
               :disabled="!valid"
               @click="submit"
               color="primary"
-            ) Create user
-            v-btn(@click="clear") clear
+            ) {{ $t(`students.create`) }}
+            v-btn(@click="clear") {{$t(`clear`)}}
   v-btn(
     fixed
     dark

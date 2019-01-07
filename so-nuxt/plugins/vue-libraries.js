@@ -1,5 +1,10 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import VueI18n from 'vue-i18n'
+
+import * as messages from '~/locales'
+
+// console.log(messages.fr)
 
 Vue.use(Vuetify, {
   // theme: {
@@ -12,3 +17,28 @@ Vue.use(Vuetify, {
     customProperties: true,
   },
 })
+
+Vue.use(VueI18n)
+
+export default ({ app, store }) => {
+  // Set i18n instance on app
+  // This way we can use it in middleware and pages asyncData/fetch
+  app.i18n = new VueI18n({
+    // locale: store.getters[`user/${LOCALE}`],
+    locale: `fr`,
+    fallbackLocale: `fr`,
+    fallbackRoot: true,
+    // silentTranslationWarn: true,
+    messages,
+    // numberFormats,
+    // dateTimeFormats,
+  })
+
+  // // https://vuex.vuejs.org/api/#watch
+  // store.watch(
+  //   state => store.getters[`user/${LOCALE}`],
+  //   newLocale => {
+  //     app.i18n.locale = newLocale
+  //   },
+  // )
+}

@@ -1,0 +1,37 @@
+export default {
+  rooms: `salles`,
+  room: `salle`,
+  rates: `tarifs`,
+  rate: `tarif`,
+  name: `nom`,
+  email: `email`,
+  clear: `réinitialiser`,
+  price: `prix`,
+  day: `jour`,
+  begin: `commence à`,
+  lessons: {
+    singular: `cour`,
+    plural: `cours`,
+    tableName: `nom du cour`,
+  },
+  rates: {
+    singular: `tarif`,
+    plural: `tarifs`,
+    new: `nouveau tarif`,
+    create: `ajouter ce tarif`,
+  },
+  students: {
+    singular: `élève`,
+    plural: `élèves`,
+    new: `nouvel élève`,
+    create: `ajouter cet élève`,
+    withName: `élève : {name}`,
+  },
+  teachers: {
+    singular: `professeur`,
+    plural: `professeurs`,
+    new: `nouveau professeur`,
+    create: `ajouter ce professeur`,
+    withName: `professeur : {name}`,
+  },
+}

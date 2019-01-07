@@ -86,7 +86,7 @@ export default {
             @click="submitRoom"
             color="primary"
           ) add Room
-          v-btn(@click="clearRoom") clear
+          v-btn(@click="clearRoom") {{$t(`clear`)}}
 
 </template>
 
