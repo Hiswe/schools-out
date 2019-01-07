@@ -25,11 +25,11 @@ v-navigation-drawer(
         v-list-tile-title.title School's out
   v-divider
   v-list.pt-0(dense)
-    //- v-list-tile(nuxt to="/schools")
-    //-   v-list-tile-action
-    //-     v-icon account_balance
-    //-   v-list-tile-content
-    //-     v-list-tile-title schools
+    v-list-tile(nuxt to="/lessons")
+      v-list-tile-action
+        v-icon assignment
+      v-list-tile-content
+        v-list-tile-title lessons
     v-list-tile(nuxt to="/users")
       v-list-tile-action
         v-icon group
@@ -50,9 +50,4 @@ v-navigation-drawer(
         v-icon attach_money
       v-list-tile-content
         v-list-tile-title rates
-    v-list-tile(nuxt to="/lessons")
-      v-list-tile-action
-        v-icon assignment
-      v-list-tile-content
-        v-list-tile-title lessons
 </template>

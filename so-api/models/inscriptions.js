@@ -18,13 +18,9 @@ const Inscription = sequelize.define(`inscription`, {
   startAt: {
     type: Sequelize.DATEONLY,
   },
-  duration: {
-    type: Sequelize.FLOAT,
+  endAt: {
+    type: Sequelize.DATEONLY,
   },
-  // price: {
-  //   type: Sequelize.FLOAT,
-  //   default: 0,
-  // },
   paid: {
     type: Sequelize.FLOAT,
     default: 0,

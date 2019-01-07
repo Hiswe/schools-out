@@ -36,9 +36,10 @@ dl.so-rooms-calendar
         v-for="(h, i) in hours"
         :class="`so-day-calendar__hour--${i}`"
       ) {{ h }}
-      .so-day-calendar__lesson.primary(
+      nuxt-link.so-day-calendar__lesson.primary(
         v-for="lesson in room.lessons"
         :key="lesson.id"
+        :to="`/lessons/${lesson.id}`"
         :class="`so-day-calendar__lesson--day-${lesson.day} so-day-calendar__lesson--hour-${lesson.startHour} so-day-calendar__lesson--duration-${lesson.duration}`.replace('.', '-').replace(':', '-')"
       )
         span.white--text {{ lesson.name }}

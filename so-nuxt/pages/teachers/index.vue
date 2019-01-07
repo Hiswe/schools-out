@@ -6,6 +6,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       teachers: [],
       headers: [
         {
@@ -17,11 +18,6 @@ export default {
           text: `email`,
           align: `left`,
           value: `email`,
-        },
-        {
-          text: `school`,
-          align: `left`,
-          value: `school.name`,
         },
       ],
       valid: true,
@@ -46,6 +42,7 @@ export default {
       const teacher = await this.$axios.$post(`/teachers`, this.teacher)
       this.teachers.push(teacher)
       this.$refs.form.reset()
+      this.dialog = false
     },
     clear() {
       this.$refs.form.reset()
@@ -57,34 +54,35 @@ export default {
 <template lang="pug">
 div
   h1.display-2 Teachers
-  v-form.mt-3(
-    ref="form"
-    v-model="valid"
-  )
-    v-card
-      v-card-title(primary-title)
-        .headline new teacher
-      v-card-text
-        .so-teacher-form
-          v-text-field(
-            v-model="teacher.name"
-            label="Name"
-            :rules="nameRules"
-            required
-          )
-          v-text-field(
-            v-model="teacher.email"
-            label="Email"
-            :rules="emailRules"
-            required
-          )
-      v-card-actions
-        v-btn(
-          :disabled="!valid"
-          @click="submit"
-          color="primary"
-        ) Create teacher
-        v-btn(@click="clear") clear
+  v-dialog(v-model="dialog" max-width="600px")
+    v-form.mt-3(
+      ref="form"
+      v-model="valid"
+    )
+      v-card
+        v-card-title(primary-title)
+          .headline new teacher
+        v-card-text
+          .so-teacher-form
+            v-text-field(
+              v-model="teacher.name"
+              label="Name"
+              :rules="nameRules"
+              required
+            )
+            v-text-field(
+              v-model="teacher.email"
+              label="Email"
+              :rules="emailRules"
+              required
+            )
+        v-card-actions
+          v-btn(
+            :disabled="!valid"
+            @click="submit"
+            color="primary"
+          ) Create teacher
+          v-btn(@click="clear") clear
   v-data-table.elevation-1.mt-5(
     :headers="headers"
     :items="teachers"
@@ -93,13 +91,14 @@ div
       td
         nuxt-link(:to="`/teachers/${props.item.id}`") {{ props.item.name }}
       td {{ props.item.email }}
-      td {{ props.item.school.name }}
+  v-btn(
+    fixed
+    dark
+    fab
+    bottom
+    right
+    color="pink"
+    @click="dialog = !dialog"
+  )
+    v-icon person_add
 </template>
-
-<style lang="scss" scoped>
-.so-teacher-form {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
-}
-</style>

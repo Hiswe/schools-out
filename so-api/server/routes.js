@@ -14,6 +14,7 @@ const {
 } = require('../models')
 const lessons = require('./lessons')
 const rooms = require('./rooms')
+const teachers = require('./teachers')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -116,47 +117,9 @@ apiRouter
   .get(`/lessons`, lessons.list)
   .post(`/lessons`, lessons.create)
   //----- TEACHERS
-  .get(`/teachers`, async ctx => {
-    const params = {
-      include: [
-        {
-          model: School,
-          attributes: [`id`, `name`],
-        },
-      ],
-    }
-    const { schoolId } = ctx.state.jwtData
-    if (schoolId) params.where = { schoolId }
-    const teachers = await Teacher.findAll(params)
-    ctx.body = teachers
-  })
-  .post(`/teachers`, async ctx => {
-    const { body } = ctx.request
-    const { schoolId } = ctx.state.jwtData
-    body.schoolId = body.schoolId || schoolId
-    const newTeacher = await Teacher.create(body)
-    const teacher = await Teacher.findByPk(newTeacher.id, {
-      include: [
-        {
-          model: School,
-          attributes: [`id`, `name`],
-        },
-      ],
-    })
-    ctx.body = teacher
-  })
-  .get(`/teachers/:teacherId`, async ctx => {
-    const { teacherId } = ctx.params
-    const teacher = await Teacher.findByPk(teacherId, {
-      include: [
-        {
-          model: School,
-          attributes: [`id`, `name`],
-        },
-      ],
-    })
-    ctx.body = teacher
-  })
+  .get(`/teachers/:teacherId`, teachers.read)
+  .get(`/teachers`, teachers.list)
+  .post(`/teachers`, teachers.create)
   //----- USERS
   .get(`/users/types`, async ctx => {
     ctx.body = USER_TYPES.list

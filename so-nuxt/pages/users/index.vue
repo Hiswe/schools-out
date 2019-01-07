@@ -1,8 +1,11 @@
 <script>
+import merge from 'lodash.merge'
+
 export default {
   name: `so-page-users-list`,
   data() {
     return {
+      dialog: false,
       users: [],
       userTypes: [],
       headers: [
@@ -40,9 +43,12 @@ export default {
   methods: {
     async submit() {
       if (!this.$refs.form.validate()) return console.log(`invalid form`)
-      const user = await this.$axios.$post(`/users`, this.user)
+      const userBody = merge({ type: this.userTypes[0] }, this.user)
+      const user = await this.$axios.$post(`/users`, userBody)
       console.log(user)
+
       this.users.push(user)
+      this.dialog = false
       this.$refs.form.reset()
     },
     clear() {
@@ -53,7 +59,7 @@ export default {
 </script>
 
 <template lang="pug">
-.so-table-form.mt-2
+.mt-2
   v-data-table.elevation-1(
     :headers="headers"
     :items="users"
@@ -63,41 +69,53 @@ export default {
         nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
       td {{ props.item.email }}
       //- td {{ props.item.school.name }}
-  v-form(
-    ref="form"
-    v-model="valid"
+
+  v-dialog(v-model="dialog" max-width="600px")
+    v-form(
+      ref="form"
+      v-model="valid"
+    )
+      v-card
+        v-card-title(primary-title)
+          .headline new user
+        v-card-text
+          .so-user-form
+            v-text-field(
+              v-model="user.name"
+              label="Name"
+              :rules="nameRules"
+              required
+            )
+            v-text-field(
+              v-model="user.email"
+              label="Email"
+              :rules="emailRules"
+              required
+            )
+            //- v-select(
+            //-   :items="userTypes"
+            //-   label="Type"
+            //-   v-model="user.type"
+            //-   :rules="typeRules"
+            //-   required
+            //- )
+        v-card-actions
+          v-btn(
+            :disabled="!valid"
+            @click="submit"
+            color="primary"
+          ) Create user
+          v-btn(@click="clear") clear
+  v-btn(
+    fixed
+    dark
+    fab
+    bottom
+    right
+    color="pink"
+    @click="dialog = !dialog"
   )
-    v-card
-      v-card-title(primary-title)
-        .headline new user
-      v-card-text
-        .so-user-form
-          v-text-field(
-            v-model="user.name"
-            label="Name"
-            :rules="nameRules"
-            required
-          )
-          v-text-field(
-            v-model="user.email"
-            label="Email"
-            :rules="emailRules"
-            required
-          )
-          v-select(
-            :items="userTypes"
-            label="Type"
-            v-model="user.type"
-            :rules="typeRules"
-            required
-          )
-      v-card-actions
-        v-btn(
-          :disabled="!valid"
-          @click="submit"
-          color="primary"
-        ) Create user
-        v-btn(@click="clear") clear
+    v-icon person_add
 </template>
 
 
