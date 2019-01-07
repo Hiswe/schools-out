@@ -9,7 +9,7 @@ const Sequelize = require('sequelize')
 
 const { sequelize } = require('../services')
 
-const Inscription = sequelize.define(`inscription`, {
+const Registration = sequelize.define(`registration`, {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -35,4 +35,4 @@ const Inscription = sequelize.define(`inscription`, {
   },
 })
 
-module.exports = Inscription
+module.exports = Registration

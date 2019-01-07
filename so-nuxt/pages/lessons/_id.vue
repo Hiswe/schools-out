@@ -13,7 +13,7 @@ export default {
     return {
       dialog: false,
       lesson: {},
-      inscriptionHeaders: [
+      registrationHeaders: [
         {
           text: `student name`,
           align: `left`,
@@ -69,8 +69,8 @@ export default {
             nuxt-link(:to="`/rooms/${lesson.room.id}`")
               | {{lesson.room.name}}
     v-data-table.elevation-1(
-      :headers="inscriptionHeaders"
-      :items="lesson.inscriptions"
+      :headers="registrationHeaders"
+      :items="lesson.registrations"
     )
       template( slot="items" slot-scope="props")
         td

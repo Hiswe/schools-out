@@ -10,12 +10,12 @@ const {
   Teacher,
   Lesson,
   Rate,
-  Inscription,
+  Registration,
 } = require('../models')
 const lessons = require('./lessons')
 const rooms = require('./rooms')
 const teachers = require('./teachers')
-const inscriptions = require('./inscriptions')
+const registrations = require('./registrations')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -118,10 +118,10 @@ apiRouter
   .get(`/lessons`, lessons.list)
   .post(`/lessons`, lessons.create)
   //----- LESSONS
-  // .get(`/inscriptions/:inscriptionId`, inscriptions.read)
-  // .post(`/inscriptions/:inscriptionId`, inscriptions.update)
-  .get(`/inscriptions`, inscriptions.list)
-  // .post(`/inscriptions`, inscriptions.create)
+  // .get(`/registrations/:registrationId`, registrations.read)
+  // .post(`/registrations/:registrationId`, registrations.update)
+  .get(`/registrations`, registrations.list)
+  // .post(`/registrations`, registrations.create)
   //----- TEACHERS
   .get(`/teachers/:teacherId`, teachers.read)
   .get(`/teachers`, teachers.list)
@@ -168,7 +168,7 @@ apiRouter
           attributes: [`id`, `name`],
         },
         {
-          model: Inscription,
+          model: Registration,
           include: [
             {
               model: Lesson,
@@ -188,7 +188,7 @@ apiRouter
     printInstance(user)
     ctx.body = user
   })
-  .post(`/users/:userId/inscriptions`, async ctx => {
+  .post(`/users/:userId/registrations`, async ctx => {
     const { userId } = ctx.params
     const user = await User.findByPk(userId)
     ctx.assert(user, 404, `user not found`)
@@ -197,8 +197,8 @@ apiRouter
     const { schoolId } = ctx.state.jwtData
     body.userId = userId
     body.schoolId = body.schoolId || schoolId
-    const newInscription = await Inscription.create(body)
-    const inscription = await Inscription.findByPk(newInscription.id, {
+    const newRegistration = await Registration.create(body)
+    const registration = await Registration.findByPk(newRegistration.id, {
       include: [
         {
           model: Lesson,
@@ -214,7 +214,7 @@ apiRouter
       ],
     })
 
-    ctx.body = inscription
+    ctx.body = registration
   })
 
 module.exports = apiRouter

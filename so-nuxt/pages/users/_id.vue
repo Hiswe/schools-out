@@ -9,8 +9,8 @@ export default {
       user: {},
       lessons: [],
       rates: [],
-      inscriptionValid: true,
-      newInscription: {},
+      registrationValid: true,
+      newRegistration: {},
       headers: [
         {
           text: `lesson name`,
@@ -54,18 +54,18 @@ export default {
     return { user, lessons, rates }
   },
   methods: {
-    async submitInscription() {
-      if (!this.$refs.inscriptionForm.validate()) return
-      const inscriptionUri = `/users/${this.user.id}/inscriptions`
-      const inscription = await this.$axios.$post(
-        inscriptionUri,
-        this.newInscription,
+    async submitRegistration() {
+      if (!this.$refs.registrationForm.validate()) return
+      const registrationUri = `/users/${this.user.id}/registrations`
+      const registration = await this.$axios.$post(
+        registrationUri,
+        this.newRegistration,
       )
-      this.user.inscriptions.push(inscription)
-      this.$refs.inscriptionForm.reset()
+      this.user.registrations.push(registration)
+      this.$refs.registrationForm.reset()
     },
-    clearInscription() {
-      this.$refs.inscriptionForm.reset()
+    clearRegistration() {
+      this.$refs.registrationForm.reset()
     },
   },
 }
@@ -78,10 +78,10 @@ export default {
 
   .so-content: .so-table-form.mt-4
     div
-      h2.display-5.mb-2 inscriptions
+      h2.display-5.mb-2 registrations
       v-data-table.elevation-1(
         :headers="headers"
-        :items="user.inscriptions"
+        :items="user.registrations"
       )
         template( slot="items" slot-scope="props")
           td {{ props.item.lesson.name }}
@@ -89,10 +89,10 @@ export default {
           td.text-xs-right {{ props.item.rate.price }}
           td {{ props.item.lesson.teacher.name }}
     v-form(
-      ref="inscriptionForm"
-      v-model="inscriptionValid"
+      ref="registrationForm"
+      v-model="registrationValid"
     )
-      h2.display-5.mb-2 new inscriptions
+      h2.display-5.mb-2 new registrations
       v-card
         v-card-text
           v-select(
@@ -100,12 +100,12 @@ export default {
             item-text="name"
             item-value="id"
             label="Lesson"
-            v-model="newInscription.lessonId"
+            v-model="newRegistration.lessonId"
             :rules="lessonRules"
             required
           )
           v-text-field(
-          v-model.number="newInscription.duration"
+          v-model.number="newRegistration.duration"
           label="nº of lessons"
           type="number"
           :rules="lessonsRules"
@@ -116,17 +116,17 @@ export default {
             :item-text="rateName"
             item-value="id"
             label="Rate"
-            v-model="newInscription.rateId"
+            v-model="newRegistration.rateId"
             :rules="rateRules"
             required
           )
         v-card-actions
           v-btn(
-            :disabled="!inscriptionValid"
-            @click="submitInscription"
+            :disabled="!registrationValid"
+            @click="submitRegistration"
             color="primary"
-          ) Create inscription
-          v-btn(@click="clearInscription") {{$t(`clear`)}}
+          ) Create registration
+          v-btn(@click="clearRegistration") {{$t(`clear`)}}
 
 </template>
 

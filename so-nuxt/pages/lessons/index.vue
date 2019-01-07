@@ -80,7 +80,7 @@ export default {
     h1.display-1 {{ $t(`lessons.plural`) }}
 
   .so-content
-    v-data-table.elevation-1.mt-2(
+    v-data-table.elevation-1(
       :rows-per-page-items="lessonsRows"
       :headers="lessonHeaders"
       :items="lessons"

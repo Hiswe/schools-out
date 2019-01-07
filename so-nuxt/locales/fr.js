@@ -17,14 +17,19 @@ export default {
   rates: {
     singular: `tarif`,
     plural: `tarifs`,
-    new: `nouveau tarif`,
     create: `ajouter ce tarif`,
+    new: `nouveau tarif`,
+  },
+  registrations: {
+    singular: `inscription`,
+    plural: `inscriptions`,
   },
   students: {
     singular: `élève`,
     plural: `élèves`,
-    new: `nouvel élève`,
     create: `ajouter cet élève`,
+    new: `nouvel élève`,
+    tableName: `nom de l'élève`,
     withName: `élève : {name}`,
   },
   teachers: {
