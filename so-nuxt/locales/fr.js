@@ -4,9 +4,13 @@ export default {
   name: `nom`,
   email: `email`,
   clear: `réinitialiser`,
+  close: `fermer`,
   price: `prix`,
   day: `jour`,
   begin: `commence à`,
+  schedule: `horaire`,
+  monthBegin: `mois de début`,
+  monthEnd: `mois de fin`,
   lessons: {
     singular: `cour`,
     plural: `cours`,

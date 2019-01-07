@@ -50,6 +50,7 @@ async function createRegistration(ctx) {
   const { body } = ctx.request
   const { schoolId } = ctx.state.jwtData
   body.schoolId = body.schoolId || schoolId
+  console.log(body)
   const newRegistration = await Registration.create(body)
   const registration = await Registration.findByPk(newRegistration.id, {
     include: defaultRelations,
