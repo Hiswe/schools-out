@@ -11,9 +11,11 @@ export default {
   schedule: `horaire`,
   monthBegin: `mois de début`,
   monthEnd: `mois de fin`,
+  title: `titre`,
   lessons: {
     singular: `cour`,
     plural: `cours`,
+    perWeek: `lessons par semaine`,
     tableName: `nom du cour`,
   },
   rates: {

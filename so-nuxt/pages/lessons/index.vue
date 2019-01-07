@@ -95,21 +95,14 @@ export default {
         td {{ props.item.dayName }}
         td {{ props.item.startHour }}
 
+  v-btn(fixed dark fab bottom right color="pink"
+    @click="dialog = !dialog"
+  ): v-icon add
+
   v-dialog(v-model="dialog" max-width="600px")
     so-lesson-form(
       v-model="newLesson"
       ref="form"
       @submit="onSubmit"
     )
-
-  v-btn(
-    fixed
-    dark
-    fab
-    bottom
-    right
-    color="pink"
-    @click="dialog = !dialog"
-  )
-    v-icon add
 </template>
