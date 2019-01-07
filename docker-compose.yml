@@ -6,8 +6,8 @@ services:
     image: postgres:10.1-alpine
     ports:
       - '5432:5432'
-    # environment:
-    #   POSTGRES_DB: schools-out
+    environment:
+      - POSTGRES_USER=schools-out
   # redis:
   #   image: redis:4.0.2-alpine
   #   ports:
