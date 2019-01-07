@@ -1,4 +1,6 @@
 <script>
+import merge from 'lodash.merge'
+
 export default {
   name: `so-page-user`,
   meta: {
@@ -56,10 +58,16 @@ export default {
   methods: {
     async submitRegistration() {
       if (!this.$refs.registrationForm.validate()) return
-      const registrationUri = `/users/${this.user.id}/registrations`
+      const registrationUri = `/registrations`
+      const registrationBody = merge(
+        {
+          userId: this.user.id,
+        },
+        this.newRegistration,
+      )
       const registration = await this.$axios.$post(
         registrationUri,
-        this.newRegistration,
+        registrationBody,
       )
       this.user.registrations.push(registration)
       this.$refs.registrationForm.reset()
@@ -78,7 +86,7 @@ export default {
 
   .so-content: .so-table-form.mt-4
     div
-      h2.display-5.mb-2 registrations
+      h2.display-5.mb-2 {{ $t(`registrations.plural`) }}
       v-data-table.elevation-1(
         :headers="headers"
         :items="user.registrations"
@@ -88,34 +96,35 @@ export default {
           td {{ props.item.rate.name }} - {{ props.item.rate.weeklyLessons }}/w
           td.text-xs-right {{ props.item.rate.price }}
           td {{ props.item.lesson.teacher.name }}
+
     v-form(
       ref="registrationForm"
       v-model="registrationValid"
     )
-      h2.display-5.mb-2 new registrations
+      h2.display-5.mb-2 {{ $t(`registrations.new`) }}
       v-card
         v-card-text
           v-select(
             :items="lessons"
             item-text="name"
             item-value="id"
-            label="Lesson"
+            :label="$t(`lessons.singular`)"
             v-model="newRegistration.lessonId"
             :rules="lessonRules"
             required
           )
           v-text-field(
-          v-model.number="newRegistration.duration"
-          label="nº of lessons"
-          type="number"
-          :rules="lessonsRules"
-          required
-        )
+            v-model.number="newRegistration.duration"
+            label="nº of lessons"
+            type="number"
+            :rules="lessonsRules"
+            required
+          )
           v-select(
             :items="rates"
             :item-text="rateName"
             item-value="id"
-            label="Rate"
+            :label="$t(`rates.singular`)"
             v-model="newRegistration.rateId"
             :rules="rateRules"
             required
@@ -125,8 +134,8 @@ export default {
             :disabled="!registrationValid"
             @click="submitRegistration"
             color="primary"
-          ) Create registration
-          v-btn(@click="clearRegistration") {{$t(`clear`)}}
+          ) {{ $t(`registrations.create`) }}
+          v-btn(@click="clearRegistration") {{ $t(`clear`) }}
 
 </template>
 

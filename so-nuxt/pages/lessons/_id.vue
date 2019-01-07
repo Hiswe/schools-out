@@ -68,6 +68,7 @@ export default {
           v-list-tile-content.align-end
             nuxt-link(:to="`/rooms/${lesson.room.id}`")
               | {{lesson.room.name}}
+
     v-data-table.elevation-1(
       :headers="registrationHeaders"
       :items="lesson.registrations"
@@ -77,6 +78,7 @@ export default {
           nuxt-link(:to="`/users/${props.item.user.id}`") {{ props.item.user.name }}
         td {{ props.item.rate.nameWeekly }}
         td.text-xs-right {{ props.item.rate.price }}
+
   v-btn(
     fixed
     dark

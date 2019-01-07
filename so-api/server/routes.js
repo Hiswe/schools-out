@@ -121,7 +121,7 @@ apiRouter
   // .get(`/registrations/:registrationId`, registrations.read)
   // .post(`/registrations/:registrationId`, registrations.update)
   .get(`/registrations`, registrations.list)
-  // .post(`/registrations`, registrations.create)
+  .post(`/registrations`, registrations.create)
   //----- TEACHERS
   .get(`/teachers/:teacherId`, teachers.read)
   .get(`/teachers`, teachers.list)
@@ -187,34 +187,6 @@ apiRouter
     })
     printInstance(user)
     ctx.body = user
-  })
-  .post(`/users/:userId/registrations`, async ctx => {
-    const { userId } = ctx.params
-    const user = await User.findByPk(userId)
-    ctx.assert(user, 404, `user not found`)
-
-    const { body } = ctx.request
-    const { schoolId } = ctx.state.jwtData
-    body.userId = userId
-    body.schoolId = body.schoolId || schoolId
-    const newRegistration = await Registration.create(body)
-    const registration = await Registration.findByPk(newRegistration.id, {
-      include: [
-        {
-          model: Lesson,
-          include: [
-            {
-              model: Teacher,
-            },
-          ],
-        },
-        {
-          model: Rate,
-        },
-      ],
-    })
-
-    ctx.body = registration
   })
 
 module.exports = apiRouter

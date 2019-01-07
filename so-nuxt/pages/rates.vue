@@ -102,7 +102,7 @@ export default {
             @click="submitRate"
             color="primary"
           ) {{$t(`rates.create`)}}
-          v-btn(@click="clearRate") {{$t(`clear`)}}
+          v-btn(@click="clearRate") {{ $t(`clear`) }}
 </template>
 
 <style lang="scss" scoped>

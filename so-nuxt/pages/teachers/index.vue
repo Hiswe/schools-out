@@ -97,7 +97,7 @@ export default {
             @click="submit"
             color="primary"
           ) {{$t(`teacher.create`)}}
-          v-btn(@click="clear") {{$t(`clear`)}}
+          v-btn(@click="clear") {{ $t(`clear`) }}
 
   v-btn(
     fixed

@@ -39,7 +39,7 @@ export default {
 <template lang="pug">
 .so-wrapper
   .so-top-bar
-    h1.display-1 rooms
+    h1.display-1 {{ $t(`rooms.plural`) }}
   .so-content: .so-table-form
     v-card
       v-card-title(primary-title)
@@ -65,7 +65,7 @@ export default {
     )
       v-card
         v-card-title(primary-title)
-          .headline new room
+          .headline {{ $t(`rooms.new`) }}
         v-card-text
           v-text-field(
             v-model="newRoom.name"
@@ -85,8 +85,8 @@ export default {
             :disabled="!roomValid"
             @click="submitRoom"
             color="primary"
-          ) add Room
-          v-btn(@click="clearRoom") {{$t(`clear`)}}
+          ) {{ $t(`rooms.create`) }}
+          v-btn(@click="clearRoom") {{ $t(`clear`) }}
 
 </template>
 

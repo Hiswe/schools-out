@@ -75,7 +75,7 @@ export default {
   },
   data() {
     return {
-      lessonValid: true,
+      formValid: true,
       rooms: [],
       teachers: [],
       nameRules: [v => !!v || `Name is required`],
@@ -90,9 +90,10 @@ export default {
     }
   },
   async created() {
+    const { $axios } = this
     const [teachers, rooms] = await Promise.all([
-      this.$axios.$get(`/teachers`),
-      this.$axios.$get(`/rooms`),
+      $axios.$get(`/teachers`),
+      $axios.$get(`/rooms`),
     ])
     this.rooms = rooms
     this.teachers = teachers
@@ -115,7 +116,7 @@ export default {
 <template lang="pug">
 v-form(
   ref="lessonForm"
-  v-model="lessonValid"
+  v-model="formValid"
 )
   v-card
     v-card-title(
@@ -171,7 +172,7 @@ v-form(
       )
     v-card-actions
       v-btn(
-        :disabled="!lessonValid"
+        :disabled="!formValid"
         @click="submitLesson"
         color="primary"
       ) {{ submitText }}

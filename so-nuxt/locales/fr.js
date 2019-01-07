@@ -1,6 +1,4 @@
 export default {
-  rooms: `salles`,
-  room: `salle`,
   rates: `tarifs`,
   rate: `tarif`,
   name: `nom`,
@@ -23,6 +21,14 @@ export default {
   registrations: {
     singular: `inscription`,
     plural: `inscriptions`,
+    create: `inscrire`,
+    new: `nouvelle inscription`,
+  },
+  rooms: {
+    singular: `salle`,
+    plural: `salles`,
+    create: `ajouter ce lieu`,
+    new: `nouvelle salle`,
   },
   students: {
     singular: `élève`,

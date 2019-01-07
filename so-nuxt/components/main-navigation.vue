@@ -25,16 +25,6 @@ v-list.so-main-menu.pt-0(dense v-if="isUser" dark)
       v-icon group
     v-list-tile-content
       v-list-tile-title {{ $t(`students.plural`) }}
-  v-list-tile(nuxt to="/teachers")
-    v-list-tile-action
-      v-icon school
-    v-list-tile-content
-      v-list-tile-title {{ $t(`teachers.plural`) }}
-  v-list-tile(nuxt to="/rooms")
-    v-list-tile-action
-      v-icon meeting_room
-    v-list-tile-content
-      v-list-tile-title {{ $t(`rooms`) }}
   v-list-tile(nuxt to="/rates")
     v-list-tile-action
       v-icon attach_money
@@ -45,4 +35,14 @@ v-list.so-main-menu.pt-0(dense v-if="isUser" dark)
       v-icon assignment
     v-list-tile-content
       v-list-tile-title {{ $t(`registrations.plural`) }}
+  v-list-tile(nuxt to="/teachers")
+    v-list-tile-action
+      v-icon school
+    v-list-tile-content
+      v-list-tile-title {{ $t(`teachers.plural`) }}
+  v-list-tile(nuxt to="/rooms")
+    v-list-tile-action
+      v-icon meeting_room
+    v-list-tile-content
+      v-list-tile-title {{ $t(`rooms.plural`) }}
 </template>
