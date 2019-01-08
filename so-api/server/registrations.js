@@ -26,7 +26,7 @@ const defaultRelations = Object.freeze([
   },
   {
     model: Rate,
-    attributes: [`id`, `name`],
+    attributes: [`id`, `name`, `price`, `weeklyLessons`],
   },
   {
     model: Lesson,

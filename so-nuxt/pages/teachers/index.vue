@@ -76,7 +76,7 @@ export default {
     )
       v-card
         v-card-title(primary-title)
-          .headline {{$t(`teacher.new`)}}
+          .headline {{$t(`teachers.new`)}}
         v-card-text
           .so-teacher-form
             v-text-field(
@@ -96,7 +96,7 @@ export default {
             :disabled="!valid"
             @click="submit"
             color="primary"
-          ) {{$t(`teacher.create`)}}
+          ) {{$t(`teachers.create`)}}
           v-btn(@click="clear") {{ $t(`clear`) }}
 
   v-btn(

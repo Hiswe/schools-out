@@ -38,6 +38,11 @@ export default {
           align: `left`,
           value: `lesson.place.name`,
         },
+        {
+          text: `rates.singular`,
+          align: `left`,
+          value: `lesson.rate.nameFull`,
+        },
       ],
       dialog: false,
     }
@@ -83,6 +88,7 @@ export default {
         td {{ props.item.lesson.dayName }}
         td {{ props.item.lesson.startHour }}
         td {{ props.item.lesson.place.name }}
+        td {{ props.item.rate.nameFull }}
 
   v-btn(fixed dark fab bottom right color="pink"
     @click="dialog = !dialog"
