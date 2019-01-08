@@ -64,10 +64,10 @@ export default {
             nuxt-link(:to="`/teachers/${lesson.teacher.id}`")
               | {{lesson.teacher.name}}
         v-list-tile
-          v-list-tile-content Room
+          v-list-tile-content Place
           v-list-tile-content.align-end
-            nuxt-link(:to="`/rooms/${lesson.room.id}`")
-              | {{lesson.room.name}}
+            nuxt-link(:to="`/places/${lesson.place.id}`")
+              | {{lesson.place.name}}
 
     v-data-table.elevation-1(
       :headers="registrationHeaders"

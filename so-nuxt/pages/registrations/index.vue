@@ -34,9 +34,9 @@ export default {
           value: `lesson.startHour`,
         },
         {
-          text: `rooms.singular`,
+          text: `places.singular`,
           align: `left`,
-          value: `lesson.room.name`,
+          value: `lesson.place.name`,
         },
       ],
       dialog: false,
@@ -82,7 +82,7 @@ export default {
           nuxt-link(:to="`/lessons/${props.item.lesson.id}`") {{ props.item.lesson.name }}
         td {{ props.item.lesson.dayName }}
         td {{ props.item.lesson.startHour }}
-        td {{ props.item.lesson.room.name }}
+        td {{ props.item.lesson.place.name }}
 
   v-btn(fixed dark fab bottom right color="pink"
     @click="dialog = !dialog"

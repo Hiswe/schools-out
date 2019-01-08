@@ -19,6 +19,12 @@ export default {
     perWeek: `cours par semaine`,
     tableName: `nom du cour`,
   },
+  places: {
+    singular: `lieu de cours`,
+    plural: `lieux`,
+    create: `ajouter ce lieu`,
+    new: `nouveau lieu`,
+  },
   rates: {
     singular: `tarif`,
     plural: `tarifs`,
@@ -33,12 +39,6 @@ export default {
     plural: `inscriptions`,
     create: `inscrire`,
     new: `nouvelle inscription`,
-  },
-  rooms: {
-    singular: `salle`,
-    plural: `salles`,
-    create: `ajouter ce lieu`,
-    new: `nouvelle salle`,
   },
   students: {
     singular: `élève`,

@@ -6,30 +6,25 @@ const Router = require('koa-router')
 const {
   School,
   User,
-  Room,
+  Place,
   Teacher,
   Lesson,
   Rate,
   Registration,
 } = require('../models')
 const lessons = require('./lessons')
-const rooms = require('./rooms')
+const places = require('./places')
 const teachers = require('./teachers')
 const registrations = require('./registrations')
 const rates = require('./rates')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
+const { printInstance } = require('./helpers')
 
 const apiRouter = new Router({
   prefix: `/v1`,
 })
-
-const printInstance = instance => {
-  console.log(
-    inspect(JSON.parse(JSON.stringify(instance)), { colors: true, depth: 4 }),
-  )
-}
 
 //////
 // PUBLIC
@@ -80,7 +75,7 @@ apiRouter
     const school = await School.findByPk(schoolId, {
       include: [
         {
-          model: Room,
+          model: Place,
           attributes: [`id`, `name`, `capacity`],
         },
         {
@@ -95,9 +90,9 @@ apiRouter
     })
     ctx.body = school
   })
-  //--- ROOMS
-  .get(`/rooms`, rooms.list)
-  .post(`/rooms`, rooms.create)
+  //--- PLACES
+  .get(`/places`, places.list)
+  .post(`/places`, places.create)
   //----- RATES
   .get(`/rates/:rateId`, rates.read)
   .post(`/rates/:rateId`, rates.update)

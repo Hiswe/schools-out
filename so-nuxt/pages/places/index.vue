@@ -1,14 +1,14 @@
 <script>
 export default {
-  name: `so-page-rooms`,
+  name: `so-page-places`,
   meta: {
     authRequired: true,
   },
   data() {
     return {
-      rooms: [],
-      roomValid: true,
-      newRoom: {},
+      places: [],
+      placeValid: true,
+      newPlace: {},
       nameRules: [v => !!v || `Name is required`],
       capacityRules: [
         v => !!v || `Capacity is required`,
@@ -18,19 +18,19 @@ export default {
   },
   async asyncData(nuxtContext) {
     const { $axios } = nuxtContext
-    const [rooms] = await Promise.all([$axios.$get(`/rooms`)])
-    return { rooms }
+    const [places] = await Promise.all([$axios.$get(`/places`)])
+    return { places }
   },
   methods: {
-    async submitRoom() {
-      if (!this.$refs.roomForm.validate()) return console.log(`invalid form`)
-      const roomUri = `/rooms`
-      const room = await this.$axios.$post(roomUri, this.newRoom)
-      this.rooms.push(room)
-      this.$refs.roomForm.reset()
+    async submitPlace() {
+      if (!this.$refs.placeForm.validate()) return console.log(`invalid form`)
+      const placeUri = `/places`
+      const place = await this.$axios.$post(placeUri, this.newPlace)
+      this.places.push(place)
+      this.$refs.placeForm.reset()
     },
-    clearRoom() {
-      this.$refs.roomForm.reset()
+    clearPlace() {
+      this.$refs.placeForm.reset()
     },
   },
 }
@@ -39,42 +39,42 @@ export default {
 <template lang="pug">
 .so-wrapper
   .so-top-bar
-    h1.display-1 {{ $t(`rooms.plural`) }}
+    h1.display-1 {{ $t(`places.plural`) }}
   .so-content: .so-table-form
     v-card
       v-card-title(primary-title)
-        .headline existing rooms
+        .headline existing places
       v-card-text
         v-list(
           two-line
-          v-if="rooms.length"
+          v-if="places.length"
         )
           v-list-tile(
-            v-for="room in rooms"
-            :key="room.id"
+            v-for="place in places"
+            :key="place.id"
           ): v-list-tile-content
-            v-list-tile-title {{room.name}}
+            v-list-tile-title {{place.name}}
             v-list-tile-sub-title
-              span.primary--text {{room.capacity}}
+              span.primary--text {{place.capacity}}
               |
               | people
 
     v-form(
-      ref="roomForm"
-      v-model="roomValid"
+      ref="placeForm"
+      v-model="placeValid"
     )
       v-card
         v-card-title(primary-title)
-          .headline {{ $t(`rooms.new`) }}
+          .headline {{ $t(`places.new`) }}
         v-card-text
           v-text-field(
-            v-model="newRoom.name"
+            v-model="newPlace.name"
             label="Name"
             :rules="nameRules"
             required
           )
           v-text-field(
-            v-model.number="newRoom.capacity"
+            v-model.number="newPlace.capacity"
             label="People capacity"
             type="number"
             :rules="capacityRules"
@@ -82,11 +82,11 @@ export default {
           )
         v-card-actions
           v-btn(
-            :disabled="!roomValid"
-            @click="submitRoom"
+            :disabled="!placeValid"
+            @click="submitPlace"
             color="primary"
-          ) {{ $t(`rooms.create`) }}
-          v-btn(@click="clearRoom") {{ $t(`clear`) }}
+          ) {{ $t(`places.create`) }}
+          v-btn(@click="clearPlace") {{ $t(`clear`) }}
 
 </template>
 

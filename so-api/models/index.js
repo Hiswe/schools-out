@@ -13,7 +13,7 @@ const log = debuglog(`api:db`)
 const School = require('./schools')
 const User = require('./users')
 const Teacher = require('./teachers')
-const Room = require('./rooms')
+const Place = require('./places')
 const Lesson = require('./lessons')
 const Registration = require('./registrations')
 const Rate = require('./rates')
@@ -24,7 +24,7 @@ const Rate = require('./rates')
 
 School.hasMany(User)
 School.hasMany(Teacher)
-School.hasMany(Room)
+School.hasMany(Place)
 School.hasMany(Lesson)
 School.hasMany(Rate)
 
@@ -32,16 +32,16 @@ School.hasMany(Rate)
 User.belongsTo(School)
 User.hasMany(Registration)
 
-Room.hasMany(Lesson)
+Place.hasMany(Lesson)
 // TODO: a room can belong to many schools
-Room.belongsTo(School)
+Place.belongsTo(School)
 
 Teacher.belongsTo(School)
 Teacher.hasMany(Lesson)
 
 Lesson.belongsTo(School)
 Lesson.belongsTo(Teacher)
-Lesson.belongsTo(Room)
+Lesson.belongsTo(Place)
 Lesson.hasMany(Registration)
 
 Rate.belongsTo(School)
@@ -71,7 +71,7 @@ module.exports = {
   School,
   User,
   Teacher,
-  Room,
+  Place,
   Lesson,
   Rate,
   Registration,

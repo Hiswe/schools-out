@@ -1,10 +1,10 @@
 'use strict'
 
-const { Room, Lesson, Teacher } = require('../models')
+const { Place, Lesson, Teacher } = require('../models')
 
 module.exports = {
-  list: listRooms,
-  create: createRoom,
+  list: listPlaces,
+  create: createPlace,
 }
 
 const defaultRelation = Object.freeze([
@@ -14,18 +14,18 @@ const defaultRelation = Object.freeze([
   },
 ])
 
-async function listRooms(ctx) {
+async function listPlaces(ctx) {
   const params = { include: defaultRelation }
   const { schoolId } = ctx.state.jwtData
   if (schoolId) params.where = { schoolId }
-  const rooms = await Room.findAll(params)
-  ctx.body = rooms
+  const places = await Place.findAll(params)
+  ctx.body = places
 }
 
-async function createRoom(ctx) {
+async function createPlace(ctx) {
   const { body } = ctx.request
   const { schoolId } = ctx.state.jwtData
   body.schoolId = body.schoolId || schoolId
-  const room = await Room.create(body)
-  ctx.body = room
+  const place = await Place.create(body)
+  ctx.body = place
 }

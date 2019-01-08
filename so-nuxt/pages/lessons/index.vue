@@ -13,7 +13,7 @@ export default {
     return {
       dialog: false,
       lessons: [],
-      rooms: [],
+      places: [],
       teachers: [],
       newLesson: {},
       lessonsRows: [
@@ -29,9 +29,9 @@ export default {
           value: `name`,
         },
         {
-          text: `room`,
+          text: `place`,
           align: `left`,
-          value: `room.name`,
+          value: `place.name`,
         },
         {
           text: `teachers.singular`,
@@ -50,18 +50,18 @@ export default {
         },
       ],
       nameRules: [v => !!v || `Name is required`],
-      roomRules: [v => !!v || `Room is required`],
+      placeRules: [v => !!v || `Place is required`],
       teacherRules: [v => !!v || `Teacher is required`],
     }
   },
   async asyncData(nuxtContext) {
     const { $axios, params, store } = nuxtContext
-    const [lessons, teachers, rooms] = await Promise.all([
+    const [lessons, teachers, places] = await Promise.all([
       $axios.$get(`/lessons`),
       $axios.$get(`/teachers`),
-      $axios.$get(`/rooms`),
+      $axios.$get(`/places`),
     ])
-    return { lessons, teachers, rooms }
+    return { lessons, teachers, places }
   },
   methods: {
     async onSubmit(newLesson) {
@@ -90,7 +90,7 @@ export default {
       template( slot="items" slot-scope="props")
         td
           nuxt-link(:to="`/lessons/${props.item.id}`")  {{ props.item.name }}
-        td {{ props.item.room.name }}
+        td {{ props.item.place.name }}
         td {{ props.item.teacher.name }}
         td {{ props.item.dayName }}
         td {{ props.item.startHour }}

@@ -8,9 +8,9 @@ export default {
     return {
       school: {},
       lessons: [],
-      newRoom: {},
+      newPlace: {},
       newLesson: {},
-      roomValid: true,
+      placeValid: true,
       lessonValid: true,
       nameRules: [v => !!v || `Name is required`],
       capacityRules: [
@@ -41,15 +41,15 @@ export default {
     return { school }
   },
   methods: {
-    async submitRoom() {
-      if (!this.$refs.roomForm.validate()) return console.log(`invalid form`)
-      const roomUri = `/schools/${this.school.id}/rooms`
-      const room = await this.$axios.$post(roomUri, this.newRoom)
-      this.school.rooms.push(room)
-      this.$refs.roomForm.reset()
+    async submitPlace() {
+      if (!this.$refs.placeForm.validate()) return console.log(`invalid form`)
+      const placeUri = `/schools/${this.school.id}/places`
+      const place = await this.$axios.$post(placeUri, this.newPlace)
+      this.school.places.push(place)
+      this.$refs.placeForm.reset()
     },
-    clearRoom() {
-      this.$refs.roomForm.reset()
+    clearPlace() {
+      this.$refs.placeForm.reset()
     },
     async submitLesson() {
       if (!this.$refs.lessonForm.validate()) return console.log(`invalid form`)

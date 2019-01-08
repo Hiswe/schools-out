@@ -9,22 +9,22 @@ export default {
   data() {
     return {
       hours,
-      rooms: [],
+      places: [],
     }
   },
   async created() {
     const { $axios } = this
-    const [rooms] = await Promise.all([$axios.$get(`/rooms`)])
-    this.rooms = rooms
+    const [places] = await Promise.all([$axios.$get(`/places`)])
+    this.places = places
   },
 }
 </script>
 
 <template lang="pug">
-dl.so-rooms-calendar
-  template(v-for="room in rooms")
-    dt.display-1.so-rooms-calendar__name {{room.name}}
-    dd.mb-5.so-rooms-calendar__content.so-day-calendar
+dl.so-places-calendar
+  template(v-for="place in places")
+    dt.display-1.so-places-calendar__name {{place.name}}
+    dd.mb-5.so-places-calendar__content.so-day-calendar
       span.so-day-calendar__day Monday
       span.so-day-calendar__day Tuesday
       span.so-day-calendar__day Wednesday
@@ -37,7 +37,7 @@ dl.so-rooms-calendar
         :class="`so-day-calendar__hour--${i}`"
       ) {{ h }}
       nuxt-link.so-day-calendar__lesson.primary(
-        v-for="lesson in room.lessons"
+        v-for="lesson in place.lessons"
         :key="lesson.id"
         :to="`/lessons/${lesson.id}`"
         :class="`so-day-calendar__lesson--day-${lesson.day} so-day-calendar__lesson--hour-${lesson.startHour} so-day-calendar__lesson--duration-${lesson.duration}`.replace('.', '-').replace(':', '-')"

@@ -76,11 +76,11 @@ export default {
   data() {
     return {
       formValid: true,
-      rooms: [],
+      places: [],
       teachers: [],
       nameRules: [v => !!v || `Name is required`],
       teacherRules: [v => !!v || `Teacher is required`],
-      roomRules: [v => !!v || `Room is required`],
+      placeRules: [v => !!v || `Place is required`],
       durationRules: [v => !!v || `duration is required`],
       dayRules: [v => !!v || `day is required`],
       startRules: [v => !!v || `start is required`],
@@ -91,11 +91,11 @@ export default {
   },
   async created() {
     const { $axios } = this
-    const [teachers, rooms] = await Promise.all([
+    const [teachers, places] = await Promise.all([
       $axios.$get(`/teachers`),
-      $axios.$get(`/rooms`),
+      $axios.$get(`/places`),
     ])
-    this.rooms = rooms
+    this.places = places
     this.teachers = teachers
   },
   methods: {
@@ -140,13 +140,13 @@ v-form(
         :rules="teacherRules"
         required
       )
-      v-select.so-form-lesson__room(
-        :items="rooms"
+      v-select.so-form-lesson__place(
+        :items="places"
         item-text="name"
         item-value="id"
-        label="room"
-        v-model="value.roomId"
-        :rules="roomRules"
+        label="place"
+        v-model="value.placeId"
+        :rules="placeRules"
         required
       )
       v-select.so-form-lesson__day(
@@ -185,7 +185,7 @@ v-form(
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
     'name     name      name    name  name     name'
-    'teacher  teacher   teacher room  room     room'
+    'teacher  teacher   teacher place  place     place'
     'day      day       start   start duration duration';
   grid-gap: 1rem;
 }
@@ -195,8 +195,8 @@ v-form(
 .so-form-lesson__teacher {
   grid-area: teacher;
 }
-.so-form-lesson__room {
-  grid-area: room;
+.so-form-lesson__place {
+  grid-area: place;
 }
 .so-form-lesson__day {
   grid-area: day;

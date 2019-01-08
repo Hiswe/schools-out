@@ -4,8 +4,8 @@ const Sequelize = require('sequelize')
 
 const { sequelize } = require('../services')
 
-const Room = sequelize.define(
-  `room`,
+const Place = sequelize.define(
+  `place`,
   {
     id: {
       type: Sequelize.UUID,
@@ -28,4 +28,4 @@ const Room = sequelize.define(
   },
 )
 
-module.exports = Room
+module.exports = Place

@@ -2,7 +2,14 @@
 
 'use strict'
 
-const { Registration, Teacher, Room, User, Rate, Lesson } = require('../models')
+const {
+  Registration,
+  Teacher,
+  Place,
+  User,
+  Rate,
+  Lesson,
+} = require('../models')
 const { printInstance } = require('./helpers')
 
 module.exports = {
@@ -29,7 +36,7 @@ const defaultRelations = Object.freeze([
         attributes: [`id`, `name`],
       },
       {
-        model: Room,
+        model: Place,
         attributes: [`id`, `name`],
       },
     ],

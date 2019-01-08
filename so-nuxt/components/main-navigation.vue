@@ -40,9 +40,9 @@ v-list.so-main-menu.pt-0(dense v-if="isUser" dark)
       v-icon school
     v-list-tile-content
       v-list-tile-title {{ $t(`teachers.plural`) }}
-  v-list-tile(nuxt to="/rooms")
+  v-list-tile(nuxt to="/places")
     v-list-tile-action
-      v-icon meeting_room
+      v-icon place
     v-list-tile-content
-      v-list-tile-title {{ $t(`rooms.plural`) }}
+      v-list-tile-title {{ $t(`places.plural`) }}
 </template>
