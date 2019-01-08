@@ -46,6 +46,8 @@ export default {
     nameUpdate: `mise à jour du nom`,
     new: `nouveau tarif`,
     priceUpdate: `mise à jour du prix`,
+    weeklyHours: `heures par semaine`,
+    weeklyHoursShort: `heures/semaine`,
   },
   registrations: {
     singular: `inscription`,
@@ -60,6 +62,11 @@ export default {
     new: `nouvel élève`,
     tableName: `nom de l'élève`,
     withName: `élève : {name}`,
+  },
+  tags: {
+    singular: `étiquette`,
+    plural: `étiquettes`,
+    new: `nouvelle étiquette`,
   },
   teachers: {
     singular: `professeur`,

@@ -7,8 +7,10 @@ export default {
   data() {
     return {
       rates: [],
+      tags: [],
       rateValid: true,
       newRate: {},
+      newTag: {},
       nameRules: [v => !!v || `Name is required`],
       priceRules: [
         v => !!v || `price is required`,
@@ -29,8 +31,8 @@ export default {
           value: `price`,
         },
         {
-          text: `lessons.perWeek`,
-          value: `weeklyLessons`,
+          text: `rates.weeklyHours`,
+          value: `weeklyHours`,
         },
       ],
       dialog: false,
@@ -38,8 +40,11 @@ export default {
   },
   async asyncData(nuxtContext) {
     const { $axios } = nuxtContext
-    const [rates] = await Promise.all([$axios.$get(`/rates`)])
-    return { rates }
+    const [rates, tags] = await Promise.all([
+      $axios.$get(`/rates`),
+      $axios.$get(`/tags`),
+    ])
+    return { rates, tags }
   },
   methods: {
     async submitRate() {
@@ -53,7 +58,16 @@ export default {
     },
     async save(rate) {
       const { $axios } = this
-      await $axios.$post(`/rates/${rate.id}`, place)
+      await $axios.$post(`/rates/${rate.id}`, rate)
+    },
+    async addTag() {
+      const { $axios } = this
+      const tag = await $axios.$post(`/tags`, this.newTag)
+      this.tags.push(tag)
+      this.tags = this.tags.sort((a, b) =>
+        a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
+      )
+      this.newTag.name = ``
     },
   },
 }
@@ -65,71 +79,95 @@ export default {
     h1.display-1 {{$t(`rates.plural`)}}
 
   .so-content
-    v-data-table.elevation-1(
-      :headers="headers"
-      :items="rates"
-    )
-      template(slot="headerCell" slot-scope="props")
-        | {{ $t(props.header.text) }}
+    .so-page-rates
+      v-data-table.elevation-1(
+        :headers="headers"
+        :items="rates"
+      )
+        template(slot="headerCell" slot-scope="props")
+          | {{ $t(props.header.text) }}
 
-      template( slot="items" slot-scope="props")
-        td
-          v-edit-dialog(
-            :return-value.sync="props.item.name"
-            @save="save(props.item)"
-            large
-            lazy
-            persistent
-            save-text="ok"
-            :cancel-text="$t(`cancel`)"
-          )
-            div {{ props.item.name }}
-            .mt-3.title( slot="input") {{ $t(`rates.nameUpdate`) }}
-            v-text-field(
-              slot="input"
-              v-model="props.item.name"
-              label="Edit"
-              single-line
-              autofocus
+        template( slot="items" slot-scope="props")
+          td
+            v-edit-dialog(
+              :return-value.sync="props.item.name"
+              @save="save(props.item)"
+              large
+              lazy
+              persistent
+              save-text="ok"
+              :cancel-text="$t(`cancel`)"
             )
-        td
-          v-edit-dialog(
-            :return-value.sync="props.item.price"
-            @save="save(props.item)"
-            large
-            lazy
-            persistent
-            save-text="ok"
-            :cancel-text="$t(`cancel`)"
-          )
-            div {{ props.item.price }}
-            .mt-3.title( slot="input") {{ $t(`rates.priceUpdate`) }}
-            v-text-field(
-              slot="input"
-              v-model="props.item.price"
-              label="Edit"
-              single-line
-              autofocus
+              div {{ props.item.name }}
+              .mt-3.title( slot="input") {{ $t(`rates.nameUpdate`) }}
+              v-text-field(
+                slot="input"
+                v-model="props.item.name"
+                label="Edit"
+                single-line
+                autofocus
+              )
+          td
+            v-edit-dialog(
+              :return-value.sync="props.item.price"
+              @save="save(props.item)"
+              large
+              lazy
+              persistent
+              save-text="ok"
+              :cancel-text="$t(`cancel`)"
             )
-        td
-          v-edit-dialog(
-            :return-value.sync="props.item.weeklyLessons"
-            @save="save(props.item)"
-            large
-            lazy
-            persistent
-            save-text="ok"
-            :cancel-text="$t(`cancel`)"
-          )
-            div {{ props.item.weeklyLessons }}
-            .mt-3.title( slot="input") {{ $t(`rates.lessonsUpdate`) }}
-            v-text-field(
-              slot="input"
-              v-model="props.item.weeklyLessons"
-              label="Edit"
-              single-line
-              autofocus
+              div {{ props.item.price }}
+              .mt-3.title( slot="input") {{ $t(`rates.priceUpdate`) }}
+              v-text-field(
+                slot="input"
+                v-model="props.item.price"
+                label="Edit"
+                single-line
+                autofocus
+              )
+          td
+            v-edit-dialog(
+              :return-value.sync="props.item.weeklyHours"
+              @save="save(props.item)"
+              large
+              lazy
+              persistent
+              save-text="ok"
+              :cancel-text="$t(`cancel`)"
             )
+              div {{ props.item.weeklyHours }}
+              .mt-3.title( slot="input") {{ $t(`rates.weeklyHours`) }}
+              v-text-field(
+                slot="input"
+                v-model="props.item.weeklyHours"
+                label="Edit"
+                single-line
+                autofocus
+              )
+
+      div: v-card
+        v-card-title: h4 {{ $t(`tags.plural`) }}
+        v-divider
+        v-list(dense)
+          template(v-for="(tag, index) in tags")
+            v-list-tile(:key="tag.id")
+              v-list-tile-content {{ tag.name }}
+            v-divider(
+              v-if="index + 1 < tags.length"
+              :key="index"
+            )
+          v-divider(v-if="tags.length")
+          v-list-tile
+            v-list-tile-content
+              v-text-field(
+                :placeholder="$t(`tags.new`)"
+                v-model="newTag.name"
+                solo
+              )
+            v-list-tile-action
+              v-btn(icon ripple @click="addTag")
+                v-icon(color="primary") add_circle_outline
 
     v-btn(fixed dark fab bottom right color="pink"
       @click="dialog = !dialog"
@@ -158,11 +196,21 @@ export default {
               required
             )
             v-text-field(
-              v-model.number="newRate.weeklyLessons"
-              :label="$t(`lessons.perWeek`)"
+              v-model.number="newRate.weeklyHours"
+              :label="$t(`rates.weeklyHoursShort`)"
               type="number"
               :rules="sessionsRules"
               required
+            )
+            v-select.so-form-rate__tags(
+              v-model="newRate.pouic"
+              :items="tags"
+              item-text="name"
+              item-value="id"
+              :label="$t(`tags.plural`)"
+              multiple
+              small-chips
+              :deletable-chips="true"
             )
           v-card-actions
             v-btn(
@@ -174,12 +222,20 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.so-page-rates {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  grid-gap: 2rem;
+}
 .so-form-rate {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 1rem;
 }
 .so-form-rate__name {
-  grid-column: 1 / span 2;
+  grid-column: 1 / -1;
+}
+.so-form-rate__tags {
+  grid-column: 3 / -1;
 }
 </style>

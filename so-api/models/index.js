@@ -17,6 +17,7 @@ const Place = require('./places')
 const Lesson = require('./lessons')
 const Registration = require('./registrations')
 const Rate = require('./rates')
+const Tag = require('./tags')
 
 //////
 // RELATIONS
@@ -27,6 +28,7 @@ School.hasMany(Teacher)
 School.hasMany(Place)
 School.hasMany(Lesson)
 School.hasMany(Rate)
+School.hasMany(Tag)
 
 // TODO: a user can belong to many schools
 User.belongsTo(School)
@@ -45,6 +47,10 @@ Lesson.belongsTo(Place)
 Lesson.hasMany(Registration)
 
 Rate.belongsTo(School)
+Rate.belongsToMany(Tag, { through: `RateTag` })
+
+Tag.belongsTo(School)
+Tag.belongsToMany(Rate, { through: `RateTag` })
 
 Registration.belongsTo(School)
 Registration.belongsTo(User)
@@ -68,11 +74,12 @@ sequelize.authenticate().then(async () => {
 
 module.exports = {
   sequelize,
-  School,
   User,
-  Teacher,
-  Place,
   Lesson,
+  Place,
   Rate,
   Registration,
+  School,
+  Tag,
+  Teacher,
 }

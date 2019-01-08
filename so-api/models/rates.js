@@ -18,7 +18,7 @@ const Rate = sequelize.define(
     price: {
       type: Sequelize.FLOAT,
     },
-    weeklyLessons: {
+    weeklyHours: {
       type: Sequelize.FLOAT,
     },
     info: {
@@ -26,24 +26,24 @@ const Rate = sequelize.define(
       defaultValue: {},
     },
     nameWeekly: {
-      type: new Sequelize.VIRTUAL(Sequelize.STRING, [`name`, `weeklyLessons`]),
+      type: new Sequelize.VIRTUAL(Sequelize.STRING, [`name`, `weeklyHours`]),
       get() {
         const name = this.getDataValue(`name`)
-        const weeklyLessons = this.getDataValue(`weeklyLessons`)
-        return `${name} - ${weeklyLessons}/w`
+        const weeklyHours = this.getDataValue(`weeklyHours`)
+        return `${name} - ${weeklyHours}/w`
       },
     },
     nameFull: {
       type: new Sequelize.VIRTUAL(Sequelize.STRING, [
         `name`,
-        `weeklyLessons`,
+        `weeklyHours`,
         `price`,
       ]),
       get() {
         const name = this.getDataValue(`name`)
-        const weeklyLessons = this.getDataValue(`weeklyLessons`)
+        const weeklyHours = this.getDataValue(`weeklyHours`)
         const price = this.getDataValue(`price`)
-        return `${name} - ${weeklyLessons}/w - ${price}€`
+        return `${name} - ${weeklyHours}h/w - ${price}€`
       },
     },
   },
