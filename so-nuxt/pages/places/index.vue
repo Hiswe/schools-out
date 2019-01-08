@@ -1,4 +1,6 @@
 <script>
+import { rowsPerPageItems } from '~/helpers/tables'
+
 export default {
   name: `so-page-places`,
   meta: {
@@ -6,13 +8,27 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       places: [],
       placeValid: true,
+      rowsPerPageItems,
       newPlace: {},
       nameRules: [v => !!v || `Name is required`],
       capacityRules: [
         v => !!v || `Capacity is required`,
         v => v > 0 || `capacity can't be null`,
+      ],
+      placeHeaders: [
+        {
+          text: `places.name`,
+          align: `left`,
+          value: `name`,
+        },
+        {
+          text: `places.capacity`,
+          align: `left`,
+          value: `capacity`,
+        },
       ],
     }
   },
@@ -32,6 +48,11 @@ export default {
     clearPlace() {
       this.$refs.placeForm.reset()
     },
+    async save(place) {
+      const { $axios } = this
+      console.log({ place })
+      await $axios.$post(`/places/${place.id}`, place)
+    },
   },
 }
 </script>
@@ -40,25 +61,59 @@ export default {
 .so-wrapper
   .so-top-bar
     h1.display-1 {{ $t(`places.plural`) }}
-  .so-content: .so-table-form
-    v-card
-      v-card-title(primary-title)
-        .headline existing places
-      v-card-text
-        v-list(
-          two-line
-          v-if="places.length"
-        )
-          v-list-tile(
-            v-for="place in places"
-            :key="place.id"
-          ): v-list-tile-content
-            v-list-tile-title {{place.name}}
-            v-list-tile-sub-title
-              span.primary--text {{place.capacity}}
-              |
-              | people
+  .so-content
+    v-data-table.elevation-1(
+      :rows-per-page-items="rowsPerPageItems"
+      :headers="placeHeaders"
+      :items="places"
+    )
+      template(slot="headerCell" slot-scope="props")
+        | {{ $t(props.header.text) }}
+      template(slot="items" slot-scope="props")
+        td
+          v-edit-dialog(
+            :return-value.sync="props.item.name"
+            @save="save(props.item)"
+            large
+            lazy
+            persistent
+            save-text="ok"
+            :cancel-text="$t(`cancel`)"
+          )
+            div {{ props.item.name }}
+            .mt-3.title( slot="input") {{ $t(`places.name`) }}
+            v-text-field(
+              slot="input"
+              v-model="props.item.name"
+              label="Edit"
+              single-line
+              autofocus
+            )
+        td
+          v-edit-dialog(
+            :return-value.sync="props.item.capacity"
+            @save="save(props.item)"
+            large
+            lazy
+            persistent
+            save-text="ok"
+            :cancel-text="$t(`cancel`)"
+          )
+            div {{ props.item.capacity }}
+            .mt-3.title( slot="input") {{ $t(`places.capacity`) }}
+            v-text-field(
+              slot="input"
+              v-model="props.item.capacity"
+              label="Edit"
+              single-line
+              autofocus
+            )
 
+  v-btn(fixed dark fab bottom right color="pink"
+    @click="dialog = !dialog"
+  ): v-icon assignment_ind
+
+  v-dialog(v-model="dialog" max-width="600px")
     v-form(
       ref="placeForm"
       v-model="placeValid"
@@ -69,13 +124,13 @@ export default {
         v-card-text
           v-text-field(
             v-model="newPlace.name"
-            label="Name"
+            :label="$t(`name`)"
             :rules="nameRules"
             required
           )
           v-text-field(
             v-model.number="newPlace.capacity"
-            label="People capacity"
+            :label="$t(`places.capacity`)"
             type="number"
             :rules="capacityRules"
             required

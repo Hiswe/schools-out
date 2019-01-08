@@ -53,7 +53,7 @@ export default {
     },
     async save(rate) {
       const { $axios } = this
-      await $axios.$post(`/rates/${rate.id}`, rate)
+      await $axios.$post(`/rates/${rate.id}`, place)
     },
   },
 }

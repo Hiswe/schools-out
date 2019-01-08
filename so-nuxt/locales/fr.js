@@ -32,7 +32,9 @@ export default {
   places: {
     singular: `lieu de cours`,
     plural: `lieux`,
+    capacity: `nombre de places`,
     create: `ajouter ce lieu`,
+    name: `nom du lieu`,
     new: `nouveau lieu`,
   },
   rates: {

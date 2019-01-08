@@ -91,6 +91,8 @@ apiRouter
     ctx.body = school
   })
   //--- PLACES
+  .get(`/places/:placeId`, places.read)
+  .post(`/places/:placeId`, places.update)
   .get(`/places`, places.list)
   .post(`/places`, places.create)
   //----- RATES
