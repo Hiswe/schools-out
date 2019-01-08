@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template lang="pug">
-v-app
+v-app.so-app
   nuxt-link.so-logo.primary(to="/")
     span.white--text School's out
   so-main-navigation
@@ -41,7 +41,7 @@ v-app
   grid-template-columns: 1fr 450px;
   grid-gap: 2rem;
 }
-.application--wrap {
+.so-app .application--wrap {
   all: unset;
   display: grid;
   grid-template-columns: 250px 1fr 50px;
