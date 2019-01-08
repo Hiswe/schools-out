@@ -5,6 +5,7 @@ export default {
   email: `email`,
   clear: `réinitialiser`,
   close: `fermer`,
+  cancel: `annuler`,
   price: `prix`,
   day: `jour`,
   begin: `commence à`,
@@ -15,14 +16,17 @@ export default {
   lessons: {
     singular: `cour`,
     plural: `cours`,
-    perWeek: `lessons par semaine`,
+    perWeek: `cours par semaine`,
     tableName: `nom du cour`,
   },
   rates: {
     singular: `tarif`,
     plural: `tarifs`,
     create: `ajouter ce tarif`,
+    lessonsUpdate: `mise à jour du nbr de cours`,
+    nameUpdate: `mise à jour du nom`,
     new: `nouveau tarif`,
+    priceUpdate: `mise à jour du prix`,
   },
   registrations: {
     singular: `inscription`,

@@ -16,6 +16,7 @@ const lessons = require('./lessons')
 const rooms = require('./rooms')
 const teachers = require('./teachers')
 const registrations = require('./registrations')
+const rates = require('./rates')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -98,20 +99,10 @@ apiRouter
   .get(`/rooms`, rooms.list)
   .post(`/rooms`, rooms.create)
   //----- RATES
-  .get(`/rates`, async ctx => {
-    const params = {}
-    const { schoolId } = ctx.state.jwtData
-    if (schoolId) params.where = { schoolId }
-    const rates = await Rate.findAll(params)
-    ctx.body = rates
-  })
-  .post(`/rates`, async ctx => {
-    const { body } = ctx.request
-    const { schoolId } = ctx.state.jwtData
-    body.schoolId = body.schoolId || schoolId
-    const rate = await Rate.create(body)
-    ctx.body = rate
-  })
+  .get(`/rates/:rateId`, rates.read)
+  .post(`/rates/:rateId`, rates.update)
+  .get(`/rates`, rates.list)
+  .post(`/rates`, rates.create)
   //----- LESSONS
   .get(`/lessons/:lessonId`, lessons.read)
   .post(`/lessons/:lessonId`, lessons.update)

@@ -51,12 +51,10 @@ export default {
     clearRate() {
       this.$refs.rateForm.reset()
     },
-    save() {},
-    cancel() {},
-    open(item) {
-      console.log(item)
+    async save(rate) {
+      const { $axios } = this
+      await $axios.$post(`/rates/${rate.id}`, rate)
     },
-    close() {},
   },
 }
 </script>
@@ -75,29 +73,63 @@ export default {
         | {{ $t(props.header.text) }}
 
       template( slot="items" slot-scope="props")
-        td {{ props.item.name }}
         td
           v-edit-dialog(
-            :return-value.sync="props.item.price"
+            :return-value.sync="props.item.name"
+            @save="save(props.item)"
             large
             lazy
             persistent
+            save-text="ok"
+            :cancel-text="$t(`cancel`)"
+          )
+            div {{ props.item.name }}
+            .mt-3.title( slot="input") {{ $t(`rates.nameUpdate`) }}
+            v-text-field(
+              slot="input"
+              v-model="props.item.name"
+              label="Edit"
+              single-line
+              autofocus
+            )
+        td
+          v-edit-dialog(
+            :return-value.sync="props.item.price"
             @save="save(props.item)"
-            @cancel="cancel(props.item)"
-            @open="open(props.item)"
-            @close="close(props.item)"
+            large
+            lazy
+            persistent
+            save-text="ok"
+            :cancel-text="$t(`cancel`)"
           )
             div {{ props.item.price }}
-            .mt-3.title( slot="input") Update Price
+            .mt-3.title( slot="input") {{ $t(`rates.priceUpdate`) }}
             v-text-field(
               slot="input"
               v-model="props.item.price"
               label="Edit"
               single-line
-              counter
               autofocus
             )
-        td {{ props.item.weeklyLessons }}
+        td
+          v-edit-dialog(
+            :return-value.sync="props.item.weeklyLessons"
+            @save="save(props.item)"
+            large
+            lazy
+            persistent
+            save-text="ok"
+            :cancel-text="$t(`cancel`)"
+          )
+            div {{ props.item.weeklyLessons }}
+            .mt-3.title( slot="input") {{ $t(`rates.lessonsUpdate`) }}
+            v-text-field(
+              slot="input"
+              v-model="props.item.weeklyLessons"
+              label="Edit"
+              single-line
+              autofocus
+            )
 
     v-btn(fixed dark fab bottom right color="pink"
       @click="dialog = !dialog"
