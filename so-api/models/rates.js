@@ -19,7 +19,7 @@ const Rate = sequelize.define(
       type: Sequelize.FLOAT,
     },
     weeklyLessons: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.FLOAT,
     },
     info: {
       type: Sequelize.JSON,

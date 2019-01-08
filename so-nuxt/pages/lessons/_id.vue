@@ -15,12 +15,12 @@ export default {
       lesson: {},
       registrationHeaders: [
         {
-          text: `student name`,
+          text: `students.tableName`,
           align: `left`,
           value: `user.name`,
         },
         {
-          text: `rate name`,
+          text: `rates.name`,
           align: `left`,
           sortable: false,
         },
@@ -51,7 +51,7 @@ export default {
 .so-wrapper
 
   .so-top-bar
-    h1.display-1 lesson: {{lesson.name}}
+    h1.display-1 {{ $t(`lessons.withName`, {name: lesson.name}) }}
 
   .so-content: .so-page-lesson
     v-card
@@ -59,20 +59,30 @@ export default {
       v-divider
       v-list(dense)
         v-list-tile
-          v-list-tile-content Teacher
+          v-list-tile-content {{ $t(`teachers.singular`) }}
           v-list-tile-content.align-end
             nuxt-link(:to="`/teachers/${lesson.teacher.id}`")
               | {{lesson.teacher.name}}
         v-list-tile
-          v-list-tile-content Place
+          v-list-tile-content {{ $t(`places.singular`) }}
           v-list-tile-content.align-end
             nuxt-link(:to="`/places/${lesson.place.id}`")
               | {{lesson.place.name}}
+        v-list-tile
+          v-list-tile-content {{ $t(`day`) }}
+          v-list-tile-content.align-end
+              | {{ $t(`days.${lesson.dayName}`) }}
+        v-list-tile
+          v-list-tile-content {{ $t(`schedules`) }}
+          v-list-tile-content.align-end
+              | {{ lesson.schedule }}
 
     v-data-table.elevation-1(
       :headers="registrationHeaders"
       :items="lesson.registrations"
     )
+      template(slot="headerCell" slot-scope="props")
+        | {{ $t(props.header.text) }}
       template( slot="items" slot-scope="props")
         td
           nuxt-link(:to="`/users/${props.item.user.id}`") {{ props.item.user.name }}
