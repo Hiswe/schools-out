@@ -17,16 +17,16 @@ async function listTags(ctx) {
     include: defaultRelations,
     order: [[`name`, `ASC`]],
   }
-  const { tagId } = ctx.state.jwtData
-  if (tagId) params.where = { tagId }
+  const { schoolId } = ctx.state.jwtData
+  if (schoolId) params.where = { schoolId }
   const rates = await Tag.findAll(params)
   ctx.body = rates
 }
 
 async function createTag(ctx) {
   const { body } = ctx.request
-  const { tagId } = ctx.state.jwtData
-  body.tagId = body.tagId || tagId
+  const { schoolId } = ctx.state.jwtData
+  body.schoolId = body.schoolId || schoolId
   const newTag = await Tag.create(body)
   const rate = await Tag.findByPk(newTag.id, {
     include: defaultRelations,

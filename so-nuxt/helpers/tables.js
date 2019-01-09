@@ -1,6 +1,6 @@
 export const rowsPerPageItems = [
-  10,
   25,
   50,
+  100,
   // rows-per-page-items
 ]

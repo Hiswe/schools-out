@@ -1,6 +1,6 @@
 'use strict'
 
-const { Rate } = require('../models')
+const { Rate, Tag } = require('../models')
 const { printInstance } = require('./helpers')
 
 module.exports = {
@@ -10,7 +10,12 @@ module.exports = {
   update: updateRate,
 }
 
-const defaultRelations = Object.freeze([])
+const defaultRelations = Object.freeze([
+  {
+    model: Tag,
+    attributes: [`name`],
+  },
+])
 
 async function listRates(ctx) {
   const params = {

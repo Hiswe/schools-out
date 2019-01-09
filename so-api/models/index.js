@@ -47,10 +47,9 @@ Lesson.belongsTo(Place)
 Lesson.hasMany(Registration)
 
 Rate.belongsTo(School)
-Rate.belongsToMany(Tag, { through: `RateTag` })
+Rate.belongsTo(Tag)
 
 Tag.belongsTo(School)
-Tag.belongsToMany(Rate, { through: `RateTag` })
 
 Registration.belongsTo(School)
 Registration.belongsTo(User)

@@ -1,4 +1,6 @@
 <script>
+import { rowsPerPageItems } from '~/helpers/tables'
+
 export default {
   name: `so-page-rates`,
   meta: {
@@ -6,6 +8,7 @@ export default {
   },
   data() {
     return {
+      rowsPerPageItems,
       rates: [],
       tags: [],
       rateValid: true,
@@ -16,10 +19,11 @@ export default {
         v => !!v || `price is required`,
         v => v > 0 || `price can't be null`,
       ],
-      sessionsRules: [
-        v => !!v || `sessions is required`,
-        v => v > 0 || `sessions can't be null`,
+      hoursRules: [
+        v => !!v || `hours is required`,
+        v => v > 0 || `hours can't be null`,
       ],
+      tagsRules: [v => !!v || `tags is required`],
       headers: [
         {
           text: `name`,
@@ -33,6 +37,10 @@ export default {
         {
           text: `rates.weeklyHours`,
           value: `weeklyHours`,
+        },
+        {
+          text: `rates.tag`,
+          value: `tag.name`,
         },
       ],
       dialog: false,
@@ -52,6 +60,7 @@ export default {
       const rate = await this.$axios.$post(`/rates`, this.newRate)
       this.rates.push(rate)
       this.$refs.rateForm.reset()
+      this.dialog = false
     },
     clearRate() {
       this.$refs.rateForm.reset()
@@ -83,6 +92,7 @@ export default {
       v-data-table.elevation-1(
         :headers="headers"
         :items="rates"
+        :rows-per-page-items="rowsPerPageItems"
       )
         template(slot="headerCell" slot-scope="props")
           | {{ $t(props.header.text) }}
@@ -145,9 +155,10 @@ export default {
                 single-line
                 autofocus
               )
+          td: div {{ props.item.tag.name }}
 
       div: v-card
-        v-card-title: h4 {{ $t(`tags.plural`) }}
+        v-card-title: h4 {{ $t(`rates.tags`) }}
         v-divider
         v-list(dense)
           template(v-for="(tag, index) in tags")
@@ -161,7 +172,7 @@ export default {
           v-list-tile
             v-list-tile-content
               v-text-field(
-                :placeholder="$t(`tags.new`)"
+                :placeholder="$t(`rates.tagsNew`)"
                 v-model="newTag.name"
                 solo
               )
@@ -199,18 +210,16 @@ export default {
               v-model.number="newRate.weeklyHours"
               :label="$t(`rates.weeklyHoursShort`)"
               type="number"
-              :rules="sessionsRules"
+              :rules="hoursRules"
               required
             )
             v-select.so-form-rate__tags(
-              v-model="newRate.pouic"
+              v-model="newRate.tagId"
               :items="tags"
               item-text="name"
               item-value="id"
-              :label="$t(`tags.plural`)"
-              multiple
-              small-chips
-              :deletable-chips="true"
+              :rules="tagsRules"
+              :label="$t(`rates.tag`)"
             )
           v-card-actions
             v-btn(

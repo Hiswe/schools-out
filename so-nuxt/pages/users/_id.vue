@@ -42,7 +42,7 @@ export default {
         v => v > 0 || `lessons can't be null`,
       ],
       rateName(rate) {
-        return `${rate.name} - ${rate.weeklyLessons}/w - ${rate.price}€`
+        return `${rate.name} - ${rate.weeklyHours}/w - ${rate.price}€`
       },
     }
   },
@@ -93,7 +93,7 @@ export default {
       )
         template( slot="items" slot-scope="props")
           td {{ props.item.lesson.name }}
-          td {{ props.item.rate.name }} - {{ props.item.rate.weeklyLessons }}/w
+          td {{ props.item.rate.name }} - {{ props.item.rate.weeklyHours }}/w
           td.text-xs-right {{ props.item.rate.price }}
           td {{ props.item.lesson.teacher.name }}
 
