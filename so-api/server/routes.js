@@ -3,21 +3,14 @@
 const { inspect } = require('util')
 const Router = require('koa-router')
 
-const {
-  School,
-  User,
-  Place,
-  Teacher,
-  Lesson,
-  Rate,
-  Registration,
-} = require('../models')
+const { School, User, Place, Teacher } = require('../models')
 const lessons = require('./lessons')
 const places = require('./places')
 const teachers = require('./teachers')
 const registrations = require('./registrations')
 const rates = require('./rates')
 const tags = require('./tags')
+const users = require('./users')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
@@ -124,63 +117,8 @@ apiRouter
   .get(`/users/types`, async ctx => {
     ctx.body = USER_TYPES.list
   })
-  .get(`/users`, async ctx => {
-    const params = {
-      include: [
-        {
-          model: School,
-          attributes: [`id`, `name`],
-        },
-      ],
-    }
-    const { schoolId } = ctx.state.jwtData
-    if (schoolId) params.where = { schoolId }
-    const users = await User.findAll(params)
-    ctx.body = users
-  })
-  .post(`/users`, async ctx => {
-    const { body } = ctx.request
-    const { schoolId } = ctx.state.jwtData
-    body.schoolId = body.schoolId || schoolId
-    const newUser = await User.create(body)
-    const user = await User.findByPk(newUser.id, {
-      include: [
-        {
-          model: School,
-          attributes: [`id`, `name`],
-        },
-      ],
-    })
-    ctx.body = user
-  })
-  .get(`/users/:userId`, async ctx => {
-    const { userId } = ctx.params
-    const user = await User.findByPk(userId, {
-      include: [
-        {
-          model: School,
-          attributes: [`id`, `name`],
-        },
-        {
-          model: Registration,
-          include: [
-            {
-              model: Lesson,
-              include: [
-                {
-                  model: Teacher,
-                },
-              ],
-            },
-            {
-              model: Rate,
-            },
-          ],
-        },
-      ],
-    })
-    printInstance(user)
-    ctx.body = user
-  })
+  .get(`/users`, users.list)
+  .post(`/users`, users.create)
+  .get(`/users/:userId`, users.read)
 
 module.exports = apiRouter
