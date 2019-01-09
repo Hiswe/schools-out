@@ -14,7 +14,6 @@ const users = require('./users')
 const USER_TYPES = require('../models/users-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
-const { printInstance } = require('./helpers')
 
 const apiRouter = new Router({
   prefix: `/v1`,
@@ -90,6 +89,7 @@ apiRouter
   .get(`/places`, places.list)
   .post(`/places`, places.create)
   //----- RATES
+  .get(`/rates/grid`, rates.listGrid)
   .get(`/rates/:rateId`, rates.read)
   .post(`/rates/:rateId`, rates.update)
   .get(`/rates`, rates.list)
