@@ -185,24 +185,28 @@ export default {
         v-tab-item(
           key="grid-view"
         )
-          template(v-for="(ratesGroup, index) in gridRates")
-            h3(:key="`rates-${ratesGroup.name}-name`") {{ ratesGroup.name }}
-            table.so-rates-grid(:key="`rates-${index}`")
-              thead: tr: th(
-                v-for="header in ratesGroup.header"
-                :key="`rates-group-${header}`"
-                v-text="header"
-              )
-              tbody
-                tr(
-                  v-for="(row, rowIndex) in ratesGroup.body"
-                  :key="`rates-group-row-${rowIndex}`"
+          .so-rates-grids
+            div(
+              v-for="(ratesGroup, index) in gridRates"
+              :key="`rates-${ratesGroup.name}-name`"
+            )
+              h3.title {{ ratesGroup.name }}
+              table.so-rates-grid
+                thead: tr: th(
+                  v-for="header in ratesGroup.header"
+                  :key="`rates-group-${header}`"
+                  v-text="header"
                 )
-                  td(
-                    v-for="rate in row"
-                    :key="`rates-group-price-${rate.id}`"
-                    v-text="rate.duration || rate.price"
+                tbody
+                  tr(
+                    v-for="(row, rowIndex) in ratesGroup.body"
+                    :key="`rates-group-row-${rowIndex}`"
                   )
+                    td(
+                      v-for="rate in row"
+                      :key="`rates-group-price-${rate.id}`"
+                      v-text="rate.duration || rate.price"
+                    )
 
 
       div: v-card
@@ -295,9 +299,21 @@ export default {
 .so-form-rate__tags {
   grid-column: 3 / -1;
 }
+.so-rates-grids {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
 .so-rates-grid {
   border: 1px solid black;
   border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 1rem;
+
+  th {
+    font-weight: 500;
+    font-size: 12px;
+  }
 
   td,
   th {
