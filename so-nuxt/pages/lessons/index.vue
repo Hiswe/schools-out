@@ -1,5 +1,6 @@
 <script>
 import SoLessonForm from '~/components/lesson-form.vue'
+import { rowsPerPageItems } from '~/helpers/tables'
 
 export default {
   name: `so-page-lessons`,
@@ -16,12 +17,7 @@ export default {
       places: [],
       teachers: [],
       newLesson: {},
-      lessonsRows: [
-        10,
-        25,
-        50,
-        // rows-per-page-items
-      ],
+      rowsPerPageItems,
       lessonHeaders: [
         {
           text: `lessons.tableName`,
@@ -29,7 +25,7 @@ export default {
           value: `name`,
         },
         {
-          text: `place`,
+          text: `places.singular`,
           align: `left`,
           value: `place.name`,
         },
@@ -41,12 +37,17 @@ export default {
         {
           text: `day`,
           align: `left`,
-          // value: `teacher.name`,
+          value: `teacher.name`,
         },
         {
           text: `begin`,
           align: `left`,
           value: `startHour`,
+        },
+        {
+          text: `duration`,
+          align: `left`,
+          value: `duration`,
         },
       ],
       nameRules: [v => !!v || `Name is required`],
@@ -81,7 +82,7 @@ export default {
 
   .so-content
     v-data-table.elevation-1(
-      :rows-per-page-items="lessonsRows"
+      :rows-per-page-items="rowsPerPageItems"
       :headers="lessonHeaders"
       :items="lessons"
     )
@@ -94,6 +95,7 @@ export default {
         td {{ props.item.teacher.name }}
         td {{ props.item.dayName }}
         td {{ props.item.startHour }}
+        td {{ props.item.duration | duration }}
 
   v-btn(fixed dark fab bottom right color="pink"
     @click="dialog = !dialog"

@@ -11,6 +11,7 @@ export default {
   plugins: [
     `@/plugins/vue-libraries.js`,
     `@/plugins/nuxt-axios.js`,
+    `@/plugins/vue-filters.js`,
     // `@/plugins/global-acount-components.ts`,
     { src: `@/plugins/nuxt-client-init`, ssr: false },
     // { src: `@/plugins/dom-libraries`, ssr: false },

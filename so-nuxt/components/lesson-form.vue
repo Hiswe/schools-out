@@ -1,13 +1,4 @@
 <script>
-const hours = Array.from({ length: 28 }).map((v, i) => {
-  const hour = 9 + Math.floor(i / 2)
-  const padHour = `${hour}`.padStart(2, `0`)
-  const minutes = `${(i % 2) * 30}`.padStart(2, `0`)
-  return {
-    text: `${hour}h${minutes}`,
-    value: `${padHour}:${minutes}`,
-  }
-})
 const durations = [
   {
     text: `30min`,
@@ -66,7 +57,7 @@ export default {
     },
     title: {
       type: String,
-      default: `new lesson`,
+      default: `lessons.new`,
     },
     submitText: {
       type: String,
@@ -86,7 +77,9 @@ export default {
       startRules: [v => !!v || `start is required`],
       durations,
       days,
-      hours,
+      allowedHours: v => v >= 9 && v <= 22,
+      allowedMinutes: m => m % 5 === 0,
+      hourPickerMenu: false,
     }
   },
   async created() {
@@ -123,11 +116,11 @@ v-form(
       primary-title
       v-if="title"
     )
-      .headline {{ this.title }}
+      .headline {{ $t(this.title) }}
     v-card-text.so-form-lesson
       v-text-field.so-form-lesson__name(
         v-model="value.name"
-        label="lesson name"
+        :label="$t(`lessons.tableName`)"
         :rules="nameRules"
         required
       )
@@ -135,7 +128,7 @@ v-form(
         :items="teachers"
         item-text="name"
         item-value="id"
-        label="teacher"
+        :label="$t(`teachers.singular`)"
         v-model="value.teacherId"
         :rules="teacherRules"
         required
@@ -144,28 +137,52 @@ v-form(
         :items="places"
         item-text="name"
         item-value="id"
-        label="place"
+        :label="$t(`places.singular`)"
         v-model="value.placeId"
         :rules="placeRules"
         required
       )
       v-select.so-form-lesson__day(
         :items="days"
-        label="day"
+        :label="$t(`day`)"
         v-model="value.day"
         :rules="dayRules"
         required
       )
-      v-select.so-form-lesson__start(
-        :items="hours"
-        label="start at"
-        v-model="value.startHour"
-        :rules="startRules"
-        required
+      v-menu.so-form-lesson__start(
+        ref="hourMenu"
+        :close-on-content-click="false"
+        v-model="hourPickerMenu"
+        :nudge-right="40"
+        :return-value.sync="value.startHour"
+        lazy
+        transition="scale-transition"
+        offset-y
+        full-width
+        max-width="290px"
+        min-width="290px"
       )
+        v-text-field(
+          slot="activator"
+          v-model="value.startHour"
+          :label="$t(`lessons.startAt`)"
+          prepend-icon="access_time"
+          :rules="startRules"
+          required
+          readonly
+        )
+        v-time-picker(
+          v-if="hourPickerMenu"
+          v-model="value.startHour"
+          full-width
+          format="24hr"
+          :allowedHours="allowedHours"
+          :allowedMinutes="allowedMinutes"
+          @change="$refs.hourMenu.save(value.startHour)"
+        )
       v-select.so-form-lesson__duration(
         :items="durations"
-        label="duration"
+        :label="$t(`lessons.duration`)"
         v-model="value.duration"
         :rules="durationRules"
         required

@@ -303,6 +303,7 @@ export default {
   padding: 2rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  background: white;
 }
 .so-rates-grid {
   border: 1px solid black;
