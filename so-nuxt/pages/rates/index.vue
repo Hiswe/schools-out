@@ -53,8 +53,8 @@ export default {
   },
   computed: {
     gridRates() {
-      return []
-      // return soHelpers.ratesTableToGrid(this.rates)
+      // return []
+      return soHelpers.ratesTableToGrid(this.rates)
     },
   },
   async asyncData(nuxtContext) {
@@ -185,10 +185,24 @@ export default {
         v-tab-item(
           key="grid-view"
         )
-          template(v-for="(rate, index) in gridRates")
-            div rates-{{index}}
-              table(:key="`rates-${index}`")
-                thead
+          template(v-for="(ratesGroup, index) in gridRates")
+            h3(:key="`rates-${ratesGroup.name}-name`") {{ ratesGroup.name }}
+            table.so-rates-grid(:key="`rates-${index}`")
+              thead: tr: th(
+                v-for="header in ratesGroup.header"
+                :key="`rates-group-${header}`"
+                v-text="header"
+              )
+              tbody
+                tr(
+                  v-for="(row, rowIndex) in ratesGroup.body"
+                  :key="`rates-group-row-${rowIndex}`"
+                )
+                  td(
+                    v-for="rate in row"
+                    :key="`rates-group-price-${rate.id}`"
+                    v-text="rate.duration || rate.price"
+                  )
 
 
       div: v-card
@@ -280,5 +294,15 @@ export default {
 }
 .so-form-rate__tags {
   grid-column: 3 / -1;
+}
+.so-rates-grid {
+  border: 1px solid black;
+  border-collapse: collapse;
+
+  td,
+  th {
+    border: 1px solid black;
+    padding: 0.5rem 1rem;
+  }
 }
 </style>

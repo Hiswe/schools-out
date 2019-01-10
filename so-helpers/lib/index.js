@@ -2,26 +2,19 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const { inspect } = require('util');
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-function flow(funcs) {
-  const length = funcs ? funcs.length : 0;
-  let index = length;
-  while (index--) {
-    if (typeof funcs[index] != 'function') {
-      throw new TypeError('Expected a function')
-    }
-  }
-  return function(...args) {
-    let index = 0;
-    let result = length ? funcs[index].apply(this, args) : args[0];
-    while (++index < length) {
-      result = funcs[index].call(this, result);
-    }
-    return result
-  }
-}
+var flow = _interopDefault(require('lodash.flow'));
+var luxon = require('luxon');
+var slugify = _interopDefault(require('@sindresorhus/slugify'));
+
 const getNestedValue = (obj, keys) => keys.reduce((o, k) => o[k], obj);
+
+const formatHour = hours => {
+  return luxon.Duration.fromObject({ hours })
+    .toFormat(`h:mm`)
+    .replace(`:`, `h`)
+};
 
 const splitBy = keys => (aggregator, val) => {
   const keyName = getNestedValue(val, keys);
@@ -63,8 +56,12 @@ const createGrid = ([groupName, rates]) => {
     return acc
   }, {});
   const priceGrid = durations.map(duration => {
+    const formatedDuration = formatHour(duration);
     return [
-      duration,
+      {
+        id: `duration-${slugify(groupName)}-${formatedDuration}`,
+        duration: formatedDuration,
+      },
       ...categories.map(category => {
         return rates[`${duration}-${category}`] || {}
       }),
@@ -85,4 +82,5 @@ const ratesTableToGrid = flow([
   groupedRates => groupedRates.map(createGrid),
 ]);
 
+exports.formatHour = formatHour;
 exports.ratesTableToGrid = ratesTableToGrid;

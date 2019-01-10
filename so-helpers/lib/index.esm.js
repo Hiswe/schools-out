@@ -1,23 +1,14 @@
-const { inspect } = require('util');
+import flow from 'lodash.flow';
+import { Duration } from 'luxon';
+import slugify from '@sindresorhus/slugify';
 
-function flow(funcs) {
-  const length = funcs ? funcs.length : 0;
-  let index = length;
-  while (index--) {
-    if (typeof funcs[index] != 'function') {
-      throw new TypeError('Expected a function')
-    }
-  }
-  return function(...args) {
-    let index = 0;
-    let result = length ? funcs[index].apply(this, args) : args[0];
-    while (++index < length) {
-      result = funcs[index].call(this, result);
-    }
-    return result
-  }
-}
 const getNestedValue = (obj, keys) => keys.reduce((o, k) => o[k], obj);
+
+const formatHour = hours => {
+  return Duration.fromObject({ hours })
+    .toFormat(`h:mm`)
+    .replace(`:`, `h`)
+};
 
 const splitBy = keys => (aggregator, val) => {
   const keyName = getNestedValue(val, keys);
@@ -59,8 +50,12 @@ const createGrid = ([groupName, rates]) => {
     return acc
   }, {});
   const priceGrid = durations.map(duration => {
+    const formatedDuration = formatHour(duration);
     return [
-      duration,
+      {
+        id: `duration-${slugify(groupName)}-${formatedDuration}`,
+        duration: formatedDuration,
+      },
       ...categories.map(category => {
         return rates[`${duration}-${category}`] || {}
       }),
@@ -81,4 +76,4 @@ const ratesTableToGrid = flow([
   groupedRates => groupedRates.map(createGrid),
 ]);
 
-export { ratesTableToGrid };
+export { formatHour, ratesTableToGrid };

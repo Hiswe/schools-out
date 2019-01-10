@@ -16,7 +16,7 @@ const config = {
   ],
   plugins: [],
   // https://rollupjs.org/guide/en#warning-treating-module-as-external-dependency
-  external: [],
+  external: [`@sindresorhus/slugify`, `lodash.flow`, `luxon`],
 }
 
 export default [config]
