@@ -1,9 +1,14 @@
 {
   "name": "@schools-out/helpers",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.0.1",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "rollup --config"
+  },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "rollup": "^1.1.0"
+  }
 }

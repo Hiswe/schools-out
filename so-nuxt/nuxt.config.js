@@ -3,6 +3,7 @@ export default {
   build: {
     // transpile: ['vuejs-datepicker'],
   },
+  ignore: [`**@schools-out/helpers**`, `soHelpers`],
   css: [
     `vuetify/dist/vuetify.min.css`,
     // `@/assets/vuetify.styl`, `@/assets/global.scss`

@@ -1,5 +1,9 @@
 <script>
+import * as soHelpers from '@schools-out/helpers'
+
 import { rowsPerPageItems } from '~/helpers/tables'
+
+// console.log(soHelpers)
 
 export default {
   name: `so-page-rates`,
@@ -14,6 +18,7 @@ export default {
       rateValid: true,
       newRate: {},
       newTag: {},
+      tabActive: null,
       nameRules: [v => !!v || `Name is required`],
       priceRules: [
         v => !!v || `price is required`,
@@ -45,6 +50,12 @@ export default {
       ],
       dialog: false,
     }
+  },
+  computed: {
+    gridRates() {
+      return []
+      // return soHelpers.ratesTableToGrid(this.rates)
+    },
   },
   async asyncData(nuxtContext) {
     const { $axios } = nuxtContext
@@ -89,73 +100,96 @@ export default {
 
   .so-content
     .so-page-rates
-      v-data-table.elevation-1(
-        :headers="headers"
-        :items="rates"
-        :rows-per-page-items="rowsPerPageItems"
+      v-tabs.elevation-1(
+        v-model="tabActive"
+        dark
       )
-        template(slot="headerCell" slot-scope="props")
-          | {{ $t(props.header.text) }}
+        v-tab(
+          key="table-view"
+          ripple
+        ) table
+        v-tab(
+          key="grid-view"
+          ripple
+        ) grid
+        v-tab-item(
+          key="table-view"
+        )
+          v-data-table(
+            :headers="headers"
+            :items="rates"
+            :rows-per-page-items="rowsPerPageItems"
+          )
+            template(slot="headerCell" slot-scope="props")
+              | {{ $t(props.header.text) }}
 
-        template( slot="items" slot-scope="props")
-          td
-            v-edit-dialog(
-              :return-value.sync="props.item.name"
-              @save="save(props.item)"
-              large
-              lazy
-              persistent
-              save-text="ok"
-              :cancel-text="$t(`cancel`)"
-            )
-              div {{ props.item.name }}
-              .mt-3.title( slot="input") {{ $t(`rates.nameUpdate`) }}
-              v-text-field(
-                slot="input"
-                v-model="props.item.name"
-                label="Edit"
-                single-line
-                autofocus
-              )
-          td
-            v-edit-dialog(
-              :return-value.sync="props.item.price"
-              @save="save(props.item)"
-              large
-              lazy
-              persistent
-              save-text="ok"
-              :cancel-text="$t(`cancel`)"
-            )
-              div {{ props.item.price }}
-              .mt-3.title( slot="input") {{ $t(`rates.priceUpdate`) }}
-              v-text-field(
-                slot="input"
-                v-model="props.item.price"
-                label="Edit"
-                single-line
-                autofocus
-              )
-          td
-            v-edit-dialog(
-              :return-value.sync="props.item.weeklyHours"
-              @save="save(props.item)"
-              large
-              lazy
-              persistent
-              save-text="ok"
-              :cancel-text="$t(`cancel`)"
-            )
-              div {{ props.item.weeklyHours }}
-              .mt-3.title( slot="input") {{ $t(`rates.weeklyHours`) }}
-              v-text-field(
-                slot="input"
-                v-model="props.item.weeklyHours"
-                label="Edit"
-                single-line
-                autofocus
-              )
-          td: div {{ props.item.tag.name }}
+            template( slot="items" slot-scope="props")
+              td
+                v-edit-dialog(
+                  :return-value.sync="props.item.name"
+                  @save="save(props.item)"
+                  large
+                  lazy
+                  persistent
+                  save-text="ok"
+                  :cancel-text="$t(`cancel`)"
+                )
+                  div {{ props.item.name }}
+                  .mt-3.title( slot="input") {{ $t(`rates.nameUpdate`) }}
+                  v-text-field(
+                    slot="input"
+                    v-model="props.item.name"
+                    label="Edit"
+                    single-line
+                    autofocus
+                  )
+              td
+                v-edit-dialog(
+                  :return-value.sync="props.item.price"
+                  @save="save(props.item)"
+                  large
+                  lazy
+                  persistent
+                  save-text="ok"
+                  :cancel-text="$t(`cancel`)"
+                )
+                  div {{ props.item.price }}
+                  .mt-3.title( slot="input") {{ $t(`rates.priceUpdate`) }}
+                  v-text-field(
+                    slot="input"
+                    v-model="props.item.price"
+                    label="Edit"
+                    single-line
+                    autofocus
+                  )
+              td
+                v-edit-dialog(
+                  :return-value.sync="props.item.weeklyHours"
+                  @save="save(props.item)"
+                  large
+                  lazy
+                  persistent
+                  save-text="ok"
+                  :cancel-text="$t(`cancel`)"
+                )
+                  div {{ props.item.weeklyHours }}
+                  .mt-3.title( slot="input") {{ $t(`rates.weeklyHours`) }}
+                  v-text-field(
+                    slot="input"
+                    v-model="props.item.weeklyHours"
+                    label="Edit"
+                    single-line
+                    autofocus
+                  )
+              td: div {{ props.item.tag.name }}
+        v-tab-item(
+          key="grid-view"
+        )
+          template(v-for="(rate, index) in gridRates")
+            div rates-{{index}}
+              table(:key="`rates-${index}`")
+                thead
+
 
       div: v-card
         v-card-title: h4 {{ $t(`rates.tags`) }}

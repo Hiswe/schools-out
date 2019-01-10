@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.3",
+    "@schools-out/helpers": "1.0.1",
     "chalk": "^2.4.1",
     "dayjs": "^1.7.8",
     "ip": "^1.1.5",

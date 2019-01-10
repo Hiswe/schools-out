@@ -1,6 +1,6 @@
 {
   "name": "@schools-out/nuxt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "@schools-out/helpers": "1.0.0",
     "cookie-universal-nuxt": "^2.0.11",
     "lodash.isnil": "^4.0.0",
     "lodash.merge": "^4.6.1",

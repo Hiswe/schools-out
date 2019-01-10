@@ -36,7 +36,7 @@ const config = rc(`schoolsOutApi`, {
   jwt: {
     // node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
     secret: `27618ee0bbfbf13ab04b310b88091c79810da099841675ccba82a84e9722872f`,
-    expiresIn: `1 days`,
+    expiresIn: `1 weeks`,
   },
   enforceHttps: false,
 })
