@@ -1,6 +1,8 @@
 <script>
 import merge from 'lodash.merge'
 
+import { rowsPerPageItems } from '~/helpers/tables'
+
 export default {
   name: `so-page-students-list`,
   data() {
@@ -24,6 +26,7 @@ export default {
       ],
       valid: true,
       newStudent: {},
+      rowsPerPageItems,
       nameRules: [
         v => !!v || `Name is required`,
         // v => (v && v.length <= 10) || 'Name must be less than 10 characters'
@@ -76,6 +79,7 @@ export default {
     v-data-table.elevation-1(
       :headers="headers"
       :items="students"
+      :rows-per-page-items="rowsPerPageItems"
     )
       template(slot="headerCell" slot-scope="props")
         | {{ $t(props.header.text) }}

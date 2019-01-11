@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: `so-oage-registrations-new`,
+  name: `so-page-registrations-new`,
   data() {
     return {
       newRegistration: {},

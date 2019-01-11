@@ -54,7 +54,7 @@ const Student = sequelize.define(
       validate: {
         isIn: [USER_TYPES.list],
       },
-      default: USER_TYPES[0],
+      defaultValue: USER_TYPES.USER,
     },
     name: {
       type: Sequelize.STRING,
