@@ -5,7 +5,7 @@ const {
   Teacher,
   Place,
   Registration,
-  User,
+  Student,
   Rate,
 } = require('../models')
 const { printInstance } = require('./helpers')
@@ -30,7 +30,7 @@ const defaultRelations = Object.freeze([
     model: Registration,
     include: [
       {
-        model: User,
+        model: Student,
         attributes: [`id`, `name`, `email`],
       },
       {

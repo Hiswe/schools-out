@@ -4,7 +4,7 @@ const jwt = require('koa-jwt')
 const jsonwebtoken = require('jsonwebtoken')
 
 const config = require('../config')
-const { School, User } = require('../models')
+const { School, Student } = require('../models')
 const { secret, expiresIn } = config.jwt
 
 function createAccessToken(user) {

@@ -6,7 +6,7 @@ const {
   Registration,
   Teacher,
   Place,
-  User,
+  Student,
   Rate,
   Lesson,
 } = require('../models')
@@ -21,7 +21,7 @@ module.exports = {
 
 const defaultRelations = Object.freeze([
   {
-    model: User,
+    model: Student,
     attributes: [`id`, `name`],
   },
   {
