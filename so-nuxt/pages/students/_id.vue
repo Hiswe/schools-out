@@ -11,8 +11,6 @@ export default {
       student: {},
       lessons: [],
       rates: [],
-      registrationValid: true,
-      newRegistration: {},
       headers: [
         {
           text: `lesson name`,
@@ -34,12 +32,6 @@ export default {
           align: `left`,
           value: `lesson.teacher.name`,
         },
-      ],
-      lessonRules: [v => !!v || `Lesson is required`],
-      rateRules: [v => !!v || `Rate is required`],
-      lessonsRules: [
-        v => !!v || `lessons nº is required`,
-        v => v > 0 || `lessons can't be null`,
       ],
       rateName(rate) {
         return `${rate.name} - ${rate.weeklyHours}/w - ${rate.price}€`
@@ -96,46 +88,5 @@ export default {
           td {{ props.item.rate.name }} - {{ props.item.rate.weeklyHours }}/w
           td.text-xs-right {{ props.item.rate.price }}
           td {{ props.item.lesson.teacher.name }}
-
-    v-form(
-      ref="registrationForm"
-      v-model="registrationValid"
-    )
-      h2.display-5.mb-2 {{ $t(`registrations.new`) }}
-      v-card
-        v-card-text
-          v-select(
-            :items="lessons"
-            item-text="name"
-            item-value="id"
-            :label="$t(`lessons.singular`)"
-            v-model="newRegistration.lessonId"
-            :rules="lessonRules"
-            required
-          )
-          v-text-field(
-            v-model.number="newRegistration.duration"
-            label="nº of lessons"
-            type="number"
-            :rules="lessonsRules"
-            required
-          )
-          v-select(
-            :items="rates"
-            :item-text="rateName"
-            item-value="id"
-            :label="$t(`rates.singular`)"
-            v-model="newRegistration.rateId"
-            :rules="rateRules"
-            required
-          )
-        v-card-actions
-          v-btn(
-            :disabled="!registrationValid"
-            @click="submitRegistration"
-            color="primary"
-          ) {{ $t(`registrations.create`) }}
-          v-btn(@click="clearRegistration") {{ $t(`clear`) }}
-
 </template>
 

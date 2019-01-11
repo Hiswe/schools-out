@@ -2,13 +2,15 @@
 import * as soHelpers from '@schools-out/helpers'
 
 import { rowsPerPageItems } from '~/helpers/tables'
-
-// console.log(soHelpers)
+import { SoGridRates } from '~/components/rates'
 
 export default {
   name: `so-page-rates`,
   meta: {
     authRequired: true,
+  },
+  components: {
+    SoGridRates,
   },
   data() {
     return {
@@ -53,7 +55,6 @@ export default {
   },
   computed: {
     gridRates() {
-      // return []
       return soHelpers.ratesTableToGrid(this.rates)
     },
   },
@@ -191,23 +192,7 @@ export default {
               :key="`rates-${ratesGroup.name}-name`"
             )
               h3.title {{ ratesGroup.name }}
-              table.so-rates-grid
-                thead: tr: th(
-                  v-for="header in ratesGroup.header"
-                  :key="`rates-group-${header}`"
-                  v-text="header"
-                )
-                tbody
-                  tr(
-                    v-for="(row, rowIndex) in ratesGroup.body"
-                    :key="`rates-group-row-${rowIndex}`"
-                  )
-                    td(
-                      v-for="rate in row"
-                      :key="`rates-group-price-${rate.id}`"
-                      v-text="rate.duration || rate.price"
-                    )
-
+              so-grid-rates(:rates-group="ratesGroup")
 
       div: v-card
         v-card-title: h4 {{ $t(`rates.tags`) }}
@@ -304,22 +289,5 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   background: white;
-}
-.so-rates-grid {
-  border: 1px solid black;
-  border-collapse: collapse;
-  font-size: 13px;
-  margin-top: 1rem;
-
-  th {
-    font-weight: 500;
-    font-size: 12px;
-  }
-
-  td,
-  th {
-    border: 1px solid black;
-    padding: 0.5rem 1rem;
-  }
 }
 </style>

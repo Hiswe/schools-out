@@ -46,7 +46,8 @@ const createGrid = ([groupName, rates]) => {
   const durations = [...new Set(rates.map(r => r.hours))].sort()
   const categories = makeCategoryOrderedByAveragePrice(rates)
   rates = rates.reduce((acc, rate) => {
-    acc[`${rate.hours}-${rate.category}`] = { id: rate.id, price: rate.price }
+    // keep full rate description
+    acc[`${rate.hours}-${rate.category}`] = rate
     return acc
   }, {})
   const priceGrid = durations.map(duration => {
