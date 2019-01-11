@@ -1,17 +1,16 @@
 'use strict'
 
-const { inspect } = require('util')
 const Router = require('koa-router')
 
-const { School, User, Place, Teacher } = require('../models')
+const { School, Student, Place, Teacher } = require('../models')
 const lessons = require('./lessons')
 const places = require('./places')
 const teachers = require('./teachers')
 const registrations = require('./registrations')
 const rates = require('./rates')
 const tags = require('./tags')
-const users = require('./users')
-const USER_TYPES = require('../models/users-types')
+const students = require('./students')
+// const USER_TYPES = require('../models/students-types')
 const { jwtMiddleware, login } = require('./authentication')
 const config = require('../config')
 
@@ -76,7 +75,7 @@ apiRouter
           attributes: [`id`, `name`, `email`],
         },
         {
-          model: User,
+          model: Student,
           attributes: [`id`, `name`, `email`],
         },
       ],
@@ -114,11 +113,11 @@ apiRouter
   .get(`/teachers`, teachers.list)
   .post(`/teachers`, teachers.create)
   //----- USERS
-  .get(`/users/types`, async ctx => {
-    ctx.body = USER_TYPES.list
-  })
-  .get(`/users`, users.list)
-  .post(`/users`, users.create)
-  .get(`/users/:userId`, users.read)
+  // .get(`/students/types`, async ctx => {
+  //   ctx.body = USER_TYPES.list
+  // })
+  .get(`/students`, students.list)
+  .post(`/students`, students.create)
+  .get(`/students/:userId`, students.read)
 
 module.exports = apiRouter

@@ -1,16 +1,11 @@
 <script>
 import { rowsPerPageItems } from '~/helpers/tables'
-import SoRegistrationForm from '~/components/registration-form'
 
 export default {
   name: `so-page-registrations-list`,
-  components: {
-    SoRegistrationForm,
-  },
   data() {
     return {
       registrations: [],
-      newRegistration: {},
       rowsPerPageItems,
       registrationHeaders: [
         {
@@ -44,24 +39,12 @@ export default {
           value: `lesson.rate.nameFull`,
         },
       ],
-      dialog: false,
     }
   },
   async asyncData(nuxtContext) {
     const { $axios } = nuxtContext
     const [registrations] = await Promise.all([$axios.$get(`/registrations`)])
     return { registrations }
-  },
-  methods: {
-    async onSubmit(newRegistration) {
-      const registration = await this.$axios.$post(
-        `/registrations`,
-        newRegistration,
-      )
-      this.registrations.push(registration)
-      this.$refs.form.reset()
-      this.dialog = false
-    },
   },
 }
 </script>
@@ -82,7 +65,7 @@ export default {
         | {{ $t(props.header.text) }}
       template( slot="items" slot-scope="props")
         td
-          nuxt-link(:to="`/users/${props.item.user.id}`") {{ props.item.user.name }}
+          nuxt-link(:to="`/students/${props.item.user.id}`") {{ props.item.user.name }}
         td
           nuxt-link(:to="`/lessons/${props.item.lesson.id}`") {{ props.item.lesson.name }}
         td {{ props.item.lesson.dayName }}
@@ -90,14 +73,15 @@ export default {
         td {{ props.item.lesson.place.name }}
         td {{ props.item.rate.nameFull }}
 
-  v-btn(fixed dark fab bottom right color="pink"
-    @click="dialog = !dialog"
-  ): v-icon assignment_ind
+  v-btn(
+    fixed
+    dark
+    fab
+    bottom
+    right
+    color="pink"
+    nuxt
+    to="/registrations/new"
 
-  v-dialog(v-model="dialog" max-width="600px")
-    so-registration-form(
-      v-model="newRegistration"
-      ref="form"
-      @submit="onSubmit"
-    )
+  ): v-icon assignment_ind
 </template>

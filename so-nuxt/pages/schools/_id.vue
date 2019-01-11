@@ -74,8 +74,8 @@ export default {
 
   v-tabs(centered icons-and-text dark)
     v-tabs-slider
-    v-tab(href="#users")
-      | Users
+    v-tab(href="#students")
+      | Students
       v-icon group
     v-tab(href="#teachers")
       | Teachers
@@ -84,14 +84,14 @@ export default {
       | Prices
       v-icon attach_money
 
-    v-tab-item(value="users")
+    v-tab-item(value="students")
       v-data-table.elevation-1.mt-5(
         :headers="teacherHeaders"
-        :items="school.users"
+        :items="school.students"
       )
         template( slot="items" slot-scope="props")
           td
-            nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
+            nuxt-link(:to="`/students/${props.item.id}`") {{ props.item.name }}
           td {{ props.item.email }}
 
     v-tab-item(value="teachers")

@@ -13,7 +13,7 @@ export default {
       beginCal: false,
       endCal: false,
 
-      users: [],
+      students: [],
       lessons: [],
       rates: [],
 
@@ -28,12 +28,12 @@ export default {
   },
   async created() {
     const { $axios } = this
-    const [users, lessons, rates] = await Promise.all([
-      $axios.$get(`/users`),
+    const [students, lessons, rates] = await Promise.all([
+      $axios.$get(`/students`),
       $axios.$get(`/lessons`),
       $axios.$get(`/rates`),
     ])
-    this.users = users
+    this.students = students
     this.lessons = lessons
     this.rates = rates
   },
@@ -58,12 +58,10 @@ v-form(
   v-model="formValid"
 )
   v-card
-    v-card-title(primary-title)
-      .headline {{ $t(`registrations.new`) }}
     v-card-text
       .so-form-registration
         v-select.so-form-registration__student(
-          :items="users"
+          :items="students"
           item-text="name"
           item-value="id"
           :label="$t(`students.singular`)"

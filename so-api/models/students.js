@@ -32,8 +32,8 @@ const USER_TYPES = require('./users-types')
 // MODEL DEFINITION
 //////
 
-const User = sequelize.define(
-  `user`,
+const Student = sequelize.define(
+  `student`,
   {
     id: {
       type: Sequelize.UUID,
@@ -54,11 +54,15 @@ const User = sequelize.define(
       validate: {
         isIn: [USER_TYPES.list],
       },
+      default: USER_TYPES[0],
     },
     name: {
       type: Sequelize.STRING,
       allowNull: true,
       // set: dbGetterSetter.setTrimmedString(`name`),
+    },
+    birthday: {
+      type: Sequelize.DATEONLY,
     },
     lang: {
       type: Sequelize.CHAR(2),
@@ -96,14 +100,14 @@ const User = sequelize.define(
 // INSTANCE METHODS
 //////
 
-// User.prototype.comparePassword = async function(password) {
-//   const userPassword = this.getDataValue(`password`)
-//   if (!userPassword) return Promise.resolve(false)
-//   const result = await bcrypt.compare(password, userPassword)
+// Student.prototype.comparePassword = async function(password) {
+//   const studentPassword = this.getDataValue(`password`)
+//   if (!studentPassword) return Promise.resolve(false)
+//   const result = await bcrypt.compare(password, studentPassword)
 //   return result
 // }
 
-// User.prototype.resetPassword = async function(redirectUrl) {
+// Student.prototype.resetPassword = async function(redirectUrl) {
 //   if (!redirectUrl) {
 //     throw new Error(`[USER] account – redirectUrl param is required`)
 //   }
@@ -111,44 +115,44 @@ const User = sequelize.define(
 //   redirectUrl = urlJoin(redirectUrl, `?token=${token}`)
 //   this.setDataValue(`token`, token)
 //   this.setDataValue(`tokenExpire`, moment().add(1, 'day'))
-//   const user = await this.save()
+//   const student = await this.save()
 //   const content = `click here to reset your password:
 
 // ${redirectUrl}
 // `
 //   const mailOptions = {
-//     to: user.email,
+//     to: student.email,
 //     subject: `${config.NAME} – reset password`,
 //     text: content,
 //     html: content.replace('\n', `<br />`),
 //   }
 //   const mailStatus = await mailing.send(mailOptions)
-//   return user
+//   return student
 // }
 
-// User.prototype.resetPasswordTokenOnly = async function() {
+// Student.prototype.resetPasswordTokenOnly = async function() {
 //   const token = randtoken.generate(30)
 //   this.setDataValue(`token`, token)
 //   this.setDataValue(`tokenExpire`, moment().add(1, 'day'))
-//   const user = await this.save()
+//   const student = await this.save()
 //   const content = `this is your confirmation code
 
 // ${token}
 // `
 //   const mailOptions = {
-//     to: user.email,
+//     to: student.email,
 //     subject: `${config.NAME} – reset password`,
 //     text: content,
 //     html: content.replace('\n', `<br />`),
 //   }
 //   const mailStatus = await mailing.send(mailOptions)
-//   return user
+//   return student
 // }
 
-// User.prototype.setPassword = async function(password) {
+// Student.prototype.setPassword = async function(password) {
 //   this.set(`password`, password)
-//   const user = await this.save()
-//   return user
+//   const student = await this.save()
+//   return student
 // }
 
-module.exports = User
+module.exports = Student

@@ -1,13 +1,13 @@
 'use strict'
 
-const { User, Registration, Lesson, Teacher, Rate } = require('../models')
+const { Student, Registration, Lesson, Teacher, Rate } = require('../models')
 const { printInstance } = require('./helpers')
 
 module.exports = {
-  list: listUsers,
-  create: createUser,
-  read: readUser,
-  update: updateUser,
+  list: listStudents,
+  create: createStudent,
+  read: readStudent,
+  update: updateStudent,
 }
 
 const defaultRelations = Object.freeze([
@@ -32,49 +32,49 @@ const defaultAttributes = Object.freeze({
   exclude: [`password`, `token`, `tokenExpire`, `deletedAt`],
 })
 
-async function listUsers(ctx) {
+async function listStudents(ctx) {
   const params = {
     include: defaultRelations,
     attributes: defaultAttributes,
   }
   const { schoolId } = ctx.state.jwtData
   if (schoolId) params.where = { schoolId }
-  const users = await User.findAll(params)
-  ctx.body = users
+  const students = await Student.findAll(params)
+  ctx.body = students
 }
 
-async function createUser(ctx) {
+async function createStudent(ctx) {
   const { body } = ctx.request
   const { schoolId } = ctx.state.jwtData
   body.schoolId = body.schoolId || schoolId
-  const newUser = await User.create(body)
-  const user = await User.findByPk(newUser.id, {
+  const newStudent = await Student.create(body)
+  const student = await Student.findByPk(newStudent.id, {
     include: defaultRelations,
     attributes: defaultAttributes,
   })
-  ctx.body = user
+  ctx.body = student
 }
 
-async function readUser(ctx) {
-  const { userId } = ctx.params
-  const user = await User.findByPk(userId, {
+async function readStudent(ctx) {
+  const { studentId } = ctx.params
+  const student = await Student.findByPk(studentId, {
     include: defaultRelations,
     attributes: defaultAttributes,
   })
-  ctx.body = user
+  ctx.body = student
 }
 
-async function updateUser(ctx) {
-  const { userId } = ctx.params
-  const user = await User.findByPk(userId)
-  ctx.assert(user, 404, `user not found`)
+async function updateStudent(ctx) {
+  const { studentId } = ctx.params
+  const student = await Student.findByPk(studentId)
+  ctx.assert(student, 404, `student not found`)
 
   const { body } = ctx.request
-  await user.update(body)
+  await student.update(body)
 
-  const updatedUser = await User.findByPk(user.id, {
+  const updatedStudent = await Student.findByPk(student.id, {
     include: defaultRelations,
     attributes: defaultAttributes,
   })
-  ctx.body = updatedUser
+  ctx.body = updatedStudent
 }

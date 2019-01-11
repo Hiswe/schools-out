@@ -2,12 +2,14 @@
 import merge from 'lodash.merge'
 
 export default {
-  name: `so-page-users-list`,
+  name: `so-page-students-list`,
   data() {
     return {
       dialog: false,
-      users: [],
-      userTypes: [],
+      birthdayCal: false,
+
+      students: [],
+      studentTypes: [],
       headers: [
         {
           text: `name`,
@@ -21,7 +23,7 @@ export default {
         },
       ],
       valid: true,
-      user: {},
+      newStudent: {},
       nameRules: [
         v => !!v || `Name is required`,
         // v => (v && v.length <= 10) || 'Name must be less than 10 characters'
@@ -34,20 +36,27 @@ export default {
     }
   },
   async asyncData({ $axios, params }) {
-    const [users, userTypes] = await Promise.all([
-      $axios.$get(`/users`),
-      $axios.$get(`/users/types`),
+    const [students, studentTypes] = await Promise.all([
+      $axios.$get(`/students`),
+      $axios.$get(`/students/types`),
     ])
-    return { users, userTypes }
+    return { students, studentTypes }
+  },
+  watch: {
+    // https://vuetifyjs.com/en/components/date-pickers#date-pickers-birthday-picker
+    birthdayCal(val) {
+      if (!val) return
+      this.$nextTick(() => (this.$refs.birthdayPicker.activePicker = `YEAR`))
+    },
   },
   methods: {
     async submit() {
       if (!this.$refs.form.validate()) return console.log(`invalid form`)
-      const userBody = merge({ type: this.userTypes[0] }, this.user)
-      const user = await this.$axios.$post(`/users`, userBody)
-      console.log(user)
+      const studentBody = merge({ type: this.studentTypes[0] }, this.newStudent)
+      const student = await this.$axios.$post(`/students`, studentBody)
+      console.log(student)
 
-      this.users.push(user)
+      this.students.push(student)
       this.dialog = false
       this.$refs.form.reset()
     },
@@ -66,13 +75,13 @@ export default {
   .so-content
     v-data-table.elevation-1(
       :headers="headers"
-      :items="users"
+      :items="students"
     )
       template(slot="headerCell" slot-scope="props")
         | {{ $t(props.header.text) }}
       template( slot="items" slot-scope="props")
         td
-          nuxt-link(:to="`/users/${props.item.id}`") {{ props.item.name }}
+          nuxt-link(:to="`/students/${props.item.id}`") {{ props.item.name }}
         td {{ props.item.email }}
         //- td {{ props.item.school.name }}
 
@@ -85,23 +94,53 @@ export default {
           v-card-title(primary-title)
             .headline {{ $t(`students.new`) }}
           v-card-text
-            .so-user-form
+            .so-student-form
               v-text-field(
-                v-model="user.name"
+                v-model="newStudent.name"
                 label="Name"
                 :rules="nameRules"
                 required
               )
               v-text-field(
-                v-model="user.email"
+                v-model="newStudent.email"
                 label="Email"
                 :rules="emailRules"
                 required
               )
+              v-menu.so-form-registration__start(
+                ref="menuBirthday"
+                :close-on-content-click="false"
+                v-model="birthdayCal"
+                :nudge-right="40"
+                :return-newStudent.sync="newStudent.birthday"
+                lazy
+                transition="scale-transition"
+                offset-y
+                full-width
+                max-width="290px"
+                min-width="290px"
+              )
+                v-text-field(
+                  slot="activator"
+                  v-model="newStudent.birthday"
+                  :label="$t(`students.birthday`)"
+                  prepend-icon="event"
+                  readonly
+                )
+                v-date-picker(
+                  ref="birthdayPicker"
+                  v-model="newStudent.birthday"
+                  :max="new Date().toISOString().substr(0, 10)"
+                  min="1950-01-01"
+                )
+                  v-spacer
+                  v-btn( flat color="primary" @click="birthdayCal = false") {{ $t('close') }}
+                  v-btn( flat color="primary" @click="$refs.menuBirthday.save(newStudent.birthday)") OK
+
               //- v-select(
-              //-   :items="userTypes"
+              //-   :items="studentTypes"
               //-   label="Type"
-              //-   v-model="user.type"
+              //-   v-model="newStudent.type"
               //-   :rules="typeRules"
               //-   required
               //- )
@@ -123,5 +162,4 @@ export default {
   )
     v-icon person_add
 </template>
-
 

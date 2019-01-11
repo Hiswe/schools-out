@@ -2,13 +2,13 @@
 import merge from 'lodash.merge'
 
 export default {
-  name: `so-page-user`,
+  name: `so-page-student`,
   meta: {
     authRequired: true,
   },
   data() {
     return {
-      user: {},
+      student: {},
       lessons: [],
       rates: [],
       registrationValid: true,
@@ -48,12 +48,12 @@ export default {
   },
   async asyncData({ $axios, params }) {
     const { id } = params
-    const [user, lessons, rates] = await Promise.all([
-      $axios.$get(`/users/${id}`),
+    const [student, lessons, rates] = await Promise.all([
+      $axios.$get(`/students/${id}`),
       $axios.$get(`/lessons`),
       $axios.$get(`/rates`),
     ])
-    return { user, lessons, rates }
+    return { student, lessons, rates }
   },
   methods: {
     async submitRegistration() {
@@ -61,7 +61,7 @@ export default {
       const registrationUri = `/registrations`
       const registrationBody = merge(
         {
-          userId: this.user.id,
+          studentId: this.student.id,
         },
         this.newRegistration,
       )
@@ -69,7 +69,7 @@ export default {
         registrationUri,
         registrationBody,
       )
-      this.user.registrations.push(registration)
+      this.student.registrations.push(registration)
       this.$refs.registrationForm.reset()
     },
     clearRegistration() {
@@ -82,14 +82,14 @@ export default {
 <template lang="pug">
 .so-wrapper
   .so-top-bar
-    h1.display-1 {{ $t(`students.withName`, {name: user.name}) }}
+    h1.display-1 {{ $t(`students.withName`, {name: student.name}) }}
 
   .so-content: .so-table-form.mt-4
     div
       h2.display-5.mb-2 {{ $t(`registrations.plural`) }}
       v-data-table.elevation-1(
         :headers="headers"
-        :items="user.registrations"
+        :items="student.registrations"
       )
         template( slot="items" slot-scope="props")
           td {{ props.item.lesson.name }}

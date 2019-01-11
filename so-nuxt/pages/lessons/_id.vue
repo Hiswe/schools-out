@@ -17,7 +17,7 @@ export default {
         {
           text: `students.tableName`,
           align: `left`,
-          value: `user.name`,
+          value: `student.name`,
         },
         {
           text: `rates.name`,
@@ -85,7 +85,7 @@ export default {
         | {{ $t(props.header.text) }}
       template( slot="items" slot-scope="props")
         td
-          nuxt-link(:to="`/users/${props.item.user.id}`") {{ props.item.user.name }}
+          nuxt-link(:to="`/students/${props.item.student.id}`") {{ props.item.student.name }}
         td {{ props.item.rate.nameWeekly }}
         td.text-xs-right {{ props.item.rate.price }}
 

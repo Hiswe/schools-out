@@ -20,7 +20,7 @@ v-list.so-main-menu.pt-0(dense v-if="isUser" dark)
       v-icon assignment
     v-list-tile-content
       v-list-tile-title {{ $t(`lessons.plural`) }}
-  v-list-tile(nuxt to="/users")
+  v-list-tile(nuxt to="/students")
     v-list-tile-action
       v-icon group
     v-list-tile-content

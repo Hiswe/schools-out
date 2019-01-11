@@ -11,7 +11,7 @@ const log = debuglog(`api:db`)
 // MODELS
 
 const School = require('./schools')
-const User = require('./users')
+const Student = require('./students')
 const Teacher = require('./teachers')
 const Place = require('./places')
 const Lesson = require('./lessons')
@@ -23,7 +23,7 @@ const Tag = require('./tags')
 // RELATIONS
 //////
 
-School.hasMany(User)
+School.hasMany(Student)
 School.hasMany(Teacher)
 School.hasMany(Place)
 School.hasMany(Lesson)
@@ -31,8 +31,8 @@ School.hasMany(Rate)
 School.hasMany(Tag)
 
 // TODO: a user can belong to many schools
-User.belongsTo(School)
-User.hasMany(Registration)
+Student.belongsTo(School)
+Student.hasMany(Registration)
 
 Place.hasMany(Lesson)
 // TODO: a room can belong to many schools
@@ -44,7 +44,7 @@ Teacher.hasMany(Lesson)
 Lesson.belongsTo(School)
 Lesson.belongsTo(Teacher)
 Lesson.belongsTo(Place)
-Lesson.hasMany(Registration)
+Lesson.belongsToMany(Registration, { through: `RegistrationLesson` })
 
 Rate.belongsTo(School)
 Rate.belongsTo(Tag)
@@ -52,9 +52,9 @@ Rate.belongsTo(Tag)
 Tag.belongsTo(School)
 
 Registration.belongsTo(School)
-Registration.belongsTo(User)
-Registration.belongsTo(Lesson)
+Registration.belongsTo(Student)
 Registration.belongsTo(Rate)
+Registration.belongsToMany(Lesson, { through: `RegistrationLesson` })
 
 //////
 // SYNC DATABASE
@@ -73,7 +73,7 @@ sequelize.authenticate().then(async () => {
 
 module.exports = {
   sequelize,
-  User,
+  Student,
   Lesson,
   Place,
   Rate,

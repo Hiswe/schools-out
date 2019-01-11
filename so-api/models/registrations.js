@@ -21,6 +21,9 @@ const Registration = sequelize.define(`registration`, {
   endAt: {
     type: Sequelize.DATEONLY,
   },
+  priceAtRegistration: {
+    type: Sequelize.FLOAT,
+  },
   paid: {
     type: Sequelize.FLOAT,
     default: 0,

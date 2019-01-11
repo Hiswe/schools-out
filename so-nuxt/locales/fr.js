@@ -66,6 +66,7 @@ export default {
   students: {
     singular: `élève`,
     plural: `élèves`,
+    birthday: `date de naissance`,
     create: `ajouter cet élève`,
     new: `nouvel élève`,
     tableName: `nom de l'élève`,
