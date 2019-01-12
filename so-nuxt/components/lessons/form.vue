@@ -49,7 +49,7 @@ const days = [
 ]
 
 export default {
-  name: `so-lesson-form`,
+  name: `so-lessons-form`,
   props: {
     value: {
       type: Object,

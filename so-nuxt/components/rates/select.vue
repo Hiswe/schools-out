@@ -36,7 +36,6 @@ export default {
             (a, r) => a.concat(r.slice(1)),
             [],
           )
-          console.log(flattenedHours)
           return acc.concat(flattenedHours)
         }, [])
         .filter(r => r.id)

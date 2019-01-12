@@ -50,7 +50,6 @@ export default {
     },
     async save(place) {
       const { $axios } = this
-      console.log({ place })
       await $axios.$post(`/places/${place.id}`, place)
     },
   },

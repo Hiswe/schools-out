@@ -1,5 +1,5 @@
 <script>
-import SoLessonForm from '~/components/lesson-form.vue'
+import { SoLessonsForm } from '~/components/lessons'
 
 export default {
   name: `so-page-lesson`,
@@ -7,7 +7,7 @@ export default {
     authRequired: true,
   },
   components: {
-    SoLessonForm,
+    SoLessonsForm,
   },
   data() {
     return {
@@ -100,7 +100,7 @@ export default {
   )
     v-icon edit
   v-dialog(v-model="dialog" max-width="600px")
-    so-lesson-form(
+    so-lessons-form(
       v-model="lesson"
       ref="form"
       @submit="onSubmit"

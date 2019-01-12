@@ -74,12 +74,17 @@ table.so-grid-rates(
   padding: 0.5rem 1rem;
 
   &:empty {
-    background: rgba(0, 0, 0, 0.1);
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 5px
+    );
   }
 }
 .so-grid-rates__cell--header {
   font-weight: 500;
-  background: rgba(0, 0, 0, 0.1);
   border-top: none;
 }
 .so-grid-rates__cell--hour {
@@ -90,7 +95,7 @@ table.so-grid-rates(
   text-align: center;
 }
 .so-grid-rates--interactive {
-  .so-grid-rates__cell--price {
+  .so-grid-rates__cell--price:not(:empty) {
     color: var(--v-primary-base);
     cursor: pointer;
 
@@ -98,7 +103,7 @@ table.so-grid-rates(
       text-decoration: underline;
     }
   }
-  .so-grid-rates__cell--selected {
+  .so-grid-rates__cell--selected:not(:empty) {
     color: white;
     background: var(--v-primary-base);
   }

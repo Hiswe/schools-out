@@ -44,7 +44,7 @@ v-app.so-app
 .so-app .application--wrap {
   all: unset;
   display: grid;
-  grid-template-columns: 250px 1fr 50px;
+  grid-template-columns: 200px 1fr 50px;
   grid-template-rows: 50px 1fr;
   grid-template-areas:
     'logo top-bar logout'

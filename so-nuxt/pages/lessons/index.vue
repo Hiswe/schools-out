@@ -1,5 +1,5 @@
 <script>
-import SoLessonForm from '~/components/lesson-form.vue'
+import { SoLessonsList, SoLessonsForm } from '~/components/lessons'
 import { rowsPerPageItems } from '~/helpers/tables'
 
 export default {
@@ -8,7 +8,8 @@ export default {
     authRequired: true,
   },
   components: {
-    SoLessonForm,
+    SoLessonsForm,
+    SoLessonsList,
   },
   data() {
     return {
@@ -81,28 +82,15 @@ export default {
     h1.display-1 {{ $t(`lessons.plural`) }}
 
   .so-content
-    v-data-table.elevation-1(
-      :rows-per-page-items="rowsPerPageItems"
-      :headers="lessonHeaders"
-      :items="lessons"
+    so-lessons-list(
+      :lessons="lessons"
     )
-      template(slot="headerCell" slot-scope="props")
-        | {{ $t(props.header.text) }}
-      template( slot="items" slot-scope="props")
-        td
-          nuxt-link(:to="`/lessons/${props.item.id}`")  {{ props.item.name }}
-        td {{ props.item.place.name }}
-        td {{ props.item.teacher.name }}
-        td {{ props.item.dayName }}
-        td {{ props.item.startHour }}
-        td {{ props.item.duration | duration }}
-
   v-btn(fixed dark fab bottom right color="pink"
     @click="dialog = !dialog"
   ): v-icon add
 
   v-dialog(v-model="dialog" max-width="600px")
-    so-lesson-form(
+    so-lessons-form(
       v-model="newLesson"
       ref="form"
       @submit="onSubmit"
