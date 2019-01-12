@@ -1,7 +1,5 @@
 'use strict'
 
-'use strict'
-
 const {
   Registration,
   Teacher,
@@ -55,10 +53,21 @@ async function listRegistrations(ctx) {
 
 async function createRegistration(ctx) {
   const { body } = ctx.request
+  console.log(body)
   const { schoolId } = ctx.state.jwtData
   body.schoolId = body.schoolId || schoolId
-  console.log(body)
-  const newRegistration = await Registration.create(body)
+  const rate = await Rate.findByPk(body.rateId)
+  body.priceAtRegistration = rate.price
+  body.studentId = body.student ? body.student.id : body.studentId
+  const { lessons } = body
+  delete body.lessons
+
+  const includedLessons = lessons.map(l => l.id)
+  console.log({ includedLessons })
+
+  const newRegistration = new Registration(body)
+  newRegistration.addLessons(includedLessons)
+  await newRegistration.save()
   const registration = await Registration.findByPk(newRegistration.id, {
     include: defaultRelations,
   })

@@ -78,13 +78,12 @@ export default {
   },
   methods: {
     async onSubmit() {
-      if (!this.$refs.registrationForm.validate()) return
-      console.log(this.newRegistration)
-      // const registration = await this.$axios.$post(
-      //   `/registrations`,
-      //   newRegistration,
-      // )
-      // this.$refs.form.reset()
+      const { $refs, $axios, newRegistration } = this
+      if (!$refs.registrationForm.validate()) return
+      console.log(newRegistration)
+      const registration = await $axios.$post(`/registrations`, newRegistration)
+      console.log(registration)
+      // $refs.form.reset()
     },
     // rateId
     clear() {
@@ -112,7 +111,7 @@ export default {
           :items="students"
           item-text="name"
           :return-object="true"
-          v-model="newRegistration.user"
+          v-model="newRegistration.student"
           :rules="studentRules"
           :placeholder="$t(`students.pleaseSelect`)"
           single-line

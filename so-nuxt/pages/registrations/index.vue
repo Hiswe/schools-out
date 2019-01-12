@@ -63,15 +63,15 @@ export default {
     )
       template(slot="headerCell" slot-scope="props")
         | {{ $t(props.header.text) }}
-      template( slot="items" slot-scope="props")
-        td
-          nuxt-link(:to="`/students/${props.item.user.id}`") {{ props.item.user.name }}
-        td
-          nuxt-link(:to="`/lessons/${props.item.lesson.id}`") {{ props.item.lesson.name }}
-        td {{ props.item.lesson.dayName }}
-        td {{ props.item.lesson.startHour }}
-        td {{ props.item.lesson.place.name }}
-        td {{ props.item.rate.nameFull }}
+      //- template( slot="items" slot-scope="props")
+      //-   td
+      //-     nuxt-link(:to="`/students/${props.item.user.id}`") {{ props.item.user.name }}
+      //-   td
+      //-     nuxt-link(:to="`/lessons/${props.item.lesson.id}`") {{ props.item.lesson.name }}
+      //-   td {{ props.item.lesson.dayName }}
+      //-   td {{ props.item.lesson.startHour }}
+      //-   td {{ props.item.lesson.place.name }}
+      //-   td {{ props.item.rate.nameFull }}
 
   v-btn(
     fixed
