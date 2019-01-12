@@ -20,15 +20,6 @@ export default {
     return { category: 0 }
   },
   computed: {
-    categories() {
-      return this.gridRates.map((rates, index) => ({
-        text: rates.name,
-        value: index,
-      }))
-    },
-    ratesGroup() {
-      return this.gridRates[this.category]
-    },
     ratesById() {
       const flatten = this.gridRates
         .reduce((acc, rateGroup) => {
@@ -65,20 +56,26 @@ v-card
       | {{ selected.hours | duration }} - {{ selected.price }}€
   v-divider
   v-card-text
-    v-select(
-      :items="categories"
-      placeholder="select a rate"
-      v-model="category"
-      outline
-      single-line
-      required
+    v-tabs(
+      show-arrows
     )
-
-    so-grid-rates.so-rate-select__grid(
-      :ratesGroup="ratesGroup"
-      :selectedId="value"
-      @select="onSelect"
-    )
+      v-tabs-slider(color="primary")
+      v-tab(
+        v-for="(gridRate, i) in gridRates"
+        :href="`#tab-${i}`"
+        :key="`gridRate-${i}`"
+      ) {{ gridRate.name }}
+      v-tabs-items
+        v-tab-item(
+          v-for="(gridRate, i) in gridRates"
+          :value="`tab-${i}`"
+          :key="`gridRate-tab-${i}`"
+        )
+          so-grid-rates.so-rate-select__grid(
+            :ratesGroup="gridRate"
+            :selectedId="value"
+            @select="onSelect"
+          )
 </template>
 
 <style lang="scss" scoped>
@@ -90,6 +87,7 @@ v-card
   flex: 1 0 auto;
   margin: 0;
   text-align: right;
+  line-height: 0.5;
 }
 .so-rate-select__grid {
   width: 100%;

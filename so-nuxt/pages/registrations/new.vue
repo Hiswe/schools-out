@@ -1,5 +1,6 @@
 <script>
 import * as soHelpers from '@schools-out/helpers'
+// import { formatHour } from '@schools-out/helpers'
 
 import { SoGridRates, SoRatesSelect } from '~/components/rates'
 import { SoLessonsList } from '~/components/lessons'
@@ -76,9 +77,9 @@ export default {
     }
   },
   methods: {
-    async onSubmit(newRegistration) {
+    async onSubmit() {
       if (!this.$refs.registrationForm.validate()) return
-      console.log(newRegistration)
+      console.log(this.newRegistration)
       // const registration = await this.$axios.$post(
       //   `/registrations`,
       //   newRegistration,
@@ -171,10 +172,8 @@ export default {
       v-card-text
         v-menu.so-form-registration__start(
           ref="menuBegin"
-          :close-on-content-click="false"
           v-model="beginCal"
           :nudge-right="40"
-          :return-newRegistration.sync="newRegistration.startAt"
           lazy
           transition="scale-transition"
           offset-y
@@ -194,16 +193,10 @@ export default {
             type="month"
             no-title
           )
-            v-spacer
-            v-btn( flat color="primary" @click="beginCal = false") {{ $t('close') }}
-            v-btn( flat color="primary" @click="$refs.menuBegin.save(newRegistration.startAt)") OK
-
         v-menu.so-form-registration__end(
           ref="menuEnd"
-          :close-on-content-click="false"
           v-model="endCal"
           :nudge-right="40"
-          :return-newRegistration.sync="newRegistration.endAt"
           lazy
           transition="scale-transition"
           offset-y
@@ -223,9 +216,6 @@ export default {
             type="month"
             no-title
           )
-            v-spacer
-            v-btn( flat color="primary" @click="endCal = false") {{ $t('close') }}
-            v-btn( flat color="primary" @click="$refs.menuEnd.save(newRegistration.endAt)") OK
       v-card-actions
         v-btn(
           :disabled="!formValid"

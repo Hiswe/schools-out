@@ -89,6 +89,7 @@ table.so-grid-rates(
 }
 .so-grid-rates__cell--hour {
   text-align: right;
+  color: var(--v-secondary-lighten1);
 }
 .so-grid-rates__cell--price {
   font-weight: 500;
