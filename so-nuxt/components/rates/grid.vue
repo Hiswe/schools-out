@@ -61,30 +61,42 @@ table.so-grid-rates(
 
 <style lang="scss" scoped>
 .so-grid-rates {
-  border: 1px solid black;
-  border-collapse: collapse;
-  font-size: 13px;
+  border: 2px solid var(--v-secondary-lighten2);
+  border-collapse: separate;
+  border-spacing: 0;
   margin-top: 1rem;
+  border-radius: 0.25rem;
 }
+
 .so-grid-rates__cell {
-  border: 1px solid black;
+  border: solid var(--v-secondary-lighten2);
+  border-width: 1px 0 0;
   padding: 0.5rem 1rem;
+
+  &:empty {
+    background: rgba(0, 0, 0, 0.1);
+  }
 }
 .so-grid-rates__cell--header {
   font-weight: 500;
-  font-size: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  border-top: none;
 }
 .so-grid-rates__cell--hour {
   text-align: right;
 }
 .so-grid-rates__cell--price {
   font-weight: 500;
-  font-size: 12px;
   text-align: center;
 }
 .so-grid-rates--interactive {
   .so-grid-rates__cell--price {
     color: var(--v-primary-base);
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
   .so-grid-rates__cell--selected {
     color: white;

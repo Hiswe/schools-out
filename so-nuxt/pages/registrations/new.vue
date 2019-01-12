@@ -89,6 +89,7 @@ export default {
             v-model="newRegistration.user"
             :rules="studentRules"
             placeholder="select a student"
+            single-line
             outline
             required
           )
@@ -104,16 +105,6 @@ export default {
       v-card
         v-card-text
           .so-form-registration
-            v-select.so-form-registration__rates(
-              :items="rates"
-              item-text="nameFull"
-              item-value="id"
-              :label="$t(`rates.singular`)"
-              v-model="newRegistration.rateId"
-              :rules="rateRules"
-              required
-              readonly
-            )
             v-select.so-form-registration__lesson(
               :items="lessons"
               item-text="name"
