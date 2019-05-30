@@ -7,7 +7,7 @@
     "dev": "nodemon server.js --config nodemon.json"
   },
   "dependencies": {
-    "@koa/cors": "^2.2.3",
+    "@koa/cors": "^3.0.0",
     "@schools-out/helpers": "1.0.2",
     "chalk": "^2.4.1",
     "dayjs": "^1.7.8",
@@ -23,7 +23,7 @@
     "koa-router": "^7.4.0",
     "pg": "^7.7.1",
     "rc": "^1.2.8",
-    "sequelize": "^4.42.0",
+    "sequelize": "^5.8.7",
     "sql-formatter": "^2.3.2",
     "throng": "^4.0.0"
   },
